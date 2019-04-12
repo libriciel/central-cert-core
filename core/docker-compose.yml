@@ -1,14 +1,17 @@
 version: '3.2'
 services:
-  frontend:
-    build: ./frontend
-    ports:
-      - 80:80
-    depends_on:
-      - core
+
+#  frontend:
+#    ports:
+#      - 4200:4200
+#    build: ./Atteste-web
+#    depends_on:
+#      - core
 
   core:
-    build: ./core
+    build: .
+    ports:
+      - 8080:8080
     depends_on:
       - db
 
