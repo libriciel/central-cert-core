@@ -30,9 +30,11 @@ public class CertificatController {
 	 */
 	@PostMapping("/api/certificat")
 	public void save(@RequestParam("Certificat") Certificat certificat) {
-		repository.save(certificat);
+		if(certificat != null) {
+			repository.save(certificat);
+		}
 	}
-
+	
 	/**
 	 * Select all.
 	 *

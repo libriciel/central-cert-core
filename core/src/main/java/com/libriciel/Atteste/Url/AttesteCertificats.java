@@ -10,14 +10,20 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLPeerUnverifiedException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.libriciel.Atteste.BDD.certs.Certificat;
 import com.libriciel.Atteste.BDD.certs.CertificatRepository;
 import com.libriciel.Atteste.BDD.mails.Mail;
 import com.libriciel.Atteste.BDD.mails.MailRepository;
@@ -127,6 +133,18 @@ public class AttesteCertificats {
 			return null;
 		}
 	}
+	
+	@GetMapping("/api/certificat")
+	public List<Certificat> getAllCertsFromURL(@RequestParam("URL") String url) {
+		List<Certificat> res = new ArrayList<Certificat>();
+		if(isValidURL(url)) {
+			X509Certificate[] certs = getCertificateFromURL(url);
+			for(int i = 0; i < res.size(); i++) {
+				res.add(new Certificat(certs[i]));
+			}
+		}
+		return res;
+	}
 
 
 	@RequestMapping("/api/testBDD")
@@ -134,8 +152,8 @@ public class AttesteCertificats {
 
 		cr.deleteAllInBatch();
 		
-		System.out.println(cr.saveAll(getCertificateFromURL("https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/PostMapping.html")));
-		System.out.println(cr.saveAll(getCertificateFromURL("https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html")));
+		System.out.println(cr.saveAll(getCertificateFromURL("httpocs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/PostMapping.html")));
+		System.out.println(cr.saveAll(getCertificateFromURL("http://docs.oracle.com/javase/8/docs/api/java/util/Optional.html")));
 		System.out.println(cr.saveAll(getCertificateFromURL("https://www.youtube.com/watch?v=S8ufs-tDNwU&list=RDGMEMHDXYb1_DDSgDsobPsOFxpAVMnHGJu45vLQo&index=6&has_verified=1")));
 		System.out.println(mr.save(new Mail("truc@truc.truc")));
 		System.out.println(mr.save(new Mail("truc@truc.truc2")));
