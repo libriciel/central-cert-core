@@ -10,20 +10,13 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLPeerUnverifiedException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.libriciel.Atteste.BDD.certs.Certificat;
 import com.libriciel.Atteste.BDD.certs.CertificatRepository;
 import com.libriciel.Atteste.BDD.mails.Mail;
 import com.libriciel.Atteste.BDD.mails.MailRepository;
@@ -86,7 +79,7 @@ public class AttesteCertificats {
 		}
 	}
 
-	public X509Certificate[] getCertificateFromURL(String url) {
+	public static X509Certificate[] getCertificateFromURL(String url) {
 		if(isValidURL(url)) {
 			URLConnection co = null;
 			HttpsURLConnection httpsCo = null;
@@ -133,19 +126,6 @@ public class AttesteCertificats {
 			return null;
 		}
 	}
-	
-	@GetMapping("/api/certificat")
-	public List<Certificat> getAllCertsFromURL(@RequestParam("URL") String url) {
-		List<Certificat> res = new ArrayList<Certificat>();
-		if(isValidURL(url)) {
-			X509Certificate[] certs = getCertificateFromURL(url);
-			for(int i = 0; i < res.size(); i++) {
-				res.add(new Certificat(certs[i]));
-			}
-		}
-		return res;
-	}
-
 
 	@RequestMapping("/api/testBDD")
 	public void test() {

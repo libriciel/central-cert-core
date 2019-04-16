@@ -67,4 +67,8 @@ public class Mail {
 	public int getId() {
 		return this.mailId;
 	}
+	
+	public void setAdresseMail(String m) {
+		this.adresseMail = m;
+	}
 }

@@ -84,12 +84,29 @@ public class Certificat {
 	public List<Mail> getMails(){
 		return this.mails;
 	}
+	
+	//setters
+	public void setId(int id) {
+		this.certificatId = id;
+	}
+	
+	public void setNotBefore(Date d) {
+		this.notBefore = d;
+	}
+	
+	public void setNotAfter(Date d) {
+		this.notAfter = d;
+	}
+	
+	public void setMails(List<Mail> lm) {
+		this.mails = lm;
+	}
 
 	//methods
 	public void addMail(Mail m) {
 		this.mails.add(m);
 	}
-
+	
 	public void addMails(List<Mail> ml) {
 		this.mails.addAll(ml);
 	}
