@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.libriciel.Atteste.BDD.mails.Mail;
 import com.libriciel.Atteste.Url.AttesteCertificats;
 
 @RestController
@@ -114,6 +115,17 @@ public class CertificatController {
 			}else {
 				repository.save(certificats.get(i));
 			}
+		}
+	}
+	
+	@PutMapping("/api/certificat/updateAndAddMail")
+	public void updateAndAddMail(@RequestParam("id") int id, @RequestBody String mail) {
+		Optional<Certificat> opt = repository.findById(id);
+		Certificat cert;
+		if(opt.isPresent()) {
+			cert = opt.get();
+			cert.addMail(new Mail(mail));
+			repository.save(cert);
 		}
 	}
 }

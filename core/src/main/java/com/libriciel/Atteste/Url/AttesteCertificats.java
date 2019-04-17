@@ -18,9 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.libriciel.Atteste.BDD.certs.CertificatRepository;
-import com.libriciel.Atteste.BDD.mails.Mail;
-import com.libriciel.Atteste.BDD.mails.MailRepository;
-
 /**
  * The Class AttesteCertificats.
  */
@@ -31,7 +28,6 @@ public class AttesteCertificats {
 	public CertificatRepository cr;
 
 	@Autowired
-	public MailRepository mr;
 
 	/**
 	 * Sets the connection.
@@ -135,8 +131,6 @@ public class AttesteCertificats {
 		System.out.println(cr.saveAll(getCertificateFromURL("httpocs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/PostMapping.html")));
 		System.out.println(cr.saveAll(getCertificateFromURL("http://docs.oracle.com/javase/8/docs/api/java/util/Optional.html")));
 		System.out.println(cr.saveAll(getCertificateFromURL("https://www.youtube.com/watch?v=S8ufs-tDNwU&list=RDGMEMHDXYb1_DDSgDsobPsOFxpAVMnHGJu45vLQo&index=6&has_verified=1")));
-		System.out.println(mr.save(new Mail("truc@truc.truc")));
-		System.out.println(mr.save(new Mail("truc@truc.truc2")));
-		System.out.println(mr.save(new Mail("truc@truc.truc3")));
+
 	}
 }

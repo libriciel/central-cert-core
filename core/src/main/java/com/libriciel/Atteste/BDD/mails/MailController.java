@@ -44,6 +44,11 @@ public class MailController {
 		}
 	}
 	
+	@PostMapping("/api/mail/create")
+	public Mail create(@RequestBody String mail) {
+		return repository.save(new Mail(mail));
+	}
+	
 	@GetMapping("/api/mail/select")
 	public Mail select(@RequestParam("id") int id){
 		Optional<Mail> opt = repository.findById(id);

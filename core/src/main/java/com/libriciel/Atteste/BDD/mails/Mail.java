@@ -32,7 +32,6 @@ public class Mail {
 	private String adresseMail;
 	
 	@ManyToMany(mappedBy = "mails")
-	@JsonIgnore
 	private List<Certificat> certificates = new ArrayList<Certificat>();
 	
 	public Mail(String adresseMail) {

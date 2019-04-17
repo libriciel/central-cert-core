@@ -26,17 +26,4 @@ public class AttesteCertificatsTest {
 		assertFalse(AttesteCertificats.isValidURL("https/github.com/"));
 		assertTrue(AttesteCertificats.isValidURL("https://github.com/"));
 	}
-	
-	@Test
-	public void testGetCertificateFromURL() {
-		System.out.println("Test de la méthode getCertificateFromURL()");
-		AttesteCertificats atc = new AttesteCertificats();
-		assertNull(atc.getCertificateFromURL(""));
-		assertNull(atc.getCertificateFromURL("https/github.com/"));
-		assertNull(atc.getCertificateFromURL("http://websico.com/fr/maquettes-et-prototypes-web.html"));
-		assertNull(atc.getCertificateFromURL("zegrhtyejkur"));
-		assertNull(atc.getCertificateFromURL("http://glossaire.infowebmaster.fr/http/"));
-		assertNotNull(atc.getCertificateFromURL("https://github.com/"));
-	}
-
 }

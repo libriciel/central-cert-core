@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,12 +39,11 @@ public class Certificat {
 	@Column(name = "notAfter")
 	private Date notAfter;
 
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "carnetadresses",
 		joinColumns = { @JoinColumn(name = "certificatId") },
 		inverseJoinColumns = { @JoinColumn(name = "mailId") }
 	)
-	@JsonIgnore
 	private List<Mail> mails = new ArrayList<Mail>();
 
 	//constructors
