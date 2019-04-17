@@ -4,23 +4,15 @@
 package com.libriciel.Atteste.BDD.certs;
 
 import java.security.cert.X509Certificate;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.libriciel.Atteste.BDD.mails.Mail;
 
 /**
  * Classe Certificat.
@@ -39,12 +31,8 @@ public class Certificat {
 	@Column(name = "notAfter")
 	private Date notAfter;
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "carnetadresses",
-		joinColumns = { @JoinColumn(name = "certificatId") },
-		inverseJoinColumns = { @JoinColumn(name = "mailId") }
-	)
-	private List<Mail> mails = new ArrayList<Mail>();
+	@Column(name = "mails")
+	private List<String> mails;
 
 	//constructors
 	public Certificat(Date notBefore, Date notAfter) {
@@ -81,7 +69,7 @@ public class Certificat {
 		return this.certificatId;
 	}
 
-	public List<Mail> getMails(){
+	public List<String> getMails(){
 		return this.mails;
 	}
 	
@@ -98,16 +86,16 @@ public class Certificat {
 		this.notAfter = d;
 	}
 	
-	public void setMails(List<Mail> lm) {
+	public void setMails(List<String> lm) {
 		this.mails = lm;
 	}
 
 	//methods
-	public void addMail(Mail m) {
+	public void addMail(String m) {
 		this.mails.add(m);
 	}
 	
-	public void addMails(List<Mail> ml) {
+	public void addMails(List<String> ml) {
 		this.mails.addAll(ml);
 	}
 }
