@@ -25,6 +25,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.postgresql:postgresql'
+	compile('org.springframework.boot:spring-boot-starter-mail')
 	compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.61'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

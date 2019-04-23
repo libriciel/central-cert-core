@@ -93,17 +93,9 @@ public class CertificatController {
 			c = cert.get();
 			c.setNotBefore(certificat.getNotBefore());
 			c.setNotAfter(certificat.getNotAfter());
-			c.setCN(certificat.getCN());
-			c.setO(certificat.getO());
-			c.setOU(certificat.getOU());
-			c.setL(certificat.getL());
-			c.setST(certificat.getST());
-			c.setC(certificat.getC());
-			c.setT(certificat.getT());
-			c.setDC(certificat.getDC());
-			c.setSTREET(certificat.getSTREET());
-			c.setPC(certificat.getPC());
+			c.setDN(certificat.getDN());
 			c.setAdditionnalMails(certificat.getAdditionnalMails());
+			c.setNotifications(certificat.getNotifications());
 			repository.save(c);
 		}else {
 			repository.save(certificat);
@@ -119,17 +111,9 @@ public class CertificatController {
 				c = cert.get();
 				c.setNotBefore(certificats.get(i).getNotBefore());
 				c.setNotAfter(certificats.get(i).getNotAfter());
-				c.setCN(certificats.get(i).getCN());
-				c.setO(certificats.get(i).getO());
-				c.setOU(certificats.get(i).getOU());
-				c.setL(certificats.get(i).getL());
-				c.setST(certificats.get(i).getST());
-				c.setC(certificats.get(i).getC());
-				c.setT(certificats.get(i).getT());
-				c.setDC(certificats.get(i).getDC());
-				c.setSTREET(certificats.get(i).getSTREET());
-				c.setPC(certificats.get(i).getPC());
+				c.setDN(certificats.get(i).getDN());
 				c.setAdditionnalMails(certificats.get(i).getAdditionnalMails());
+				c.setNotifications(certificats.get(i).getNotifications());
 				repository.save(c);
 			}else {
 				repository.save(certificats.get(i));
