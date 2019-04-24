@@ -34,6 +34,9 @@ public class Certificat {
 	@Column(name = "notAfter")
 	private Date notAfter;
 
+	@Column(name = "favoris")
+	private boolean favoris;
+		
 	@Column(name= "DN")
 	private DistinguishedNumber DN;
 
@@ -43,11 +46,12 @@ public class Certificat {
 	@ElementCollection
 	@Column(name = "additionnalMails")
 	private List<Mail> additionnalMails = new ArrayList<Mail>();
-
+	
 	//constructors
 	public Certificat() {
 		this.notBefore = null;
 		this.notAfter = null;
+		this.favoris = false;
 		this.DN = null;
 		this.additionnalMails = new ArrayList<Mail>();
 		this.notifications = new ArrayList<Notification>();
@@ -56,6 +60,7 @@ public class Certificat {
 	public Certificat(X509Certificate cert) {
 		this.notBefore = cert.getNotBefore();
 		this.notAfter = cert.getNotAfter();
+		this.favoris = false;
 		this.DN = new DistinguishedNumber(cert.getSubjectX500Principal().getName());
 		this.additionnalMails = new ArrayList<Mail>();
 		this.notifications = new ArrayList<Notification>();
@@ -85,6 +90,10 @@ public class Certificat {
 	public List<Notification> getNotifications(){
 		return this.notifications;
 	}
+	
+	public boolean isFavoris() {
+		return this.favoris;
+	}
 
 	//setters
 	public void setId(int id) {
@@ -109,6 +118,10 @@ public class Certificat {
 	
 	public void setNotifications(List<Notification> ln) {
 		this.notifications = ln;
+	}
+	
+	public void setFavoris(boolean favoris) {
+		this.favoris = favoris;
 	}
 
 	//methods
