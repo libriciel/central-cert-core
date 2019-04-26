@@ -37,9 +37,12 @@ public class Certificat {
 	@Column(name = "favoris")
 	private boolean favoris;
 		
-	@Column(name= "DN")
-	private DistinguishedNumber DN;
-
+	@Column(name = "notifyAll")
+	private boolean notifyAll;
+	
+	@Column(name = "dn")
+	private String dn;
+	
 	@OneToMany(mappedBy = "certificat")
 	private List<Notification> notifications = new ArrayList<Notification>();
 	
@@ -52,7 +55,8 @@ public class Certificat {
 		this.notBefore = null;
 		this.notAfter = null;
 		this.favoris = false;
-		this.DN = null;
+		this.dn = null;
+		this.notifyAll = false;
 		this.additionnalMails = new ArrayList<Mail>();
 		this.notifications = new ArrayList<Notification>();
 	}
@@ -61,7 +65,8 @@ public class Certificat {
 		this.notBefore = cert.getNotBefore();
 		this.notAfter = cert.getNotAfter();
 		this.favoris = false;
-		this.DN = new DistinguishedNumber(cert.getSubjectX500Principal().getName());
+		this.dn = cert.getSubjectX500Principal().getName();
+		this.notifyAll = false;
 		this.additionnalMails = new ArrayList<Mail>();
 		this.notifications = new ArrayList<Notification>();
 	}
@@ -79,8 +84,8 @@ public class Certificat {
 		return this.certificatId;
 	}
 
-	public DistinguishedNumber getDN() {
-		return this.DN;
+	public String getDN() {
+		return this.dn;
 	}
 
 	public List<Mail> getAdditionnalMails(){
@@ -93,6 +98,10 @@ public class Certificat {
 	
 	public boolean isFavoris() {
 		return this.favoris;
+	}
+	
+	public boolean isNotifyAll() {
+		return this.notifyAll;
 	}
 
 	//setters
@@ -108,8 +117,8 @@ public class Certificat {
 		this.notAfter = d;
 	}
 
-	public void setDN(DistinguishedNumber DN) {
-		this.DN = DN;
+	public void setDN(String dn) {
+		this.dn = dn;
 	}
 
 	public void setAdditionnalMails(List<Mail> lm) {
@@ -122,6 +131,10 @@ public class Certificat {
 	
 	public void setFavoris(boolean favoris) {
 		this.favoris = favoris;
+	}
+	
+	public void setNotifyAll(boolean notifyAll) {
+		this.notifyAll = notifyAll;
 	}
 
 	//methods

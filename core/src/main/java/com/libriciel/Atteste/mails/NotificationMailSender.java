@@ -14,7 +14,7 @@ import com.libriciel.Atteste.BDD.mails.Mail;
 import com.libriciel.Atteste.BDD.notifs.Notification;
 
 @Service
-public class MailSender {
+public class NotificationMailSender {
 
 	public void send(Mail m, Notification n) {
         Properties properties = new Properties();

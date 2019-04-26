@@ -1,22 +1,59 @@
-package com.libriciel.Atteste.BDD.certs;
+package com.libriciel.Atteste.BDD.dn;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DistinguishedNumber {
-	
-	private String cn = "pas d'informations";
-	private String mail = "pas d'informations";
-	private String o = "pas d'informations";
-	private String ou = "pas d'informations";
-	private String l = "pas d'informations";
-	private String st = "pas d'informations";
-	private String c = "pas d'informations";
-	private String t = "pas d'informations";
-	private String dc = "pas d'informations";
-	private String street = "pas d'informations";
-	private String pc = "pas d'informations";
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "dn")
+public class DistinguishedNumber {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
+	
+	@Column(name = "cn")
+	private String cn;
+	
+	@Column(name = "mail")
+	private String mail;
+	
+	@Column(name = "o")
+	private String o;
+	
+	@Column(name = "ou")
+	private String ou;
+	
+	@Column(name = "l")
+	private String l;
+	
+	@Column(name = "st")
+	private String st;
+	
+	@Column(name = "c")
+	private String c;
+	
+	@Column(name = "t")
+	private String t;
+	
+	@Column(name = "dc")
+	private String dc;
+	
+	@Column(name = "street")
+	private String street;
+
+	@Column(name = "pc")
+	private String pc = "";
+
+	public DistinguishedNumber() {
+		
+	}
+	
 	public DistinguishedNumber(String str) {
 
 		String[] dn = str.split(",");
@@ -118,14 +155,6 @@ public class DistinguishedNumber {
 		this.mail = mail;
 	}
 
-	public String getO() {
-		return o;
-	}
-
-	public void setO(String o) {
-		this.o = o;
-	}
-
 	public String getOu() {
 		return ou;
 	}
@@ -142,6 +171,14 @@ public class DistinguishedNumber {
 		this.st = st;
 	}
 
+	public String getO() {
+		return o;
+	}
+
+	public void setO(String o) {
+		this.o = o;
+	}
+
 	public String getL() {
 		return l;
 	}
@@ -150,20 +187,20 @@ public class DistinguishedNumber {
 		this.l = l;
 	}
 
-	public String getC() {
-		return c;
-	}
-
-	public void setC(String c) {
-		this.c = c;
-	}
-
 	public String getT() {
 		return t;
 	}
 
 	public void setT(String t) {
 		this.t = t;
+	}
+
+	public String getC() {
+		return c;
+	}
+
+	public void setC(String c) {
+		this.c = c;
 	}
 
 	public String getDc() {

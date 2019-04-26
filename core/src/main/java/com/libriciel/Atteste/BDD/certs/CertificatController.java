@@ -94,6 +94,7 @@ public class CertificatController {
 			c.setNotBefore(certificat.getNotBefore());
 			c.setNotAfter(certificat.getNotAfter());
 			c.setDN(certificat.getDN());
+			c.setNotifyAll(certificat.isNotifyAll());
 			c.setAdditionnalMails(certificat.getAdditionnalMails());
 			c.setNotifications(certificat.getNotifications());
 			repository.save(c);
@@ -112,6 +113,7 @@ public class CertificatController {
 				c.setNotBefore(certificats.get(i).getNotBefore());
 				c.setNotAfter(certificats.get(i).getNotAfter());
 				c.setDN(certificats.get(i).getDN());
+				c.setNotifyAll(certificats.get(i).isNotifyAll());
 				c.setAdditionnalMails(certificats.get(i).getAdditionnalMails());
 				c.setNotifications(certificats.get(i).getNotifications());
 				repository.save(c);

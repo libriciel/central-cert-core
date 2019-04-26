@@ -35,7 +35,7 @@ public class MailHandler {
 	
 	public void sendMailsToAll() {
 		List<Notification> notifications = this.certificatesToNotify();
-		MailSender sender = new MailSender();
+		NotificationMailSender sender = new NotificationMailSender();
 
 		for(int i = 0; i < notifications.size(); i++) {
 			notifications.get(i).setActivated(true);
