@@ -6,43 +6,50 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import com.libriciel.Atteste.BDD.certs.Certificat;
 import com.libriciel.Atteste.BDD.certs.CertificatRepository;
-import com.libriciel.Atteste.BDD.mails.Mail;
-import com.libriciel.Atteste.BDD.notifs.Notification;
 
+@Component
 public class MailHandler {
 
 	@Autowired
 	public CertificatRepository cr;
-
 	
-	public List<Notification> certificatesToNotify(){
+	public List<Certificat> certificatesToNotify(){
 		List<Certificat> allCerts = cr.findAll();
-		List<Notification> res = new ArrayList<Notification>();
-		for(int i = 0; i< allCerts.size(); i++) {
-			List <Notification> notifs = allCerts.get(i).getNotifications();
-			
-			for(int j = 0; j < notifs.size(); j++) {
-				if(notifs.get(j).getNotBefore().compareTo(new Date()) <= 0 && !notifs.get(j).isActivated() && !notifs.get(j).isSeen()) {
-					res.add(notifs.get(j));
+		List<Certificat> res = new ArrayList<Certificat>();
+		
+		for(int i = 0; i< allCerts.size(); i++) {			
+			for(int j = 0; j < allCerts.size(); j++) {
+				if(allCerts.get(j).getNotBefore() != null && allCerts.get(j).getNotAfter() != null) {
+					if(allCerts.get(j).getNotBefore().compareTo(new Date()) <= 0 && !allCerts.get(j).getNotified()) {
+						res.add(allCerts.get(j));
+					}
 				}
 			}
 		}
 		return res;
 	}
 	
+	@Scheduled(fixedRate = 5000)
 	public void sendMailsToAll() {
-		List<Notification> notifications = this.certificatesToNotify();
+		System.out.println("tick");
+		
+		List<Certificat> certs = this.certificatesToNotify();
+		
 		NotificationMailSender sender = new NotificationMailSender();
 
-		for(int i = 0; i < notifications.size(); i++) {
-			notifications.get(i).setActivated(true);
-			cr.save(notifications.get(i).getCertificat());
-			List <Mail> ml = notifications.get(i).getCertificat().getAdditionnalMails();
-			for(int j = 0; j < ml.size(); j++) {
-				sender.send(ml.get(j) , notifications.get(i));
+		for(int i = 0; i < certs.size(); i++) {
+			certs.get(i).setNotified(false);
+			this.cr.save(certs.get(i));
+			for(int j = 0; j < certs.get(i).getAdditionnalMails().size(); j++) {
+				if(!certs.get(i).isNotifyAll() && certs.get(i).getAdditionnalMails().get(j).isNotifiable()) {
+					sender.send(certs.get(i).getAdditionnalMails().get(j));
+					System.out.println("A mail was send");
+				}
 			}
 		}
 	}

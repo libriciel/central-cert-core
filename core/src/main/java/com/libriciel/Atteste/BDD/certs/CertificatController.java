@@ -3,12 +3,16 @@
  */
 package com.libriciel.Atteste.BDD.certs;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.libriciel.Atteste.Url.AttesteCertificats;
 
@@ -73,6 +78,22 @@ public class CertificatController {
 		return res;
 	}
 	
+	@PostMapping(value = "/api/certificat/selectFromFile", consumes = MediaType.ALL_VALUE)
+	public Certificat selectFromFile(@RequestParam("file") MultipartFile file) {
+		File convFile = new File(file.getOriginalFilename());
+	    try {
+			convFile.createNewFile();
+			FileOutputStream fos = new FileOutputStream(convFile);
+		    fos.write(file.getBytes());
+		    fos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOKKKKKKKKKKKKKKKKKKKKKKKK");
+		return new Certificat(AttesteCertificats.getCertificateFromToken(convFile));
+	}
+	
+	
 	@DeleteMapping("/api/certificat/delete")
 	public void delete(@RequestParam("id") int id) {
 		repository.deleteById(id);
@@ -96,7 +117,7 @@ public class CertificatController {
 			c.setDN(certificat.getDN());
 			c.setNotifyAll(certificat.isNotifyAll());
 			c.setAdditionnalMails(certificat.getAdditionnalMails());
-			c.setNotifications(certificat.getNotifications());
+			c.setNotified(certificat.getNotified());
 			repository.save(c);
 		}else {
 			repository.save(certificat);
@@ -114,8 +135,8 @@ public class CertificatController {
 				c.setNotAfter(certificats.get(i).getNotAfter());
 				c.setDN(certificats.get(i).getDN());
 				c.setNotifyAll(certificats.get(i).isNotifyAll());
+				c.setNotified(certificats.get(i).getNotified());
 				c.setAdditionnalMails(certificats.get(i).getAdditionnalMails());
-				c.setNotifications(certificats.get(i).getNotifications());
 				repository.save(c);
 			}else {
 				repository.save(certificats.get(i));

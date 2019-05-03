@@ -1,17 +1,17 @@
 package com.libriciel.Atteste.BDD.mails;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-@Entity
+@Embeddable
 public class Mail {
 	//attributes
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	@NotNull
+	@Size(max=100)
 	private String adresse;
+	
+	@NotNull
 	private boolean notifiable;
 	
 	//constructors

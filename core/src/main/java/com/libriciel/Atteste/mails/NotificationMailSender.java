@@ -1,7 +1,4 @@
 package com.libriciel.Atteste.mails;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -9,23 +6,15 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import org.springframework.stereotype.Service;
+
+import org.springframework.stereotype.Component;
 import com.libriciel.Atteste.BDD.mails.Mail;
-import com.libriciel.Atteste.BDD.notifs.Notification;
 
-@Service
+@Component
 public class NotificationMailSender {
-
-	public void send(Mail m, Notification n) {
+	
+	public void send(Mail m) {
         Properties properties = new Properties();
-        InputStream input = null;
-		
-		try {
-			input = new FileInputStream("src/main/resources/application.properties");
-			properties.load(input);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
 
 	    Session session = Session.getDefaultInstance(properties);
 
@@ -36,9 +25,9 @@ public class NotificationMailSender {
 
 	       message.addRecipient(Message.RecipientType.TO, new InternetAddress(m.getAdresse()));
 
-	       message.setSubject(n.getObjet());
+	       message.setSubject("Expiration d'un certificat");
 
-	       message.setText(n.getMessage());
+	       message.setText("Votre certificat est arrivé à expiration");
 
 	       Transport.send(message);
 	       System.out.println("Sent message successfully....");
@@ -46,5 +35,4 @@ public class NotificationMailSender {
 	       e.printStackTrace();
 	    }
 	}
-
 }

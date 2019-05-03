@@ -10,15 +10,15 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.libriciel.Atteste.BDD.mails.Mail;
-import com.libriciel.Atteste.BDD.notifs.Notification;
 
 @Entity
 @Table(name = "certificats")
@@ -43,10 +43,11 @@ public class Certificat {
 	@Column(name = "dn")
 	private String dn;
 	
-	@OneToMany(mappedBy = "certificat")
-	private List<Notification> notifications = new ArrayList<Notification>();
+	@Column(name = "notified")
+	private boolean notified;
 	
-	@ElementCollection
+	@Embedded
+	@ElementCollection(fetch = FetchType.EAGER)
 	@Column(name = "additionnalMails")
 	private List<Mail> additionnalMails = new ArrayList<Mail>();
 	
@@ -57,8 +58,8 @@ public class Certificat {
 		this.favoris = false;
 		this.dn = null;
 		this.notifyAll = false;
+		this.notified = false;
 		this.additionnalMails = new ArrayList<Mail>();
-		this.notifications = new ArrayList<Notification>();
 	}
 
 	public Certificat(X509Certificate cert) {
@@ -67,8 +68,8 @@ public class Certificat {
 		this.favoris = false;
 		this.dn = cert.getSubjectX500Principal().getName();
 		this.notifyAll = false;
+		this.notified = false;
 		this.additionnalMails = new ArrayList<Mail>();
-		this.notifications = new ArrayList<Notification>();
 	}
 
 	//getters
@@ -92,16 +93,16 @@ public class Certificat {
 		return this.additionnalMails;
 	}
 	
-	public List<Notification> getNotifications(){
-		return this.notifications;
-	}
-	
 	public boolean isFavoris() {
 		return this.favoris;
 	}
 	
 	public boolean isNotifyAll() {
 		return this.notifyAll;
+	}
+	
+	public boolean getNotified() {
+		return this.notified;
 	}
 
 	//setters
@@ -125,16 +126,16 @@ public class Certificat {
 		this.additionnalMails = lm;
 	}
 	
-	public void setNotifications(List<Notification> ln) {
-		this.notifications = ln;
-	}
-	
 	public void setFavoris(boolean favoris) {
 		this.favoris = favoris;
 	}
 	
 	public void setNotifyAll(boolean notifyAll) {
 		this.notifyAll = notifyAll;
+	}
+	
+	public void setNotified(boolean notified) {
+		this.notified = notified;
 	}
 
 	//methods
@@ -144,13 +145,5 @@ public class Certificat {
 
 	public void addMails(List<Mail> lm) {
 		this.additionnalMails.addAll(lm);
-	}
-	
-	public void addNotification(Notification n) {
-		this.notifications.add(n);
-	}
-	
-	public void addNotifications(List<Notification> ln) {
-		this.notifications.addAll(ln);
 	}
 }
