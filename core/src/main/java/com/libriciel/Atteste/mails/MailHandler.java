@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.libriciel.Atteste.BDD.certs.Certificat;
@@ -34,7 +33,7 @@ public class MailHandler {
 		return res;
 	}
 	
-	@Scheduled(fixedRate = 5000)
+	//@Scheduled(fixedRate = 5000)
 	public void sendMailsToAll() {
 		System.out.println("tick");
 		
