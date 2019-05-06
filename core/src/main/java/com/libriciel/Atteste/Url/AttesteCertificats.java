@@ -3,18 +3,21 @@
  */
 package com.libriciel.Atteste.Url;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLPeerUnverifiedException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.libriciel.Atteste.BDD.certs.CertificatRepository;
@@ -122,15 +125,27 @@ public class AttesteCertificats {
 			return null;
 		}
 	}
-
-	@RequestMapping("/api/testBDD")
-	public void test() {
-
-		cr.deleteAllInBatch();
+	
+	public static X509Certificate getCertificateFromToken(File f) {
+		FileInputStream file = null;
+		Certificate cert = null;
 		
-		System.out.println(cr.saveAll(getCertificateFromURL("httpocs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/PostMapping.html")));
-		System.out.println(cr.saveAll(getCertificateFromURL("http://docs.oracle.com/javase/8/docs/api/java/util/Optional.html")));
-		System.out.println(cr.saveAll(getCertificateFromURL("https://www.youtube.com/watch?v=S8ufs-tDNwU&list=RDGMEMHDXYb1_DDSgDsobPsOFxpAVMnHGJu45vLQo&index=6&has_verified=1")));
-
+		try {
+			file = new FileInputStream(f);
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		
+		try{
+			if(file != null) {
+				CertificateFactory cf = CertificateFactory.getInstance("X.509");
+			    cert = cf.generateCertificate(file);
+			}
+		}catch(Exception e){
+		    e.printStackTrace();
+		}
+		
+		return (X509Certificate) cert;
 	}
+
 }
