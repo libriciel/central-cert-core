@@ -2,9 +2,13 @@ package com.libriciel.Atteste.BDD.certs;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.libriciel.Atteste.BDD.mails.Mail;
 
 
 public class CertificatTest {
@@ -23,8 +27,14 @@ public class CertificatTest {
 	@Test
 	public void testConstructeurVide() {
 		System.out.println("Test du constructeur vide :");
-
+		
 		Certificat c = new Certificat();
 		assertNull(c.getNotAfter());
+		assertNull(c.getNotBefore());
+		assertFalse(c.isFavoris());
+		assertNull(c.getDN());
+		assertFalse(c.isNotifyAll());
+		assertFalse(c.getNotified());
+		assertEquals(c.getAdditionnalMails(), new ArrayList<Mail>());
 	}
 }
