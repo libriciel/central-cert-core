@@ -2,9 +2,9 @@ package com.libriciel.Atteste.Mails;
 
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,70 +35,30 @@ public class MailHandler {
 		return res;
 	}
 	
-	public int[] getRemTime(Certificat c) {
+	public int[] getRem(LocalDate after) {
+		LocalDate now = LocalDate.now();
 		int[] res = new int[3];
 		
-		LocalDate nb = c.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		LocalDate na = c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		
-		if(na.isAfter(nb) && na.isAfter(LocalDate.now())) {
-			int nb_y = nb.getYear();
-			int na_y = na.getYear();
-			
-			int nb_m = nb.getMonthValue() + 1;
-			int na_m = na.getMonthValue() + 1;
-			
-			int nb_d = nb.getDayOfMonth();
-			int na_d = na.getDayOfMonth();
-			
-			int y = na_y - nb_y;
-			
-			int m = 0;
-			if(na_m >= nb_m){
-				m = na_m - nb_m;
-			}else{
-				m = 12 + na_m - nb_m;
+		if(after.isAfter(now)) {
+			after = after.minus(Period.of(now.getYear(), now.getMonthValue(), now.getDayOfMonth()));
+			res[0] = after.getYear();
+			res[1] = after.getMonthValue();
+			res[2] = after.getDayOfMonth();
+			if(res[0] == -1) {
+				res[0] = 0;
+				res[1] -= 12;
 			}
-
-			int d = 0;
-			if(na_d >= nb_d){
-				d = na_d - nb_d;
-			}else{
-				if(nb_m == 1){
-					if(nb.isLeapYear() == true){
-						d = 29 + na_d - nb_d;
-					}else{
-						d = 28 + na_d - nb_d;
-					}
-				}else if(nb_m == 0
-		          || nb_m == 2
-		          || nb_m == 4
-		          || nb_m == 6
-		          || nb_m == 7
-		          || nb_m == 9
-		          || nb_m == 11){
-					d = 31 + na_d - nb_d;
-				}else{
-					d = 30 + na_d - nb_d;
-				}		
-			}
-			res[0] = y;
-			res[1] = m;
-			res[2] = d;
+			System.out.println(res[0] + " / " + res[1] + " / " + res[2]);
+			return res;
 		}else {
-			res[0] = -1;
-			res[1] = -1;
-			res[2] = -1;
+			return null;
 		}
-		
-		return res;
-
 	}
-	
+	 
 	public boolean isExpired(Certificat c) {
-		int[] rem = this.getRemTime(c);
+		int[] rem = this.getRem(c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 		
-		if(rem[0] != -1 && rem[1] != -1 && rem[2] != -1) {
+		if(rem != null) {
 			return false;
 		}else {
 			return true;
@@ -106,9 +66,9 @@ public class MailHandler {
 	}
 	
 	public boolean isOrange(Certificat c) {
-		int[] rem = this.getRemTime(c);
+		int[] rem = this.getRem(c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 		
-		if(rem[0] != -1 && rem[1] != -1 && rem[2] != -1) {
+		if(rem != null) {
 			if(rem[0] == 0 && rem[1] <= 3) {
 				if(rem[1] >= 1) {
 					return true;
@@ -124,9 +84,9 @@ public class MailHandler {
 	}
 	
 	public boolean isRed(Certificat c) {
-		int[] rem = this.getRemTime(c);
+		int[] rem = this.getRem(c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 		
-		if(rem[0] != -1 && rem[1] != -1 && rem[2] != -1) {
+		if(rem != null) {
 			if(rem[0] == 0 && rem[1] == 0) {
 				return true;
 			}else {

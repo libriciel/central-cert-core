@@ -4,6 +4,8 @@
 package com.libriciel.Atteste.BDD.certs;
 
 import java.security.cert.X509Certificate;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -67,6 +69,16 @@ public class Certificat {
 		this.notAfter = cert.getNotAfter();
 		this.favoris = false;
 		this.dn = cert.getSubjectX500Principal().getName();
+		this.notifyAll = false;
+		this.notified = false;
+		this.additionnalMails = new ArrayList<Mail>();
+	}
+	
+	public Certificat (LocalDate nb, LocalDate na) {
+		this.notBefore = Date.from(nb.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		this.notAfter = Date.from(na.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		this.favoris = false;
+		this.dn = null;
 		this.notifyAll = false;
 		this.notified = false;
 		this.additionnalMails = new ArrayList<Mail>();
