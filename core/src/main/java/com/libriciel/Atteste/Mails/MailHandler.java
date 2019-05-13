@@ -49,7 +49,6 @@ public class MailHandler {
 				res[0] = 0;
 				res[1] -= 12;
 			}
-			System.out.println(res[0] + " / " + res[1] + " / " + res[2]);
 			return res;
 		}else {
 			return null;
@@ -125,14 +124,22 @@ public class MailHandler {
 		NotificationMailSender sender = new NotificationMailSender();
 
 		for(int i = 0; i < certs.size(); i++) {
-			certs.get(i).setNotified(false);
-			this.cr.save(certs.get(i));
-			for(int j = 0; j < certs.get(i).getAdditionnalMails().size(); j++) {
-				if(!certs.get(i).isNotifyAll() && certs.get(i).getAdditionnalMails().get(j).isNotifiable()) {
+			if(certs.get(i).isNotifyAll()) {
+				for(int j = 0; j < certs.get(i).getAdditionnalMails().size(); j++) {
 					sender.send(new Notification(certs.get(i), this.getCode(certs.get(i))), certs.get(i).getAdditionnalMails().get(j));
 					System.out.println("A mail was send");
 				}
+			}else {
+				for(int j = 0; j < certs.get(i).getAdditionnalMails().size(); j++) {
+					if(certs.get(i).getAdditionnalMails().get(j).isNotifiable()) {
+						sender.send(new Notification(certs.get(i), this.getCode(certs.get(i))), certs.get(i).getAdditionnalMails().get(j));
+						System.out.println("A mail was send");
+					}
+				}
 			}
+			
+			certs.get(i).setNotified(true);
+			this.cr.save(certs.get(i));
 		}
 	}
 }
