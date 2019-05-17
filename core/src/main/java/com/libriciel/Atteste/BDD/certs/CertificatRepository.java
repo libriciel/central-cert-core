@@ -6,11 +6,14 @@ package com.libriciel.Atteste.BDD.certs;
 import java.security.cert.X509Certificate;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Repository;
 
 /**
  * The Interface CertificatRepository.
  */
+
+@PreAuthorize("hasRole('user')")
 @Repository
 public interface CertificatRepository extends JpaRepository<Certificat, Integer> {
 	public default X509Certificate[] saveAll(X509Certificate[] x509Certificates){
