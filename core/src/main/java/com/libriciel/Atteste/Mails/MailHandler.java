@@ -115,7 +115,7 @@ public class MailHandler {
 		}
 	}
 	
-	@Scheduled(fixedRate = 5000)
+	//@Scheduled(fixedRate = 5000)
 	public void sendMailsToAll() {
 		System.out.println("tick");
 		
