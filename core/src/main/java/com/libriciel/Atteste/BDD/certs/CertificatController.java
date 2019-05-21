@@ -69,7 +69,12 @@ public class CertificatController {
 	@GetMapping("/api/certificat/selectFromURL")
 	public List<Certificat> selectFromUrl(@RequestParam("URL") String url) {
 		List<Certificat> res = new ArrayList<Certificat>();
-		X509Certificate[] certs = AttesteCertificats.getCertificateFromURL(url);
+		X509Certificate[] certs = null;
+		try {
+			certs = AttesteCertificats.getCertificateFromURL(url);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		if(certs != null) {
 			for(int i = 0; i < certs.length; i++) {
 				res.add(new Certificat(certs[i]));
@@ -89,7 +94,6 @@ public class CertificatController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOKKKKKKKKKKKKKKKKKKKKKKKK");
 		return new Certificat(AttesteCertificats.getCertificateFromToken(convFile));
 	}
 	

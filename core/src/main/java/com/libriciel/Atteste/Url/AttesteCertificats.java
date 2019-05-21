@@ -38,35 +38,6 @@ public class AttesteCertificats {
 	 * @param url the url
 	 * @return the https URL connection
 	 */
-	public static HttpsURLConnection setHttpsonnection(URL url) {
-		HttpsURLConnection co = null;
-		try {
-			co = (HttpsURLConnection) url.openConnection();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
-			co.connect();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return co;
-	}
-
-	public static HttpURLConnection setHttpConnection(URL url) {
-		HttpURLConnection co = null;
-		try {
-			co = (HttpURLConnection) url.openConnection();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
-			co.connect();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return co;
-	}
 
 	public static boolean isValidURL(String urlString){
 		try{
@@ -78,7 +49,7 @@ public class AttesteCertificats {
 		}
 	}
 
-	public static X509Certificate[] getCertificateFromURL(String url) {
+	public static X509Certificate[] getCertificateFromURL(String url){
 		if(isValidURL(url)) {
 			URLConnection co = null;
 			HttpsURLConnection httpsCo = null;
@@ -89,36 +60,41 @@ public class AttesteCertificats {
 			} catch (MalformedURLException e1) {
 				e1.printStackTrace();
 			}
-
-			try {
-				co = coUrl.openConnection();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if(co instanceof HttpsURLConnection) {
-				httpsCo = (HttpsURLConnection) co;
+			if(coUrl != null) {
 				try {
-					httpsCo.connect();
+					co = coUrl.openConnection();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}else if(co instanceof HttpURLConnection) {
-				httpCo = (HttpURLConnection) co;
-			}
-
-			if(httpsCo != null) {
-				Certificate[] certs = null;
-				try {
-					certs = httpsCo.getServerCertificates();
-				} catch (SSLPeerUnverifiedException e) {
-					e.printStackTrace();
+			
+				if(co instanceof HttpsURLConnection) {
+					httpsCo = (HttpsURLConnection) co;
+					try {
+						httpsCo.connect();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}else if(co instanceof HttpURLConnection) {
+					httpCo = (HttpURLConnection) co;
+				}else {
+					return null;
 				}
-				return (X509Certificate[]) certs;
-			}else if(httpCo != null) {
-				//http so no certificates
-				return null;
+				if(httpsCo != null) {
+					Certificate[] certs = null;
+					try {
+						certs = httpsCo.getServerCertificates();
+					} catch (SSLPeerUnverifiedException e) {
+						e.printStackTrace();
+					}
+					return (X509Certificate[]) certs;
+				}else if(httpCo != null) {
+					//http so no certificates
+					return null;
+				}else {
+					//error
+					return null;
+				}
 			}else {
-				//error
 				return null;
 			}
 		}else {
