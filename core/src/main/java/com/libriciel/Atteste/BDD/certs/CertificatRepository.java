@@ -8,15 +8,10 @@ import java.security.cert.X509Certificate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import org.springframework.security.access.prepost.PreAuthorize;
-
-
 /**
  * The Interface CertificatRepository.
  */
 
-
-@PreAuthorize("hasrole('user')")
 @Repository
 public interface CertificatRepository extends JpaRepository<Certificat, Integer> {
 	public default X509Certificate[] saveAll(X509Certificate[] x509Certificates){

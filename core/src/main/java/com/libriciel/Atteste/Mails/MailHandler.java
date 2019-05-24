@@ -8,16 +8,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
 import com.libriciel.Atteste.BDD.certs.Certificat;
 import com.libriciel.Atteste.BDD.certs.CertificatRepository;
+import com.libriciel.Atteste.BDD.mails.Mail;
 
-@Component
+@Service
 public class MailHandler {
 
 	@Autowired
 	public CertificatRepository cr;
+	
+	@Autowired
+	public JavaMailSender mailSender;
+	
+	public void sendMail(Notification n, Mail m) {
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo(m.getAdresse());
+		message.setSubject(n.getObjet());
+		message.setText(n.getMessage());
+		
+		mailSender.send(message);
+	}
+	
+	public void sendMailTest() {
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo("tilopapin@gmail.com");
+		message.setSubject("test");
+		message.setText("get spammed ?");
+		
+		mailSender.send(message);
+	}
 	
 	public List<Certificat> certificatesToNotify(){
 		List<Certificat> allCerts = cr.findAll();
@@ -114,24 +139,24 @@ public class MailHandler {
 		}
 	}
 	
+	//à remplacer par un CRON fonctionnel
 	//@Scheduled(fixedRate = 5000)
+	@Scheduled( cron = "0 50 17 * * ?")
 	public void sendMailsToAll() {
 		System.out.println("tick");
 		
 		List<Certificat> certs = this.certificatesToNotify();
 		
-		NotificationMailSender sender = new NotificationMailSender();
-
 		for(int i = 0; i < certs.size(); i++) {
 			if(certs.get(i).isNotifyAll()) {
 				for(int j = 0; j < certs.get(i).getAdditionnalMails().size(); j++) {
-					sender.send(new Notification(certs.get(i), this.getCode(certs.get(i))), certs.get(i).getAdditionnalMails().get(j));
+					this.sendMail(new Notification(certs.get(i), this.getCode(certs.get(i))), certs.get(i).getAdditionnalMails().get(j));
 					System.out.println("A mail was send");
 				}
 			}else {
 				for(int j = 0; j < certs.get(i).getAdditionnalMails().size(); j++) {
 					if(certs.get(i).getAdditionnalMails().get(j).isNotifiable()) {
-						sender.send(new Notification(certs.get(i), this.getCode(certs.get(i))), certs.get(i).getAdditionnalMails().get(j));
+						this.sendMail(new Notification(certs.get(i), this.getCode(certs.get(i))), certs.get(i).getAdditionnalMails().get(j));
 						System.out.println("A mail was send");
 					}
 				}

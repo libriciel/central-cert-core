@@ -18,7 +18,7 @@ public class Notification {
 			String cn = "";
 			String mess = "";
 			for(int i = 0; i < dn.length; i++) {
-				if(dn[i].startsWith("DN=")) {
+				if(dn[i].startsWith("CN=")) {
 					cn = dn[i].substring(3);
 				}
 			}
