@@ -20,6 +20,11 @@ public class Notification {
 	 */
 	private String message;
 	
+	public Notification() {
+		this.objet = null;
+		this.message = null;
+	}
+	
 	/**
 	 * Créer une notification
 	 *

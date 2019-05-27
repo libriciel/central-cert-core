@@ -8,7 +8,9 @@ public class NotificationTest {
 
 	@Test
 	public void test() {
-		fail("Not yet implemented");
+		Notification n = new Notification();
+		assertNull(n.getObjet());
+		assertNull(n.getMessage());
 	}
 
 }
