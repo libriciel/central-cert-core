@@ -1,9 +1,6 @@
-package com.libriciel.Atteste.Mails;
+package com.libriciel.Atteste.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -12,7 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.libriciel.Atteste.BDD.certs.Certificat;
+import com.libriciel.Atteste.model.Certificat;
 
 public class MailHandlerTest {
 
@@ -178,5 +175,43 @@ public class MailHandlerTest {
 		MailHandler mh = new MailHandler();
 		Certificat c1 = new Certificat(LocalDate.of(2019, 3, 9), LocalDate.now().plusMonths(10));
 		assertEquals(mh.getCode(c1), "GREEN");
+	}
+
+	@Test
+	public void testCanNotify() {
+		LocalDate d1 = LocalDate.now().minusMonths(1);
+		LocalDate d2 = LocalDate.now().plusDays(10);
+		LocalDate d3 = LocalDate.now().plusMonths(2);
+		LocalDate d4 = LocalDate.now().plusYears(2);
+		Certificat c1 = new Certificat(d1, d4);
+
+		assertEquals(c1.getNotified(), "GREEN");
+		assertFalse(MailHandler.canNotify(c1, "GREEN"));
+		assertTrue(MailHandler.canNotify(c1, "ORANGE"));
+		assertFalse(MailHandler.canNotify(c1, "RED"));
+		assertFalse(MailHandler.canNotify(c1, "EXPIRED"));
+		
+		c1 = new Certificat(d1, d3);
+		c1.setNotified("ORANGE");
+		assertEquals(c1.getNotified(), "ORANGE");
+		assertFalse(MailHandler.canNotify(c1, "GREEN"));
+		assertFalse(MailHandler.canNotify(c1, "ORANGE"));
+		assertTrue(MailHandler.canNotify(c1, "RED"));
+		assertFalse(MailHandler.canNotify(c1, "EXPIRED"));
+		
+		c1 = new Certificat(d1, d2);
+		c1.setNotified("RED");
+		assertEquals(c1.getNotified(), "RED");
+		assertFalse(MailHandler.canNotify(c1, "GREEN"));
+		assertFalse(MailHandler.canNotify(c1, "ORANGE"));
+		assertFalse(MailHandler.canNotify(c1, "RED"));
+		assertTrue(MailHandler.canNotify(c1, "EXPIRED"));
+		
+		c1.setNotified("EXPIRED");
+		assertEquals(c1.getNotified(), "EXPIRED");
+		assertFalse(MailHandler.canNotify(c1, "GREEN"));
+		assertFalse(MailHandler.canNotify(c1, "ORANGE"));
+		assertFalse(MailHandler.canNotify(c1, "RED"));
+		assertFalse(MailHandler.canNotify(c1, "EXPIRED"));
 	}
 }

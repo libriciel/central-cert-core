@@ -1,4 +1,4 @@
-package com.libriciel.Atteste.Url;
+package com.libriciel.Atteste.service;
 
 import static org.junit.Assert.*;
 

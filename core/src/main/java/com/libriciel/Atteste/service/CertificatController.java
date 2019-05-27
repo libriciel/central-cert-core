@@ -1,7 +1,4 @@
-/*
- *
- */
-package com.libriciel.Atteste.BDD.certs;
+package com.libriciel.Atteste.service;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,15 +19,32 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import com.libriciel.Atteste.Url.AttesteCertificats;
 
+import com.libriciel.Atteste.model.Certificat;
+import com.libriciel.Atteste.repository.CertificatRepository;
+
+/**
+ * @author tpapin
+ * 
+ * Controlleur de la classe certificat
+ * Permet de communiquer avec l'API REST spring depuis l'application angular
+ */
 @RestController
 @PreAuthorize("hasRole('user')")
 public class CertificatController {
 
+	/** Le repository. 
+	 * 
+	 * Permet de communiquer avec la base de données
+	 */
 	@Autowired
 	CertificatRepository repository;
 
+	/**
+	 * Permet d'enregistrer un certificat dans la base de données
+	 *
+	 * @param certificat le certificat
+	 */
 	@PostMapping("/api/certificat/save")
 	public void save(@RequestBody Certificat certificat) {
 		if(certificat != null) {
@@ -38,6 +52,11 @@ public class CertificatController {
 		}
 	}
 	
+	/**
+	 * Permet de sauvegarder plusieurs certificats d'un coup
+	 *
+	 * @param certificat une liste de certificats
+	 */
 	@PostMapping("/api/certificat/saveAll")
 	public void saveAll(@RequestBody List<Certificat> certificat) {
 		if(certificat != null) {
@@ -50,6 +69,12 @@ public class CertificatController {
 		}
 	}
 	
+	/**
+	 * Permet de récupérer un certificat de la base de données grace à son ID
+	 *
+	 * @param id l'id
+	 * @return le certificat
+	 */
 	@GetMapping("/api/certificat/select")
 	public Certificat select(@RequestParam("id") int id){
 		Optional<Certificat> opt = repository.findById(id);
@@ -60,6 +85,11 @@ public class CertificatController {
 		}
 	}
 	
+	/**
+	 * Permet de récupérer la liste de tous les certificats de la base de données
+	 *
+	 * @return la liste des certificats
+	 */
 	@GetMapping("/api/certificat/selectAll")
 	public List<Certificat> selectAll(){
 		List<Certificat> res = new ArrayList<Certificat>();
@@ -67,6 +97,12 @@ public class CertificatController {
 		return res;
 	}
 
+	/**
+	 * Permet de récuperer les certificats d'une url
+	 *
+	 * @param url l'url
+	 * @return la liste des certificats présents dans l'URL
+	 */
 	@GetMapping("/api/certificat/selectFromURL")
 	public List<Certificat> selectFromUrl(@RequestParam("URL") String url) {
 		List<Certificat> res = new ArrayList<Certificat>();
@@ -84,6 +120,12 @@ public class CertificatController {
 		return res;
 	}
 	
+	/**
+	 * Permet de récupérer le certificat d'un fichier
+	 *
+	 * @param file le fichier
+	 * @return le certificat du fichier
+	 */
 	@PostMapping(value = "/api/certificat/selectFromFile", consumes = MediaType.ALL_VALUE)
 	public Certificat selectFromFile(@RequestParam("file") MultipartFile file) {
 		File convFile = new File(file.getOriginalFilename());
@@ -99,11 +141,19 @@ public class CertificatController {
 	}
 	
 	
+	/**
+	 * permet de supprimer un certificat de la base de données via son ID
+	 *
+	 * @param id l'ID
+	 */
 	@DeleteMapping("/api/certificat/delete")
 	public void delete(@RequestParam("id") int id) {
 		repository.deleteById(id);
 	}
 	
+	/**
+	 * Permet de supprimer tous les certificats de la base de données.
+	 */
 	@DeleteMapping("/api/certificat/deleteAll")
 	public void deleteAll() {
 		repository.deleteAll();
@@ -111,6 +161,11 @@ public class CertificatController {
 
 	
 	
+	/**
+	 * Update.
+	 *
+	 * @param certificat the certificat
+	 */
 	@PutMapping("/api/certificat/update")
 	public void update(@RequestBody Certificat certificat) {
 		Optional<Certificat> cert = repository.findById(certificat.getId());
@@ -129,6 +184,11 @@ public class CertificatController {
 		}
 	}
 	
+	/**
+	 * Update all.
+	 *
+	 * @param certificats the certificats
+	 */
 	@PutMapping("/api/certificat/updateAll")
 	public void updateAll(@RequestBody List<Certificat> certificats) {
 		for(int i = 0; i < certificats.size(); i++) {

@@ -1,4 +1,4 @@
-package com.libriciel.Atteste.BDD.certs;
+package com.libriciel.Atteste.model;
 
 import static org.junit.Assert.*;
 
@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.libriciel.Atteste.BDD.mails.Mail;
-
 
 public class CertificatTest {
 
@@ -34,7 +31,7 @@ public class CertificatTest {
 		assertFalse(c.isFavoris());
 		assertNull(c.getDN());
 		assertFalse(c.isNotifyAll());
-		assertFalse(c.getNotified());
+		assertEquals(c.getNotified(), "GREEN");
 		assertEquals(c.getAdditionnalMails(), new ArrayList<Mail>());
 	}
 }

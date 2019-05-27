@@ -1,19 +1,30 @@
 /*
  * 
  */
-package com.libriciel.Atteste.BDD.certs;
+package com.libriciel.Atteste.repository;
 
 import java.security.cert.X509Certificate;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.libriciel.Atteste.model.Certificat;
+
 /**
- * The Interface CertificatRepository.
+ * @author tpapin
+ * 
+ * Interface permettant de communiquer avec la base de données
  */
 
 @Repository
 public interface CertificatRepository extends JpaRepository<Certificat, Integer> {
+	
+	/**
+	 * Ajout d'une méthode permettant de sauvegarder une liste de certificats dans la base de données
+	 *
+	 * @param x509Certificates le certificat X509
+	 * @return la liste de certificats X509
+	 */
 	public default X509Certificate[] saveAll(X509Certificate[] x509Certificates){
 		for(int i = 0; i < x509Certificates.length; i++) {
 			this.save(new Certificat(x509Certificates[i]));

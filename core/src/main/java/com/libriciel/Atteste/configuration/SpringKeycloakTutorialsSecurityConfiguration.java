@@ -1,4 +1,4 @@
-package com.libriciel.Atteste;
+package com.libriciel.Atteste.configuration;
 
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.keycloak.adapters.springsecurity.KeycloakSecurityComponents;
