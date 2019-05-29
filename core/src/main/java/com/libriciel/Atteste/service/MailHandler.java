@@ -234,8 +234,7 @@ public class MailHandler {
 	 * 
 	 * Se lance automatique toutes les deux heures (annotation @scheduled, 7200000 ms = 2 h)
 	 */
-	//@Scheduled(fixedRate = 7200000)
-	@Scheduled(fixedRate = 120000)
+	@Scheduled(fixedRate = 7200000)
 	public void sendMailsToAll() {
 		System.out.println("tick");
 		
