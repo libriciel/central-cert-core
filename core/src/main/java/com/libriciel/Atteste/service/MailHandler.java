@@ -61,36 +61,13 @@ public class MailHandler {
 		mailSender.send(message);
 	}
 	
-	/**
-	 * Vérifie si l'on doit notifier le mail avec un code donné
-	 *
-	 * @param c le certificat
-	 * @param code le code
-	 * @return true, si l'on doit notifier l'adresse
-	 */
-	public static boolean canNotify(Certificat c, String code){
+	public boolean notifyCODE(Certificat c) {
 		String certCode = c.getNotified();
-		
-		if(code == "ORANGE") {
-			if(certCode != "GREEN") {
-				return false;
-			}else {
-				return true;
-			}
-		}else if(code == "RED") {
-			if(certCode != "ORANGE") {
-				return false;
-			}else {
-				return true;
-			}
-		}else if(code == "EXPIRED"){
-			if(certCode != "RED") {
-				return false;
-			}else {
-				return true;
-			}
-		}else {
+		String code = this.getCode(c);
+		if(code.equals(certCode)) {
 			return false;
+		}else {
+			return true;
 		}
 	}
 	
@@ -109,13 +86,12 @@ public class MailHandler {
 		
 		//pour chaque certificat
 		for(int j = 0; j < allCerts.size(); j++) {
-			
 			//si le certifica est expiré, qu'il est en code rouge ou orange
 			if((this.isExpired(allCerts.get(j)) 
 				|| this.isOrange(allCerts.get(j)) 
 				|| this.isRed(allCerts.get(j)))) {
 				//si l'on doit notifier le certificat
-				if(canNotify(allCerts.get(j), this.getCode(allCerts.get(j)))) {
+				if(this.notifyCODE(allCerts.get(j))) {
 					//on ajoute le certificat à la liste résultat
 					res.add(allCerts.get(j));
 				}
@@ -258,7 +234,8 @@ public class MailHandler {
 	 * 
 	 * Se lance automatique toutes les deux heures (annotation @scheduled, 7200000 ms = 2 h)
 	 */
-	@Scheduled(fixedRate = 7200000)
+	//@Scheduled(fixedRate = 7200000)
+	@Scheduled(fixedRate = 120000)
 	public void sendMailsToAll() {
 		System.out.println("tick");
 		
@@ -267,7 +244,6 @@ public class MailHandler {
 		
 		//pour chaque certificat à notifier
 		for(int i = 0; i < certs.size(); i++) {
-			
 			//si toutes les adresses doivent être notifiées
 			if(certs.get(i).isNotifyAll()) {
 				//pour chaque adresse du certificat
@@ -291,7 +267,7 @@ public class MailHandler {
 			
 			//on change l'attribut "isNotified" du certificat afin de ne pas envoyer deux fois la même notification
 			certs.get(i).setNotified(this.getCode(certs.get(i)));
-			
+
 			//on sauvegarde la liste des certificats dans la base de données
 			this.cr.save(certs.get(i));
 		}
