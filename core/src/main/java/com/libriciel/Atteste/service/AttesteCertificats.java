@@ -3,20 +3,36 @@
  */
 package com.libriciel.Atteste.service;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.KeyStore;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Iterator;
+
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLPeerUnverifiedException;
 
+import org.apache.commons.io.FilenameUtils;
+import org.bouncycastle.asn1.cms.ContentInfo;
+import org.bouncycastle.asn1.cms.SignedData;
+import org.bouncycastle.cms.CMSSignedData;
+import org.bouncycastle.cms.SignerInformation;
+import org.bouncycastle.cms.SignerInformationStore;
+import org.bouncycastle.util.Store;
+import org.bouncycastle.util.encoders.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -147,6 +163,7 @@ public class AttesteCertificats {
 	public static X509Certificate getCertificateFromToken(File f) {
 		FileInputStream file = null;
 		Certificate cert = null;
+		CertificateFactory cf = null;
 		
 		//on essaye d'accéder au fichier
 		try {
@@ -158,9 +175,27 @@ public class AttesteCertificats {
 		//si le fichier est accessible
 		try{
 			if(file != null) {
-				// on récupère le certificat du fichier
-				CertificateFactory cf = CertificateFactory.getInstance("X.509");
-			    cert = cf.generateCertificate(file);
+				System.out.println(FilenameUtils.getExtension(f.getName()));
+				if(FilenameUtils.getExtension(f.getName()).contains("p12")
+					|| FilenameUtils.getExtension(f.getName()).contains("pfx")) {
+					KeyStore ks = KeyStore.getInstance("PKCS12");
+					ks.load(file, null);
+					String alias = ks.aliases().nextElement();
+					if(ks.isCertificateEntry(alias)) {
+						cert = ks.getCertificate(alias);
+					}
+				}else if(FilenameUtils.getExtension(f.getName()).contains("p7b")
+						|| FilenameUtils.getExtension(f.getName()).contains("p7c")) {
+					KeyStore ks = KeyStore.getInstance("PKCS7");
+					ks.load(file, null);
+					String alias = ks.aliases().nextElement();
+					if(ks.isCertificateEntry(alias)) {
+						cert = ks.getCertificate(alias);
+					}
+				}else {
+					cf = CertificateFactory.getInstance("X.509");
+				    cert = cf.generateCertificate(file);
+				}
 			}
 		}catch(Exception e){
 		    e.printStackTrace();
@@ -169,5 +204,4 @@ public class AttesteCertificats {
 		//on renvoit le certificat
 		return (X509Certificate) cert;
 	}
-
 }

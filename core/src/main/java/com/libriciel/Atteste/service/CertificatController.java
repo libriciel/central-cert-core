@@ -137,7 +137,11 @@ public class CertificatController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return new Certificat(AttesteCertificats.getCertificateFromToken(convFile));
+	    if(AttesteCertificats.getCertificateFromToken(convFile) != null) {
+			return new Certificat(AttesteCertificats.getCertificateFromToken(convFile));
+	    }else {
+	    	return null;
+	    }
 	}
 	
 	
@@ -187,7 +191,7 @@ public class CertificatController {
 	/**
 	 * Update all.
 	 *
-	 * @param certificats the certificats
+	 * @param certificats la liste de certificats
 	 */
 	@PutMapping("/api/certificat/updateAll")
 	public void updateAll(@RequestBody List<Certificat> certificats) {
