@@ -3,6 +3,8 @@ package com.libriciel.Atteste.model;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
+import org.springframework.beans.factory.annotation.Value;
+
 /**
  * @author tpapin
  * 
@@ -66,6 +68,9 @@ public class Notification {
 			for(int i = 0; i < dn.length; i++) {
 				mess += dn[i] + " \n";
 			}
+			
+			mess += " \n";
+			mess += "Si vous ne souhaitez pas recevoir de mails pour ce certificat, rendez-vous sur ce lien : \n";
 			
 			//On instantie l'attribut message de la classe avec le message précédemment créé
 			this.message = mess;

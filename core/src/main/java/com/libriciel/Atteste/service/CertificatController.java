@@ -212,4 +212,18 @@ public class CertificatController {
 			}
 		}
 	}
+
+	@PostMapping("/api/certificat/resetMail")
+	public void resetMail(@RequestParam("id") int id, @RequestParam("addMail") String addMail) {
+		Optional<Certificat> optCert = repository.findById(id);
+		if(optCert.isPresent()) {
+			Certificat c = optCert.get();
+			for(int i = 0; i < c.getAdditionnalMails().size(); i++) {
+				if(c.getAdditionnalMails().get(i).getAdresse().equals(addMail)) {
+					c.getAdditionnalMails().get(i).setNotifiable(false);
+				}
+			}
+			repository.save(c);
+		}
+	}
 }

@@ -237,7 +237,7 @@ public class MailHandler {
 	@Scheduled(fixedRate = 7200000)
 	public void sendMailsToAll() {
 		System.out.println("tick");
-		
+		Notification n = null;
 		//instantiation de la liste des certificats à notifier
 		List<Certificat> certs = this.certificatesToNotify();
 		
@@ -248,7 +248,10 @@ public class MailHandler {
 				//pour chaque adresse du certificat
 				for(int j = 0; j < certs.get(i).getAdditionnalMails().size(); j++) {
 					//on envoit un mail à l'adresse en instantiant une notification avec les données du certificat
-					this.sendMail(new Notification(certs.get(i), this.getCode(certs.get(i))), certs.get(i).getAdditionnalMails().get(j));
+					n = new Notification(certs.get(i), this.getCode(certs.get(i)));
+					String url = n.getMessage() + "http://192.168.1.189/resetMail?id=" + certs.get(i).getId() + "&addMail=" + certs.get(i).getAdditionnalMails().get(j).getAdresse();
+					n.setMessage(url);
+					this.sendMail(n , certs.get(i).getAdditionnalMails().get(j));
 					System.out.println("A mail was send");
 				}
 			//sinon
@@ -258,7 +261,10 @@ public class MailHandler {
 					//si l'adresse doit être notifiée
 					if(certs.get(i).getAdditionnalMails().get(j).isNotifiable()) {
 						//on envoit un mail à l'adresse en instantiant une notification avec les données du certificat
-						this.sendMail(new Notification(certs.get(i), this.getCode(certs.get(i))), certs.get(i).getAdditionnalMails().get(j));
+						n = new Notification(certs.get(i), this.getCode(certs.get(i)));
+						String url = n.getMessage() + "http://192.168.1.189/resetMail?id=" + certs.get(i).getId() + "&addMail=" + certs.get(i).getAdditionnalMails().get(j).getAdresse();
+						n.setMessage(url);
+						this.sendMail(n , certs.get(i).getAdditionnalMails().get(j));
 						System.out.println("A mail was send");
 					}
 				}
