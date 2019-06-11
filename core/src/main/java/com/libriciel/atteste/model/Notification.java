@@ -1,4 +1,4 @@
-package com.libriciel.Atteste.model;
+package com.libriciel.atteste.model;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -8,7 +8,8 @@ import java.time.ZoneId;
  * Classe définissant une notification
  */
 public class Notification {
-	
+	private static final String VOTRECERTIFICAT = "Votre certificat \"";
+
 	/**
 	 * L'objet de la notification
 	 */
@@ -47,7 +48,6 @@ public class Notification {
 			String cn = "";
 			
 			//Corps du message
-			String mess = "";
 			
 			//Pour chaque information du distinguished number
 			for(int i = 0; i < dn.length; i++) {
@@ -59,42 +59,48 @@ public class Notification {
 			}
 			
 			//On créer le message
-			mess += "cn :" + cn + " \n";
-			mess += "Not before :" + nb.toString() + " \n";
-			mess += "Not after :" + na.toString() + " \n";
+			StringBuilder sb = new StringBuilder();
+			sb.append("cn :" + cn + " \n");
+			sb.append("Not before :" + nb.toString() + " \n");
+			sb.append("Not after :" + na.toString() + " \n");
+
 			for(int i = 0; i < dn.length; i++) {
-				mess += dn[i] + " \n";
+				sb.append(dn[i] + " \n");
 			}
-			
-			mess += " \n";
-			mess += "Si vous ne souhaitez pas recevoir de mails pour ce certificat, rendez-vous sur ce lien : \n";
-			
+			sb.append(" \n");
+			sb.append("Si vous ne souhaitez pas recevoir de mails pour ce certificat, rendez-vous sur ce lien : \n");
+
 			//On instantie l'attribut message de la classe avec le message précédemment créé
-			this.message = mess;
-			
-			//En fonction du code
-			if(code == "EXPIRED") { //Si certificat expiré
-				if(cn == "") {
-					this.objet = "Un de vos certificats à expiré";
-				}else {
-					this.objet = "Votre certificat \"" + cn + "\" a expiré";
-				}
-			}else if(code == "RED") { //Si code rouge
-				if(cn == "") {
-					this.objet = "Un de vos certificats expire bientôt";
-				}else {
-					this.objet = "Votre certificat \"" + cn + "\" expire bientôt";
-				}
-			}else if(code == "ORANGE"){ //si code orange
-				if(cn == "") {
-					this.objet = "Un de vos certificats arrive à expiration";
-				}else {
-					this.objet = "Votre certificat \"" + cn + "\" arrive à expiration";
-				}
-			}else { // sinon (si code vert)
-				this.objet = null;
-				this.message = null;
+			this.message = sb.toString();
+			this.setObjAndMess(code, cn);
+		}else {
+			this.objet = "null";
+			this.message = "null";
+		}
+	}
+	
+	private void setObjAndMess(String code, String cn) {
+		if(code.equals("EXPIRED")) { //Si certificat expiré
+			if(cn.equals("")) {
+				this.objet = "Un de vos certificats à expiré";
+			}else {
+				this.objet = VOTRECERTIFICAT + cn + "\" a expiré";
 			}
+		}else if(code.equals("RED")) { //Si code rouge
+			if(cn.equals("")) {
+				this.objet = "Un de vos certificats expire bientôt";
+			}else {
+				this.objet = VOTRECERTIFICAT + cn + "\" expire bientôt";
+			}
+		}else if(code.equals("ORANGE")){ //si code orange
+			if(cn.equals("")) {
+				this.objet = "Un de vos certificats arrive à expiration";
+			}else {
+				this.objet = VOTRECERTIFICAT + cn + "\" arrive à expiration";
+			}
+		}else { // sinon (si code vert)
+			this.objet = null;
+			this.message = null;
 		}
 	}
 

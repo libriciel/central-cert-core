@@ -1,4 +1,4 @@
-package com.libriciel.Atteste;
+package com.libriciel.atteste;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

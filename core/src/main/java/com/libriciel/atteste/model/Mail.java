@@ -1,10 +1,9 @@
-package com.libriciel.Atteste.model;
+package com.libriciel.atteste.model;
 
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-// TODO: Auto-generated Javadoc
 /**
  * @author tpapin
  * 

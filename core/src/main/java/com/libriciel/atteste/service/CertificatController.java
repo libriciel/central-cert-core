@@ -1,12 +1,15 @@
-package com.libriciel.Atteste.service;
+package com.libriciel.atteste.service;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -20,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.libriciel.Atteste.model.Certificat;
-import com.libriciel.Atteste.repository.CertificatRepository;
+import com.libriciel.atteste.model.Certificat;
+import com.libriciel.atteste.repository.CertificatRepository;
 
 /**
  * @author tpapin
@@ -32,6 +35,7 @@ import com.libriciel.Atteste.repository.CertificatRepository;
 @RestController
 @PreAuthorize("hasRole('user')")
 public class CertificatController {
+    private static Logger logger = Logger.getLogger("logg");
 
 	/** Le repository. 
 	 * 
@@ -92,7 +96,7 @@ public class CertificatController {
 	 */
 	@GetMapping("/api/certificat/selectAll")
 	public List<Certificat> selectAll(){
-		List<Certificat> res = new ArrayList<Certificat>();
+		List<Certificat> res = new ArrayList<>();
 		repository.findAll().iterator().forEachRemaining(res::add);
 		return res;
 	}
@@ -105,14 +109,14 @@ public class CertificatController {
 	 */
 	@GetMapping("/api/certificat/selectFromURL")
 	public List<Certificat> selectFromUrl(@RequestParam("URL") String url) {
-		List<Certificat> res = new ArrayList<Certificat>();
-		X509Certificate[] certs = null;
+		List<Certificat> res = new ArrayList<>();
+		X509Certificate[] certs = new X509Certificate[0];
 		try {
 			certs = AttesteCertificats.getCertificateFromURL(url);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.log(Level.SEVERE, e.getMessage());
 		}
-		if(certs != null) {
+		if(certs.length != 0) {
 			for(int i = 0; i < certs.length; i++) {
 				res.add(new Certificat(certs[i]));
 			}
@@ -128,22 +132,57 @@ public class CertificatController {
 	 */
 	@PostMapping(value = "/api/certificat/selectFromFile", consumes = MediaType.ALL_VALUE)
 	public Certificat selectFromFile(@RequestParam("file") MultipartFile file) {
-		File convFile = new File(file.getOriginalFilename());
-	    try {
-			convFile.createNewFile();
-			FileOutputStream fos = new FileOutputStream(convFile);
-		    fos.write(file.getBytes());
-		    fos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+		try {
+			File convFile = new File(file.getOriginalFilename());
+			boolean isCreated = convFile.createNewFile();
+			if(isCreated) {
+				FileOutputStream fos = new FileOutputStream(convFile);
+				return getCertFromMultipart(fos, file, convFile);
+			}
+		} catch (FileNotFoundException e2) {
+			logger.log(Level.SEVERE, e2.getMessage());
+		} catch (IOException e3) {
+			logger.log(Level.SEVERE, e3.getMessage());
 		}
-	    if(AttesteCertificats.getCertificateFromToken(convFile) != null) {
-			return new Certificat(AttesteCertificats.getCertificateFromToken(convFile));
-	    }else {
-	    	return null;
-	    }
+		return null;
 	}
 	
+	/**
+	 * Permet récupérer des certificats d'un fichier multipart
+	 *
+	 * Permet d'alléger la méthode selectFromFile
+	 * 
+	 * @return un certificat
+	 */
+	public Certificat getCertFromMultipart(FileOutputStream fos, MultipartFile file, File convFile) {
+		try {
+			fos.write(file.getBytes());
+			
+			if(AttesteCertificats.getCertificateFromToken(convFile) != null) {
+				return new Certificat(AttesteCertificats.getCertificateFromToken(convFile));
+		    }else {
+		    	return null;
+		    }
+		} catch (IOException e1) {
+			logger.log(Level.SEVERE, e1.getMessage());
+		} finally {
+			closeFile(fos);
+		}
+		return null;
+	}
+	
+	/**
+	 * Permet de fermer un fichier
+	 *
+	 * Permet d'alléger la méthode selectFromFile
+	 */
+	public void closeFile(FileOutputStream fos) {
+		try {
+			fos.close();
+		} catch (IOException e) {
+			logger.log(Level.SEVERE, e.getMessage());
+		}
+	}
 	
 	/**
 	 * permet de supprimer un certificat de la base de données via son ID
@@ -213,6 +252,12 @@ public class CertificatController {
 		}
 	}
 
+	/**
+	 * Permet de reset l'envoi de mail sur une adresse
+	 *
+	 * @param id l'ID du certificat concerné
+	 * @param addMail l'adresse mail concernée
+	 */
 	@PostMapping("/api/certificat/resetMail")
 	public void resetMail(@RequestParam("id") int id, @RequestParam("addMail") String addMail) {
 		Optional<Certificat> optCert = repository.findById(id);

@@ -1,4 +1,4 @@
-package com.libriciel.Atteste.model;
+package com.libriciel.atteste.model;
 
 import java.security.cert.X509Certificate;
 import java.time.LocalDate;
@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 /**
  * Classe Certificat
  *
@@ -26,7 +27,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "certificats")
-public class Certificat {	
+public class Certificat {
+	
+	private static final String GREEN = "GREEN";
+	
 	/** 
 	 * L'id du certificat
 	 * Permet de différencier les certificats dans la base de données  
@@ -85,7 +89,7 @@ public class Certificat {
 	@Embedded
 	@ElementCollection(fetch = FetchType.EAGER)
 	@Column(name = "additionnalMails")
-	private List<Mail> additionnalMails = new ArrayList<Mail>();
+	private List<Mail> additionnalMails;
 	
 	/**
 	 * Créer un certificat nul
@@ -98,8 +102,8 @@ public class Certificat {
 		this.favoris = false;
 		this.dn = null;
 		this.notifyAll = false;
-		this.notified = "GREEN";
-		this.additionnalMails = new ArrayList<Mail>();
+		this.notified = GREEN;
+		this.additionnalMails = new ArrayList<>();
 	}
 
 	/**
@@ -113,8 +117,8 @@ public class Certificat {
 		this.favoris = false;
 		this.dn = cert.getSubjectX500Principal().getName();
 		this.notifyAll = false;
-		this.notified = "GREEN";
-		this.additionnalMails = new ArrayList<Mail>();
+		this.notified = GREEN;
+		this.additionnalMails = new ArrayList<>();
 	}
 	
 	/**
@@ -131,8 +135,8 @@ public class Certificat {
 		this.favoris = false;
 		this.dn = null;
 		this.notifyAll = false;
-		this.notified = "GREEN";
-		this.additionnalMails = new ArrayList<Mail>();
+		this.notified = GREEN;
+		this.additionnalMails = new ArrayList<>();
 	}
 
 	/**

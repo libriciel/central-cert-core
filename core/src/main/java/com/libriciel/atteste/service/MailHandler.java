@@ -1,4 +1,4 @@
-package com.libriciel.Atteste.service;
+package com.libriciel.atteste.service;
 
 
 import java.time.LocalDate;
@@ -13,10 +13,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import com.libriciel.Atteste.model.Certificat;
-import com.libriciel.Atteste.model.Mail;
-import com.libriciel.Atteste.model.Notification;
-import com.libriciel.Atteste.repository.CertificatRepository;
+import com.libriciel.atteste.model.Certificat;
+import com.libriciel.atteste.model.Mail;
+import com.libriciel.atteste.model.Notification;
+import com.libriciel.atteste.repository.CertificatRepository;
 
 /**
  * Classe permettant de gérer l'envoi de mails
@@ -61,14 +61,17 @@ public class MailHandler {
 		mailSender.send(message);
 	}
 	
+	/**
+	 *Permet de savoir si l'on doit notifier le certificat 
+	 *
+	 * @param c le certificat
+	 * 
+	 * @return true si on doit notifier le certificat et false sinon
+	 */
 	public boolean notifyCODE(Certificat c) {
 		String certCode = c.getNotified();
 		String code = this.getCode(c);
-		if(code.equals(certCode)) {
-			return false;
-		}else {
-			return true;
-		}
+		return !code.equals(certCode);
 	}
 	
 	/**
@@ -82,19 +85,16 @@ public class MailHandler {
 		List<Certificat> allCerts = cr.findAll();
 	
 		//On instantie la liste résultat
-		List<Certificat> res = new ArrayList<Certificat>();
+		List<Certificat> res = new ArrayList<>();
 		
 		//pour chaque certificat
 		for(int j = 0; j < allCerts.size(); j++) {
 			//si le certifica est expiré, qu'il est en code rouge ou orange
 			if((this.isExpired(allCerts.get(j)) 
 				|| this.isOrange(allCerts.get(j)) 
-				|| this.isRed(allCerts.get(j)))) {
-				//si l'on doit notifier le certificat
-				if(this.notifyCODE(allCerts.get(j))) {
-					//on ajoute le certificat à la liste résultat
-					res.add(allCerts.get(j));
-				}
+				|| this.isRed(allCerts.get(j)))
+				&& (this.notifyCODE(allCerts.get(j)))) {
+				res.add(allCerts.get(j));
 			}
 		}
 		
@@ -134,7 +134,7 @@ public class MailHandler {
 			return res;
 		}else {
 			//si le certificat est expiré
-			return null;
+			return new int[0];
 		}
 	}
 	 
@@ -148,11 +148,7 @@ public class MailHandler {
 	public boolean isExpired(Certificat c) {
 		int[] rem = this.getRem(c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 		
-		if(rem != null) {
-			return false;
-		}else {
-			return true;
-		}
+		return rem.length == 0;
 	}
 	
 	/**
@@ -164,13 +160,9 @@ public class MailHandler {
 	public boolean isOrange(Certificat c) {
 		int[] rem = this.getRem(c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 		
-		if(rem != null) {
+		if(rem.length != 0) {
 			if(rem[0] == 0 && rem[1] <= 3) {
-				if(rem[1] >= 1) {
-					return true;
-				}else {
-					return false;
-				}
+				return rem[1] >= 1;
 			}else {
 				return false;
 			}
@@ -188,12 +180,8 @@ public class MailHandler {
 	public boolean isRed(Certificat c) {
 		int[] rem = this.getRem(c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 		
-		if(rem != null) {
-			if(rem[0] == 0 && rem[1] == 0) {
-				return true;
-			}else {
-				return false;
-			}
+		if(rem.length != 0) {
+			return rem[0] == 0 && rem[1] == 0;
 		}else {
 			return false;
 		}
@@ -236,7 +224,6 @@ public class MailHandler {
 	 */
 	@Scheduled(fixedRate = 7200000)
 	public void sendMailsToAll() {
-		System.out.println("tick");
 		Notification n = null;
 		//instantiation de la liste des certificats à notifier
 		List<Certificat> certs = this.certificatesToNotify();
@@ -252,7 +239,6 @@ public class MailHandler {
 					String url = n.getMessage() + "http://192.168.1.189/resetMail?id=" + certs.get(i).getId() + "&addMail=" + certs.get(i).getAdditionnalMails().get(j).getAdresse();
 					n.setMessage(url);
 					this.sendMail(n , certs.get(i).getAdditionnalMails().get(j));
-					System.out.println("A mail was send");
 				}
 			//sinon
 			}else {
@@ -265,7 +251,6 @@ public class MailHandler {
 						String url = n.getMessage() + "http://192.168.1.189/resetMail?id=" + certs.get(i).getId() + "&addMail=" + certs.get(i).getAdditionnalMails().get(j).getAdresse();
 						n.setMessage(url);
 						this.sendMail(n , certs.get(i).getAdditionnalMails().get(j));
-						System.out.println("A mail was send");
 					}
 				}
 			}
