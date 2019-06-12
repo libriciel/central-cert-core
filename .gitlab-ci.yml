@@ -18,7 +18,7 @@ junit:
 sonarqube:
   stage: test
   only:
-    - dev # SonarQube Community is limited to one branch. 'develop' is the most relevant.
+    - develop # SonarQube Community is limited to one branch. 'develop' is the most relevant.
   script:
     - gradle sonar -Dsonar.host.url=https://sonarqube.libriciel.fr -D sonar.login=$SONAR_TOKEN
 
