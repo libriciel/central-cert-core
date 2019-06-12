@@ -1,4 +1,4 @@
-package com.libriciel.Atteste.model;
+package com.libriciel.centralcert.model;
 
 import static org.junit.Assert.*;
 
@@ -8,8 +8,8 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import com.libriciel.atteste.model.Certificat;
-import com.libriciel.atteste.model.Notification;
+import com.libriciel.centralcert.model.Certificat;
+import com.libriciel.centralcert.model.Notification;
 
 public class NotificationTest {
 

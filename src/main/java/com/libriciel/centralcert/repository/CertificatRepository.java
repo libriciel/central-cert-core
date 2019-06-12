@@ -1,13 +1,13 @@
 /*
  * 
  */
-package com.libriciel.atteste.repository;
+package com.libriciel.centralcert.repository;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.libriciel.atteste.model.Certificat;
+import com.libriciel.centralcert.model.Certificat;
 
 /**
  * @author tpapin

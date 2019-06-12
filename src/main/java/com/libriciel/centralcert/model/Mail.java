@@ -1,4 +1,4 @@
-package com.libriciel.atteste.model;
+package com.libriciel.centralcert.model;
 
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;

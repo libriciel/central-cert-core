@@ -1,4 +1,4 @@
-package com.libriciel.atteste.model;
+package com.libriciel.centralcert.model;
 
 import java.security.cert.X509Certificate;
 import java.time.LocalDate;

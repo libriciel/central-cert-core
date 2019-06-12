@@ -1,4 +1,4 @@
-package com.libriciel.Atteste.service;
+package com.libriciel.centralcert.service;
 
 import static org.junit.Assert.*;
 
@@ -8,7 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.libriciel.atteste.service.AttesteCertificats;
+import com.libriciel.centralcert.service.AttesteCertificats;
 
 public class AttesteCertificatsTest {
 	

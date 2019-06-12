@@ -1,4 +1,4 @@
-package com.libriciel.atteste.model;
+package com.libriciel.centralcert.model;
 
 import java.time.LocalDate;
 import java.time.ZoneId;

@@ -16,7 +16,7 @@ apply plugin: "jacoco"
 bootJar {
 	baseName = 'app'
 	version = '0.0.1-SNAPSHOT'
-	mainClassName = 'com.libriciel.Atteste.AttesteApplication'
+	mainClassName = 'com.libriciel.centralcert.CentralCertApplication'
 }
 
 repositories {
@@ -48,4 +48,4 @@ dependencies {
 
 group = 'com.libriciel'
 sourceCompatibility = '1.8'
-mainClassName = 'com.libriciel.Atteste.AttesteApplication'
+mainClassName = 'com.libriciel.centralcert.CentralCertApplication'

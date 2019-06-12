@@ -1,10 +1,10 @@
-package com.libriciel.Atteste.model;
+package com.libriciel.centralcert.model;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.libriciel.atteste.model.Mail;
+import com.libriciel.centralcert.model.Mail;
 
 public class MailTest {
 

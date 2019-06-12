@@ -1,4 +1,4 @@
-package com.libriciel.atteste.service;
+package com.libriciel.centralcert.service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.libriciel.atteste.model.Certificat;
-import com.libriciel.atteste.repository.CertificatRepository;
+import com.libriciel.centralcert.model.Certificat;
+import com.libriciel.centralcert.repository.CertificatRepository;
 
 /**
  * @author tpapin
@@ -258,7 +258,7 @@ public class CertificatController {
 	 * @param id l'ID du certificat concerné
 	 * @param addMail l'adresse mail concernée
 	 */
-	@PostMapping("/api/certificat/resetMail")
+	@GetMapping("/api/certificat/resetMail")
 	public void resetMail(@RequestParam("id") int id, @RequestParam("addMail") String addMail) {
 		Optional<Certificat> optCert = repository.findById(id);
 		if(optCert.isPresent()) {

@@ -1,4 +1,4 @@
-package com.libriciel.atteste.service;
+package com.libriciel.centralcert.service;
 
 
 import java.time.LocalDate;
@@ -13,10 +13,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import com.libriciel.atteste.model.Certificat;
-import com.libriciel.atteste.model.Mail;
-import com.libriciel.atteste.model.Notification;
-import com.libriciel.atteste.repository.CertificatRepository;
+import com.libriciel.centralcert.model.Certificat;
+import com.libriciel.centralcert.model.Mail;
+import com.libriciel.centralcert.model.Notification;
+import com.libriciel.centralcert.repository.CertificatRepository;
 
 /**
  * Classe permettant de gérer l'envoi de mails

@@ -1,7 +1,7 @@
 /*
  *
  */
-package com.libriciel.atteste.service;
+package com.libriciel.centralcert.service;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,7 +27,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.libriciel.atteste.repository.CertificatRepository;
+import com.libriciel.centralcert.repository.CertificatRepository;
 
 /**
  * The Class AttesteCertificats.

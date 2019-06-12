@@ -1,4 +1,4 @@
-package com.libriciel.atteste;
+package com.libriciel.centralcert;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,8 +8,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @ServletComponentScan
 @EnableScheduling
 @SpringBootApplication
-public class AttesteApplication {
+public class CentralCertApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(AttesteApplication.class, args);
+		SpringApplication.run(CentralCertApplication.class, args);
 	}
 }

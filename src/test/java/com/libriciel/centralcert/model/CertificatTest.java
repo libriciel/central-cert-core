@@ -1,4 +1,4 @@
-package com.libriciel.Atteste.model;
+package com.libriciel.centralcert.model;
 
 import static org.junit.Assert.*;
 
@@ -11,9 +11,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.libriciel.atteste.model.Certificat;
-import com.libriciel.atteste.model.Mail;
-import com.libriciel.atteste.service.AttesteCertificats;
+import com.libriciel.centralcert.model.Certificat;
+import com.libriciel.centralcert.model.Mail;
+import com.libriciel.centralcert.service.AttesteCertificats;
 
 public class CertificatTest {
 
