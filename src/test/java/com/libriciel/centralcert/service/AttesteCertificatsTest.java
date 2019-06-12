@@ -35,16 +35,4 @@ public class AttesteCertificatsTest {
 	public void testInvalidUrl() {
 		assertEquals(0, AttesteCertificats.getCertificateFromURL("https/github.com/").length);
 	}
-	
-	@Test
-	public void testGetFromTokenNotNull() {
-		File f = new File("src/test/java/com/libriciel/Atteste/service/alice.crt");
-		assertNotNull(AttesteCertificats.getCertificateFromToken(f));
-	}
-	
-	@Test
-	public void testGetFromTokenNull() {
-		File f = new File("src/test/java/com/libriciel/Atteste/service/1571753451.p12");
-		assertNull(AttesteCertificats.getCertificateFromToken(f));
-	}
 }
