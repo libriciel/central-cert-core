@@ -18,12 +18,16 @@ junit:
 sonarqube:
   stage: test
   only:
-    - develop # SonarQube Community is limited to one branch. 'develop' is the most relevant.
+    - develop
   script:
-    - gradle sonar -Dsonar.host.url=https://sonarqube.libriciel.fr -D sonar.login=$SONAR_TOKEN
+    - gradle sonar -Dsonar.host.url=https://sonarqube.libriciel.fr "-Dsonar.login=$SONAR_TOKEN"
 
 jar:
   stage: package
   script:
     - sed -i "s/{VERSION}/$CI_COMMIT_REF_NAME/g" build.gradle
     - gradle bootJar
+  artifacts:
+    name: "$PROJECT_NAME-$CI_COMMIT_REF_NAME"
+    paths:
+      - $PROJECT_NAME/*

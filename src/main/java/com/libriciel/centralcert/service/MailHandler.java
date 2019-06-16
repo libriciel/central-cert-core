@@ -23,7 +23,6 @@ import com.libriciel.centralcert.repository.CertificatRepository;
  */
 @Service
 public class MailHandler {
-
 	/**
 	 * Repository permettant d'accéder à la base de donénes
 	 */

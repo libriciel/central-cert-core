@@ -38,7 +38,7 @@ import com.libriciel.centralcert.repository.CertificatRepository;
  */
 @RestController
 public class AttesteCertificats {
-    private static Logger logger = Logger.getLogger("logg");
+    private static Logger logger = Logger.getLogger("AttesteCertificats");
 	/** 
 	 * Repository permettant de faire le lien avec la base de données
 	 */

@@ -18,4 +18,6 @@ import com.libriciel.centralcert.model.Certificat;
 @Repository
 public interface CertificatRepository extends JpaRepository<Certificat, Integer> {
 
+	// Auto-generated
+	
 }
