@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import com.libriciel.centralcert.model.Certificat;
 import com.libriciel.centralcert.model.Mail;
-import com.libriciel.centralcert.service.AttesteCertificats;
+import com.libriciel.centralcert.service.CertificatService;
 
 public class CertificatTest {
 
@@ -45,7 +45,7 @@ public class CertificatTest {
 	@Test
 	public void testConstructeurX509() {
 		System.out.println("Test du constructeur vide :");
-		X509Certificate c1 = AttesteCertificats.getCertificateFromURL("https://www.libriciel.fr/")[0];
+		X509Certificate c1 = CertificatService.getCertificateFromURL("https://www.libriciel.fr/")[0];
 		Certificat c = new Certificat(c1);
 		assertEquals(c1.getNotAfter(), c.getNotAfter());
 		assertEquals(c1.getNotBefore(), c.getNotBefore());

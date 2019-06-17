@@ -112,7 +112,7 @@ public class CertificatController {
 		List<Certificat> res = new ArrayList<>();
 		X509Certificate[] certs = new X509Certificate[0];
 		try {
-			certs = AttesteCertificats.getCertificateFromURL(url);
+			certs = CertificatService.getCertificateFromURL(url);
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, e.getMessage());
 		}
@@ -137,36 +137,26 @@ public class CertificatController {
 			boolean isCreated = convFile.createNewFile();
 			if(isCreated) {
 				FileOutputStream fos = new FileOutputStream(convFile);
-				return getCertFromMultipart(fos, file, convFile);
+				try {
+					fos.write(file.getBytes());
+					
+					if(CertificatService.getCertificateFromToken(convFile) != null) {
+						return new Certificat(CertificatService.getCertificateFromToken(convFile));
+				    }else {
+				    	return null;
+				    }
+				} catch (IOException e1) {
+					logger.log(Level.SEVERE, e1.getMessage());
+				} finally {
+					closeFile(fos);
+				}			
+			}else {
+				return null;
 			}
 		} catch (FileNotFoundException e2) {
 			logger.log(Level.SEVERE, e2.getMessage());
 		} catch (IOException e3) {
 			logger.log(Level.SEVERE, e3.getMessage());
-		}
-		return null;
-	}
-	
-	/**
-	 * Permet récupérer des certificats d'un fichier multipart
-	 *
-	 * Permet d'alléger la méthode selectFromFile
-	 * 
-	 * @return un certificat
-	 */
-	public Certificat getCertFromMultipart(FileOutputStream fos, MultipartFile file, File convFile) {
-		try {
-			fos.write(file.getBytes());
-			
-			if(AttesteCertificats.getCertificateFromToken(convFile) != null) {
-				return new Certificat(AttesteCertificats.getCertificateFromToken(convFile));
-		    }else {
-		    	return null;
-		    }
-		} catch (IOException e1) {
-			logger.log(Level.SEVERE, e1.getMessage());
-		} finally {
-			closeFile(fos);
 		}
 		return null;
 	}

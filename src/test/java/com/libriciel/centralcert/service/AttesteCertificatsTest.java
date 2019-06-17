@@ -8,7 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.libriciel.centralcert.service.AttesteCertificats;
+import com.libriciel.centralcert.service.CertificatService;
 
 public class AttesteCertificatsTest {
 	
@@ -26,13 +26,13 @@ public class AttesteCertificatsTest {
 	@Test
 	public void testIsValidURL() {
 		System.out.println("Test de la méthode isValidURL()");
-		assertFalse(AttesteCertificats.isValidURL(""));
-		assertFalse(AttesteCertificats.isValidURL("https/github.com/"));
-		assertTrue(AttesteCertificats.isValidURL("https://github.com/"));
+		assertFalse(CertificatService.isValidURL(""));
+		assertFalse(CertificatService.isValidURL("https/github.com/"));
+		assertTrue(CertificatService.isValidURL("https://github.com/"));
 	}
 	
 	@Test
 	public void testInvalidUrl() {
-		assertEquals(0, AttesteCertificats.getCertificateFromURL("https/github.com/").length);
+		assertEquals(0, CertificatService.getCertificateFromURL("https/github.com/").length);
 	}
 }
