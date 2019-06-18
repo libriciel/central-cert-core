@@ -3,8 +3,7 @@
 ## Importing project
 
 ##### Setup in Eclipse :
-TODO
-
+- File → import → Existing Gradle Project
 
 ## Code style and project structure
 TODO

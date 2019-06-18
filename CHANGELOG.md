@@ -17,3 +17,5 @@ et ce projet adhère au [Semantic Versioning](http://semver.org/).
 - Mise en place d'une application web angular
 - Ajout d'une base de données PostgreSQL
 - Ajout d'une REST API SpringBoot
+- Ajout d'un outil de mailing
+- Ajout de la gestion des notifications
