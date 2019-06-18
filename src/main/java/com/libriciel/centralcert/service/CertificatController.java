@@ -1,3 +1,21 @@
+/*
+ * central cert core
+ * Copyright (C) 2018-2019 Libriciel-SCOP
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.libriciel.centralcert.service;
 
 import java.io.File;
@@ -26,28 +44,16 @@ import org.springframework.web.multipart.MultipartFile;
 import com.libriciel.centralcert.model.Certificat;
 import com.libriciel.centralcert.repository.CertificatRepository;
 
-/**
- * @author tpapin
- * 
- * Controlleur de la classe certificat
- * Permet de communiquer avec l'API REST spring depuis l'application angular
- */
 @RestController
 @PreAuthorize("hasRole('user')")
 public class CertificatController {
     private static Logger logger = Logger.getLogger("logg");
 
-	/** Le repository. 
-	 * 
-	 * Permet de communiquer avec la base de données
-	 */
 	@Autowired
 	CertificatRepository repository;
 
 	/**
-	 * Permet d'enregistrer un certificat dans la base de données
-	 *
-	 * @param certificat le certificat
+	 * Save one certificate
 	 */
 	@PostMapping("/api/certificat/save")
 	public void save(@RequestBody Certificat certificat) {
@@ -57,9 +63,7 @@ public class CertificatController {
 	}
 	
 	/**
-	 * Permet de sauvegarder plusieurs certificats d'un coup
-	 *
-	 * @param certificat une liste de certificats
+	 * Save a list of certificates
 	 */
 	@PostMapping("/api/certificat/saveAll")
 	public void saveAll(@RequestBody List<Certificat> certificat) {
@@ -74,10 +78,7 @@ public class CertificatController {
 	}
 	
 	/**
-	 * Permet de récupérer un certificat de la base de données grace à son ID
-	 *
-	 * @param id l'id
-	 * @return le certificat
+	 * Get one certificate
 	 */
 	@GetMapping("/api/certificat/select")
 	public Certificat select(@RequestParam("id") int id){
@@ -90,9 +91,7 @@ public class CertificatController {
 	}
 	
 	/**
-	 * Permet de récupérer la liste de tous les certificats de la base de données
-	 *
-	 * @return la liste des certificats
+	 * Get all certificates
 	 */
 	@GetMapping("/api/certificat/selectAll")
 	public List<Certificat> selectAll(){
@@ -102,10 +101,7 @@ public class CertificatController {
 	}
 
 	/**
-	 * Permet de récuperer les certificats d'une url
-	 *
-	 * @param url l'url
-	 * @return la liste des certificats présents dans l'URL
+	 * Get certificates from an URL
 	 */
 	@GetMapping("/api/certificat/selectFromURL")
 	public List<Certificat> selectFromUrl(@RequestParam("URL") String url) {
@@ -125,10 +121,7 @@ public class CertificatController {
 	}
 	
 	/**
-	 * Permet de récupérer le certificat d'un fichier
-	 *
-	 * @param file le fichier
-	 * @return le certificat du fichier
+	 * Get a certificate from a file
 	 */
 	@PostMapping(value = "/api/certificat/selectFromFile", consumes = MediaType.ALL_VALUE)
 	public Certificat selectFromFile(@RequestParam("file") MultipartFile file) {
@@ -162,9 +155,7 @@ public class CertificatController {
 	}
 	
 	/**
-	 * Permet de fermer un fichier
-	 *
-	 * Permet d'alléger la méthode selectFromFile
+	 * close a file
 	 */
 	public void closeFile(FileOutputStream fos) {
 		try {
@@ -175,9 +166,7 @@ public class CertificatController {
 	}
 	
 	/**
-	 * permet de supprimer un certificat de la base de données via son ID
-	 *
-	 * @param id l'ID
+	 * Delete a certificate
 	 */
 	@DeleteMapping("/api/certificat/delete")
 	public void delete(@RequestParam("id") int id) {
@@ -185,7 +174,7 @@ public class CertificatController {
 	}
 	
 	/**
-	 * Permet de supprimer tous les certificats de la base de données.
+	 * Delete all certificates
 	 */
 	@DeleteMapping("/api/certificat/deleteAll")
 	public void deleteAll() {
@@ -195,9 +184,7 @@ public class CertificatController {
 	
 	
 	/**
-	 * Update.
-	 *
-	 * @param certificat the certificat
+	 Update one certificate
 	 */
 	@PutMapping("/api/certificat/update")
 	public void update(@RequestBody Certificat certificat) {
@@ -218,9 +205,7 @@ public class CertificatController {
 	}
 	
 	/**
-	 * Update all.
-	 *
-	 * @param certificats la liste de certificats
+	 * Update a list of certificates
 	 */
 	@PutMapping("/api/certificat/updateAll")
 	public void updateAll(@RequestBody List<Certificat> certificats) {
@@ -243,10 +228,7 @@ public class CertificatController {
 	}
 
 	/**
-	 * Permet de reset l'envoi de mail sur une adresse
-	 *
-	 * @param id l'ID du certificat concerné
-	 * @param addMail l'adresse mail concernée
+	 * Block the mails for an adress
 	 */
 	@GetMapping("/api/certificat/resetMail")
 	public void resetMail(@RequestParam("id") int id, @RequestParam("addMail") String addMail) {

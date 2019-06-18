@@ -1,64 +1,55 @@
+/*
+ * central cert core
+ * Copyright (C) 2018-2019 Libriciel-SCOP
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.libriciel.centralcert.model;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-/**
- * @author tpapin
- * 
- * Classe définissant une notification
- */
+
 public class Notification {
 	private static final String VOTRECERTIFICAT = "Votre certificat \"";
 
-	/**
-	 * L'objet de la notification
-	 */
 	private String objet;
-	
-	/**
-	 * Le corps (message) de la notification
-	 */
+
 	private String message;
 	
 	public Notification() {
 		this.objet = null;
 		this.message = null;
 	}
-	
-	/**
-	 * Créer une notification
-	 *
-	 * @param c le certificat
-	 * @param code le code
-	 * 
-	 * le code de la notification est : GREEN, ORANGE, RED ou EXPIRED
-	 * Il définit le type de notification à envoyer
-	 */
+
 	public Notification(Certificat c, String code) {
 		if(c != null) {
-			//on récupère les dates des certificats
+			//conversion date to localDate
 			LocalDate nb = c.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			LocalDate na = c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			
-			//on sépare les informations du distinguished number afin de former le corps du message
+			//getting DN informations
 			String[] dn = c.getDN().split(",");
-			
-			//on instantie des variables
-			//Common Name (sujet) du certificat
+
 			String cn = "";
-			
-			//Corps du message
-			
-			//Pour chaque information du distinguished number
+
 			for(int i = 0; i < dn.length; i++) {
-				//On vérifie s'il s'agit du Common Name
 				if(dn[i].startsWith("CN=")) {
-					//Si oui on le stocke dans une variable précédemment déclarée
 					cn = dn[i].substring(3);
 				}
 			}
 			
-			//On créer le message
 			StringBuilder sb = new StringBuilder();
 			sb.append("cn :" + cn + " \n");
 			sb.append("Not before :" + nb.toString() + " \n");
@@ -70,7 +61,6 @@ public class Notification {
 			sb.append(" \n");
 			sb.append("Si vous ne souhaitez pas recevoir de mails pour ce certificat, rendez-vous sur ce lien : \n");
 
-			//On instantie l'attribut message de la classe avec le message précédemment créé
 			this.message = sb.toString();
 			this.setObjAndMess(code, cn);
 		}else {
@@ -80,62 +70,42 @@ public class Notification {
 	}
 	
 	private void setObjAndMess(String code, String cn) {
-		if(code.equals("EXPIRED")) { //Si certificat expiré
+		if(code.equals("EXPIRED")) {
 			if(cn.equals("")) {
 				this.objet = "Un de vos certificats à expiré";
 			}else {
 				this.objet = VOTRECERTIFICAT + cn + "\" a expiré";
 			}
-		}else if(code.equals("RED")) { //Si code rouge
+		}else if(code.equals("RED")) {
 			if(cn.equals("")) {
 				this.objet = "Un de vos certificats expire bientôt";
 			}else {
 				this.objet = VOTRECERTIFICAT + cn + "\" expire bientôt";
 			}
-		}else if(code.equals("ORANGE")){ //si code orange
+		}else if(code.equals("ORANGE")){
 			if(cn.equals("")) {
 				this.objet = "Un de vos certificats arrive à expiration";
 			}else {
 				this.objet = VOTRECERTIFICAT + cn + "\" arrive à expiration";
 			}
-		}else { // sinon (si code vert)
+		}else {
 			this.objet = null;
 			this.message = null;
 		}
 	}
 
-	/**
-	 * Gets the objet.
-	 *
-	 * @return the objet
-	 */
 	public String getObjet() {
 		return objet;
 	}
 
-	/**
-	 * Gets the message.
-	 *
-	 * @return the message
-	 */
 	public String getMessage() {
 		return message;
 	}
 	
-	/**
-	 * Sets the objet.
-	 *
-	 * @param objet the new objet
-	 */
 	public void setObjet(String objet) {
 		this.objet = objet;
 	}
 
-	/**
-	 * Sets the message.
-	 *
-	 * @param message the new message
-	 */
 	public void setMessage(String message) {
 		this.message = message;
 	}

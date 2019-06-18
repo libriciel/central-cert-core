@@ -1,3 +1,21 @@
+/*
+ * central cert core
+ * Copyright (C) 2018-2019 Libriciel-SCOP
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.libriciel.centralcert.service;
 
 
@@ -18,54 +36,27 @@ import com.libriciel.centralcert.model.Mail;
 import com.libriciel.centralcert.model.Notification;
 import com.libriciel.centralcert.repository.CertificatRepository;
 
-/**
- * Classe permettant de gérer l'envoi de mails
- */
 @Service
 public class MailHandler {
-	/**
-	 * Repository permettant d'accéder à la base de donénes
-	 */
 	@Autowired
 	public CertificatRepository cr;
-	
-	/**
-	 * Interface permettant d'envoyer des mails
-	 */
+
 	@Autowired
 	public JavaMailSender mailSender;
 	
 	/**
-	 * Permet d'envoyer un mail
-	 *
-	 * @param n la notification
-	 * @param m le mail
-	 * 
-	 * envoit un mail avec le sinformations de la notification à l'adresse du mail si le mail est notifiable
+	 * Send a mail
 	 */
 	public void sendMail(Notification n, Mail m) {
-		//Création d'un message mail
 		SimpleMailMessage message = new SimpleMailMessage();
-		
-		//instantiation du destinataire
 		message.setTo(m.getAdresse());
-		
-		//instantiation de l'objet
 		message.setSubject(n.getObjet());
-		
-		//instantiation du message
 		message.setText(n.getMessage());
-		
-		//envoi du mail
 		mailSender.send(message);
 	}
 	
 	/**
-	 *Permet de savoir si l'on doit notifier le certificat 
-	 *
-	 * @param c le certificat
-	 * 
-	 * @return true si on doit notifier le certificat et false sinon
+	 * To know if we have to notify a certificate
 	 */
 	public boolean notifyCODE(Certificat c) {
 		String certCode = c.getNotified();
@@ -74,21 +65,14 @@ public class MailHandler {
 	}
 	
 	/**
-	 * Renvoit la liste des certificats à qui l'on doit envoyer des mails
-	 *
-	 * @return la liste de certificats
+	 * Get the list of certificates to notify
 	 */
 	public List<Certificat> certificatesToNotify(){
-		
-		//récupère tous les certificats de la base de donénes
 		List<Certificat> allCerts = cr.findAll();
 	
-		//On instantie la liste résultat
 		List<Certificat> res = new ArrayList<>();
 		
-		//pour chaque certificat
 		for(int j = 0; j < allCerts.size(); j++) {
-			//si le certifica est expiré, qu'il est en code rouge ou orange
 			if((this.isExpired(allCerts.get(j)) 
 				|| this.isOrange(allCerts.get(j)) 
 				|| this.isRed(allCerts.get(j)))
@@ -97,15 +81,11 @@ public class MailHandler {
 			}
 		}
 		
-		//on renvoit la liste résultat
 		return res;
 	}
 	
 	/**
-	 * Récupère le temps restant à un certificat avant d'expirer
-	 *
-	 * @param after the after
-	 * @return un tableau sous la forme [années restantes, mois restants, jours restants]
+	 * Get the remaining time between a date and now
 	 */
 	public int[] getRem(LocalDate after) {
 		//instantiation de la date actuelle
@@ -138,11 +118,7 @@ public class MailHandler {
 	}
 	 
 	/**
-	 * Vérifie si un certificat est expiré ou non
-	 *
-	 * @param c le certificat
-	 * @return true, si le certificat est expiré
-	 * @return false, si le certificat n'est pas expiré
+	 * Check if a certificate is expired
 	 */
 	public boolean isExpired(Certificat c) {
 		int[] rem = this.getRem(c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
@@ -151,10 +127,7 @@ public class MailHandler {
 	}
 	
 	/**
-	 * Vérifie si le certificat est en code ORANGE (moins de 3 mois restants)
-	 *
-	 * @param c le certificat
-	 * @return true, si le certificat est en code ORANGE 
+	 * Check if the certificate is ORANGE
 	 */
 	public boolean isOrange(Certificat c) {
 		int[] rem = this.getRem(c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
@@ -171,10 +144,7 @@ public class MailHandler {
 	}
 	
 	/**
-	 * Vérifie si le certificat est en code RED (moins d'1 mois restants)
-	 *
-	 * @param c le certificat
-	 * @return true, si le certificat est en code RED 
+	 * check if the certificate is RED
 	 */
 	public boolean isRed(Certificat c) {
 		int[] rem = this.getRem(c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
@@ -187,20 +157,14 @@ public class MailHandler {
 	}
 	
 	/**
-	 * Vérifie si le certificat est en code GREEN (plus de 3 mois restants)
-	 *
-	 * @param c le certificat
-	 * @return true, si le certificat est en code GREEN 
+	 * Check if the certificate is GREEN 
 	 */
 	public boolean isGreen(Certificat c) {
 		return !this.isOrange(c) && !this.isRed(c);
 	}
 	
 	/**
-	 * Récupère ke code d'un certificat
-	 *
-	 * @param c le certificat
-	 * @return le code
+	 * Get the certificate code
 	 */
 	public String getCode(Certificat c){
 		if(this.isExpired(c)) {
@@ -217,35 +181,25 @@ public class MailHandler {
 	}
 	
 	/**
-	 * Envoit un mail à chaque adresse devant être notifiée
-	 * 
-	 * Se lance automatique toutes les deux heures (annotation @scheduled, 7200000 ms = 2 h)
+	 * Every two hours
+	 * Send mails to notifiable certificates
 	 */
 	@Scheduled(fixedRate = 7200000)
 	public void sendMailsToAll() {
 		Notification n = null;
-		//instantiation de la liste des certificats à notifier
 		List<Certificat> certs = this.certificatesToNotify();
 		
-		//pour chaque certificat à notifier
 		for(int i = 0; i < certs.size(); i++) {
-			//si toutes les adresses doivent être notifiées
 			if(certs.get(i).isNotifyAll()) {
-				//pour chaque adresse du certificat
 				for(int j = 0; j < certs.get(i).getAdditionnalMails().size(); j++) {
-					//on envoit un mail à l'adresse en instantiant une notification avec les données du certificat
 					n = new Notification(certs.get(i), this.getCode(certs.get(i)));
 					String url = n.getMessage() + "http://192.168.1.189/resetMail?id=" + certs.get(i).getId() + "&addMail=" + certs.get(i).getAdditionnalMails().get(j).getAdresse();
 					n.setMessage(url);
 					this.sendMail(n , certs.get(i).getAdditionnalMails().get(j));
 				}
-			//sinon
 			}else {
-				//pour chaque adresse du certificat
 				for(int j = 0; j < certs.get(i).getAdditionnalMails().size(); j++) {
-					//si l'adresse doit être notifiée
 					if(certs.get(i).getAdditionnalMails().get(j).isNotifiable()) {
-						//on envoit un mail à l'adresse en instantiant une notification avec les données du certificat
 						n = new Notification(certs.get(i), this.getCode(certs.get(i)));
 						String url = n.getMessage() + "http://192.168.1.189/resetMail?id=" + certs.get(i).getId() + "&addMail=" + certs.get(i).getAdditionnalMails().get(j).getAdresse();
 						n.setMessage(url);
@@ -254,10 +208,8 @@ public class MailHandler {
 				}
 			}
 			
-			//on change l'attribut "isNotified" du certificat afin de ne pas envoyer deux fois la même notification
 			certs.get(i).setNotified(this.getCode(certs.get(i)));
 
-			//on sauvegarde la liste des certificats dans la base de données
 			this.cr.save(certs.get(i));
 		}
 	}

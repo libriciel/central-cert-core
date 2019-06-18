@@ -1,6 +1,21 @@
 /*
+ * central cert core
+ * Copyright (C) 2018-2019 Libriciel-SCOP
  *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.libriciel.centralcert.service;
 
 import java.io.File;
@@ -29,28 +44,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.libriciel.centralcert.repository.CertificatRepository;
 
-/**
- * The Class AttesteCertificats.
- *
- * @author tpapin
- * 
- * The Class AttesteCertificats.
- */
 @RestController
 public class CertificatService {
     private static Logger logger = Logger.getLogger("AttesteCertificats");
-	/** 
-	 * Repository permettant de faire le lien avec la base de données
-	 */
+
 	@Autowired
 	public CertificatRepository cr;
 
 	/**
-	 * Vérifie la validité d'une URL
-	 *
-	 * @param urlString l'URL
-	 * @return true, si l'URL est valide
-	 * @return false sinon
+	 * Check the validity of an URL
 	 */
 	public static boolean isValidURL(String urlString){
 		try{
@@ -62,6 +64,9 @@ public class CertificatService {
 		}
 	}
 	
+	/**
+	 * Create an URL from a String
+	 */
 	private static URL createURL(String url) {
 		URL coUrl = null;
 
@@ -74,6 +79,9 @@ public class CertificatService {
 		return coUrl;
 	}
 	
+	/**
+	 * Open an URLConnection from an URL
+	 */
 	private static URLConnection openConnexion(URL coUrl) {
 		URLConnection co = null;
 
@@ -86,6 +94,9 @@ public class CertificatService {
 		return co;
 	}
 	
+	/**
+	 * Open a connection from an HttpsURLConnection
+	 */
 	private static void connectToURL(HttpsURLConnection httpsCo) {
 		try {
 			httpsCo.connect();
@@ -94,6 +105,9 @@ public class CertificatService {
 		}
 	}
 	
+	/**
+	 * Get a list of certificates from an HttpsURLConnection
+	 */
 	private static Certificate[] getCertsFromCo(HttpsURLConnection httpsCo) {
 		Certificate[] certs = null;
 		try {
@@ -105,83 +119,53 @@ public class CertificatService {
 	}
 
 	/**
-	 * Gets the certificate from URL.
-	 *
-	 * @param url l'URL
-	 * @return le certificat de l'URL
+	 * Get a list of certificates from an URL String
 	 */
 	public static X509Certificate[] getCertificateFromURL(String url){
-		//si l'URL est valide
-		if(isValidURL(url)) {
+		if(!isValidURL(url)) return new X509Certificate[0];
+		
+		URLConnection co = null;
+		HttpsURLConnection httpsCo = null;
+		URL coUrl = null;
 			
-			//On instantie les variables nécéssaires à la mise en place d'une connection avec l'URL
-			URLConnection co = null;
-			HttpsURLConnection httpsCo = null;
-			URL coUrl = null;
+		coUrl = createURL(url);
 			
-			//On essaye de créer une URL avec le string
-			coUrl = createURL(url);
+		if(coUrl == null) return new X509Certificate[0];
 			
-			//Si l'URL a bien été crée
-			if(coUrl != null) {
-				// on essaye d'ouvrir une connection sur l'URL
-				co = openConnexion(coUrl);
-			
-				//si la connection est en HTTPS
-				if(co instanceof HttpsURLConnection) {
-					httpsCo = (HttpsURLConnection) co;
-					
-					//alors un certificat est présent et on essaye de se connecter à l'URL
-					connectToURL(httpsCo);
-										
-					// on instantie un tableau de certificats X509
-					Certificate[] certs = null;
-						
-					// on essaye de récupérer les certificats de l'adresse
-					certs = getCertsFromCo(httpsCo);
-						
-					//on renvoit le tableau de certificats
-					return (X509Certificate[]) certs;
-					
-				}else {
-					//si la connection n'a pas été établie
-					return new X509Certificate[0];
-				}
+		co = openConnexion(coUrl);
 				
-			}else {
-				//Si l'url n'a pas été crée
-				return new X509Certificate[0];
-			}
-		}else {
-			//Si l'url est invalide
-			return new X509Certificate[0];
-		}
+		if(co instanceof HttpsURLConnection == false) return new X509Certificate[0];
+			
+		httpsCo = (HttpsURLConnection) co;
+					
+		connectToURL(httpsCo);
+										
+		Certificate[] certs = null;
+					
+		certs = getCertsFromCo(httpsCo);
+						
+		return (X509Certificate[]) certs;
 	}
 	
 	/**
-	 * Permet de récupérer un certificat depuis un token (fichier)
-	 *
-	 * @param f le fichier de certificat
-	 * @return le certificat du fichier
+	 * Get a certificate from a File
 	 */
 	public static X509Certificate getCertificateFromToken(File f) {
 		Certificate cert = null;
 
-		
-		//on essaye d'accéder au fichier
 		try {
 			FileInputStream file = new FileInputStream(f);
-			//si le fichier est accessible
 			cert = getCertsFiles(f, file);
 		} catch (FileNotFoundException e1) {
 			logger.log(Level.SEVERE, e1.getMessage());
 		}
 		
-		
-		//on renvoit le certificat
 		return (X509Certificate) cert;
 	}
 	
+	/**
+	 * Get a certificate from a PKCS file
+	 */
 	private static Certificate getFromPKCS(String mode, FileInputStream file) {
 		Certificate cert = null;
 		KeyStore ks = null;
@@ -205,6 +189,9 @@ public class CertificatService {
 		return cert;
 	}
 	
+	/**
+	 * Get a certificate from all Files types
+	 */
 	private static Certificate getCertsFiles(File f, FileInputStream file){
 		Certificate cert = null;
 		CertificateFactory cf = null;
@@ -232,6 +219,6 @@ public class CertificatService {
 				}
 			}
 		}
-	return cert;
+		return cert;
 	}
 }
