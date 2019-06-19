@@ -52,9 +52,9 @@ public class CertificatTest {
 		
 		Certificat c = new Certificat();
 		assertNull(c.getNotAfter());
-		assertNull(c.getNotBefore());
+		assertNull(c.getNotbefore());
 		assertFalse(c.isFavoris());
-		assertNull(c.getDN());
+		assertNull(c.getDn());
 		assertFalse(c.isNotifyAll());
 		assertEquals("GREEN", c.getNotified());
 		assertEquals(c.getAdditionnalMails(), new ArrayList<>());
@@ -66,9 +66,9 @@ public class CertificatTest {
 		X509Certificate c1 = CertificatService.getCertificateFromURL("https://www.libriciel.fr/")[0];
 		Certificat c = new Certificat(c1);
 		assertEquals(c1.getNotAfter(), c.getNotAfter());
-		assertEquals(c1.getNotBefore(), c.getNotBefore());
+		assertEquals(c1.getNotBefore(), c.getNotbefore());
 		assertFalse(c.isFavoris());
-		assertEquals(c1.getSubjectX500Principal().getName(), c.getDN());
+		assertEquals(c1.getSubjectX500Principal().getName(), c.getDn());
 		assertFalse(c.isNotifyAll());
 		assertEquals("GREEN", c.getNotified());
 		assertEquals(c.getAdditionnalMails(), new ArrayList<>());
@@ -84,8 +84,8 @@ public class CertificatTest {
 	@Test
 	public void testNB() {
 		Certificat c = new Certificat();
-		c.setNotBefore(new Date());
-		assertEquals(new Date(), c.getNotBefore());
+		c.setNotbefore(new Date());
+		assertEquals(new Date(), c.getNotbefore());
 	}
 	
 	@Test
@@ -98,15 +98,15 @@ public class CertificatTest {
 	@Test
 	public void testDN() {
 		Certificat c = new Certificat();
-		c.setDN("test");
-		assertEquals("test", c.getDN());
+		c.setDn("test");
+		assertEquals("test", c.getDn());
 	}
 	
 	@Test
 	public void testAddMail() {
 		Certificat c = new Certificat();
-		c.setAdditionnalMails(new ArrayList());
-		assertEquals(new ArrayList(), c.getAdditionnalMails());
+		c.setAdditionnalMails(new ArrayList<>());
+		assertEquals(new ArrayList<>(), c.getAdditionnalMails());
 	}
 	
 	@Test

@@ -11,7 +11,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'application'
 apply plugin: 'org.sonarqube'
-apply plugin: "jacoco"
+apply plugin: 'jacoco'
 
 bootJar {
 	baseName = 'app'
@@ -34,7 +34,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.postgresql:postgresql'
-	compile group: 'org.keycloak', name: 'keycloak-spring-boot-starter', version: keycloak_version
+  	compile group: 'org.keycloak', name: 'keycloak-spring-boot-starter', version: keycloak_version
     compile group: 'org.keycloak', name: 'keycloak-spring-security-adapter', version: keycloak_version
 	compile 'commons-fileupload:commons-fileupload:1.3.1'
 	compile('org.springframework.boot:spring-boot-starter-mail')

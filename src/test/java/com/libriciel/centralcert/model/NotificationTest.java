@@ -42,10 +42,10 @@ public class NotificationTest {
 	@Test
 	public void testDNNullExpired() {
 		Certificat c = new Certificat();
-		c.setNotBefore(new Date());
+		c.setNotbefore(new Date());
 		c.setNotAfter(new Date());
-		c.setDN("");
-		LocalDate nb = c.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		c.setDn("");
+		LocalDate nb = c.getNotbefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate na = c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		
 		Notification n = new Notification(c, "EXPIRED");
@@ -57,10 +57,10 @@ public class NotificationTest {
 	@Test
 	public void testDNNotNullExpired() {
 		Certificat c = new Certificat();
-		c.setNotBefore(new Date());
+		c.setNotbefore(new Date());
 		c.setNotAfter(new Date());
-		c.setDN("CN=TEST");
-		LocalDate nb = c.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		c.setDn("CN=TEST");
+		LocalDate nb = c.getNotbefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate na = c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		
 		Notification n = new Notification(c, "EXPIRED");
@@ -72,10 +72,10 @@ public class NotificationTest {
 	@Test
 	public void testDNNullRED() {
 		Certificat c = new Certificat();
-		c.setNotBefore(new Date());
+		c.setNotbefore(new Date());
 		c.setNotAfter(new Date());
-		c.setDN("");
-		LocalDate nb = c.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		c.setDn("");
+		LocalDate nb = c.getNotbefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate na = c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		
 		Notification n = new Notification(c, "RED");
@@ -87,10 +87,10 @@ public class NotificationTest {
 	@Test
 	public void testDNNotNullRED() {
 		Certificat c = new Certificat();
-		c.setNotBefore(new Date());
+		c.setNotbefore(new Date());
 		c.setNotAfter(new Date());
-		c.setDN("CN=TEST");
-		LocalDate nb = c.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		c.setDn("CN=TEST");
+		LocalDate nb = c.getNotbefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate na = c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		
 		Notification n = new Notification(c, "RED");
@@ -102,10 +102,10 @@ public class NotificationTest {
 	@Test
 	public void testDNNullORANGE() {
 		Certificat c = new Certificat();
-		c.setNotBefore(new Date());
+		c.setNotbefore(new Date());
 		c.setNotAfter(new Date());
-		c.setDN("");
-		LocalDate nb = c.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		c.setDn("");
+		LocalDate nb = c.getNotbefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate na = c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		
 		Notification n = new Notification(c, "ORANGE");
@@ -117,10 +117,10 @@ public class NotificationTest {
 	@Test
 	public void testDNNotNullORANGE() {
 		Certificat c = new Certificat();
-		c.setNotBefore(new Date());
+		c.setNotbefore(new Date());
 		c.setNotAfter(new Date());
-		c.setDN("CN=TEST");
-		LocalDate nb = c.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		c.setDn("CN=TEST");
+		LocalDate nb = c.getNotbefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate na = c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		
 		Notification n = new Notification(c, "ORANGE");
@@ -132,9 +132,9 @@ public class NotificationTest {
 	@Test
 	public void testDNNullNULL() {
 		Certificat c = new Certificat();
-		c.setNotBefore(new Date());
+		c.setNotbefore(new Date());
 		c.setNotAfter(new Date());
-		c.setDN("");
+		c.setDn("");
 		Notification n = new Notification(c, "GREEN");
 		assertNull(n.getObjet());
 		
@@ -144,9 +144,9 @@ public class NotificationTest {
 	@Test
 	public void testDNNotNullONULL() {
 		Certificat c = new Certificat();
-		c.setNotBefore(new Date());
+		c.setNotbefore(new Date());
 		c.setNotAfter(new Date());
-		c.setDN("CN=TEST");
+		c.setDn("CN=TEST");
 		Notification n = new Notification(c, "GREEN");
 		assertNull(n.getObjet());
 		

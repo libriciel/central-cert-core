@@ -27,32 +27,22 @@ public class Mail {
 
 	@NotNull
 	@Size(max=100)
-	private String adresse;
+	private String adresse = "";
 
 	@NotNull
-	private boolean notifiable;
+	private boolean notifiable = false;
 
 	public Mail() {
-		this.adresse = "";
-		this.notifiable = true;
+	
 	}
 	
 	public Mail(String adresse) {
 		this.adresse = adresse;
-		this.notifiable = true;
 	}
 	
 	public Mail(String adresse, boolean notifiable) {
 		this.adresse = adresse;
 		this.notifiable = notifiable;
-	}
-	
-	public String getAdresse() {
-		return adresse;
-	}
-	
-	public boolean isNotifiable() {
-		return notifiable;
 	}
 	
 	public void setAdresse(String adresse) {
@@ -61,5 +51,13 @@ public class Mail {
 	
 	public void setNotifiable(boolean notifiable) {
 		this.notifiable = notifiable;
+	}
+	
+	public String getAdresse() {
+		return this.adresse;
+	}
+	
+	public boolean isNotifiable() {
+		return this.notifiable;
 	}
 }

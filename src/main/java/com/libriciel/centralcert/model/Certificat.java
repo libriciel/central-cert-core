@@ -71,9 +71,6 @@ public class Certificat {
 	public Certificat() {
 		this.notBefore = null;
 		this.notAfter = null;
-		this.favoris = false;
-		this.dn = null;
-		this.notifyAll = false;
 		this.notified = GREEN;
 		this.additionnalMails = new ArrayList<>();
 	}
@@ -97,76 +94,76 @@ public class Certificat {
 		this.notified = GREEN;
 		this.additionnalMails = new ArrayList<>();
 	}
-
-	public Date getNotBefore() {
-		return this.notBefore;
-	}
-
-	public Date getNotAfter() {
-		return this.notAfter;
-	}
-
-	public int getId() {
-		return this.certificatId;
-	}
-
-	public String getDN() {
-		return this.dn;
-	}
-
-	public List<Mail> getAdditionnalMails(){
-		return this.additionnalMails;
-	}
-
-	public boolean isFavoris() {
-		return this.favoris;
-	}
-
-	public boolean isNotifyAll() {
-		return this.notifyAll;
-	}
-
-	public String getNotified() {
-		return this.notified;
-	}
-
-	public void setId(int id) {
-		this.certificatId = id;
-	}
-
-	public void setNotBefore(Date d) {
-		this.notBefore = d;
-	}
-
-	public void setNotAfter(Date d) {
-		this.notAfter = d;
-	}
-
-	public void setDN(String dn) {
-		this.dn = dn;
-	}
-
-	public void setAdditionnalMails(List<Mail> lm) {
-		this.additionnalMails = lm;
+	
+	public void setId(int certificatId) {
+		this.certificatId = certificatId;
 	}
 	
-	public void setFavoris(boolean favorite) {
-		this.favoris = favorite;
+	public void setNotbefore(Date notbefore) {
+		this.notBefore = notbefore;
+	}
+	
+	public void setNotAfter(Date notAfter) {
+		this.notAfter = notAfter;
+	}
+	
+	public void setFavoris(boolean favoris) {
+		this.favoris = favoris;
 	}
 	
 	public void setNotifyAll(boolean notifyAll) {
 		this.notifyAll = notifyAll;
 	}
 	
+	public void setDn(String dn) {
+		this.dn = dn;
+	}
+	
 	public void setNotified(String notified) {
 		this.notified = notified;
 	}
-
+	
+	public void setAdditionnalMails(List<Mail> additionnalMails) {
+		this.additionnalMails = additionnalMails;
+	}
+	
+	public int getId() {
+		return this.certificatId;
+	}
+	
+	public Date getNotbefore() {
+		return this.notBefore;
+	}
+	
+	public Date getNotAfter() {
+		return this.notAfter;
+	}
+	
+	public boolean isFavoris() {
+		return this.favoris;
+	}
+	
+	public boolean isNotifyAll() {
+		return this.notifyAll;
+	}
+	
+	public String getDn() {
+		return this.dn;
+	}
+	
+	public String getNotified() {
+		return this.notified;
+	}
+	
+	public List<Mail> getAdditionnalMails(){
+		return this.additionnalMails;
+	}
+	
 	public void addMail(Mail m) {
 		this.additionnalMails.add(m);
 	}
-
-	public void addMails(List<Mail> lm) {
-		this.additionnalMails.addAll(lm);
+	
+	public void addMails(List<Mail> m) {
+		this.additionnalMails.addAll(m);
 	}
 }

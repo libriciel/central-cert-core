@@ -36,11 +36,10 @@ public class Notification {
 	public Notification(Certificat c, String code) {
 		if(c != null) {
 			//conversion date to localDate
-			LocalDate nb = c.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			LocalDate nb = c.getNotbefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			LocalDate na = c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			
 			//getting DN informations
-			String[] dn = c.getDN().split(",");
+			String[] dn = c.getDn().split(",");
 
 			String cn = "";
 
@@ -93,20 +92,20 @@ public class Notification {
 			this.message = null;
 		}
 	}
-
-	public String getObjet() {
-		return objet;
-	}
-
-	public String getMessage() {
-		return message;
-	}
 	
 	public void setObjet(String objet) {
 		this.objet = objet;
 	}
-
+	
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	
+	public String getObjet() {
+		return this.objet;
+	}
+	
+	public String getMessage() {
+		return this.message;
 	}
 }
