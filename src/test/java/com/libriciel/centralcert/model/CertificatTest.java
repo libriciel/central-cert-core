@@ -19,8 +19,6 @@
 package com.libriciel.centralcert.model;
 
 import com.libriciel.centralcert.service.CertificatService;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.security.cert.X509Certificate;
@@ -31,17 +29,6 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class CertificatTest {
-
-    @Before
-    public void before() {
-        System.out.println("New Test :---------->");
-    }
-
-    @After
-    public void after() {
-        System.out.println("OK");
-        System.out.println("End of test <---:");
-    }
 
     @Test
     public void testConstructeurVide() {

@@ -23,8 +23,7 @@ import org.junit.Test;
 
 public class MailTest {
 
-    @Test
-    public void testConstructorAndAccessors() {
+    @Test public void testConstructorAndAccessors() {
 
         // Empty constructor
 

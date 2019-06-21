@@ -18,26 +18,13 @@
 
 package com.libriciel.centralcert.service;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class AttesteCertificatsTest {
-
-    @Before
-    public void before() {
-        System.out.println("New Test :---------->");
-    }
-
-    @After
-    public void after() {
-        System.out.println("OK");
-        System.out.println("End of test <---:");
-    }
 
     @Test
     public void testIsValidURL() {

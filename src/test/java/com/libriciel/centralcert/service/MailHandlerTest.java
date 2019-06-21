@@ -19,13 +19,12 @@
 package com.libriciel.centralcert.service;
 
 import com.libriciel.centralcert.model.Certificat;
-import com.libriciel.centralcert.repository.CertificatRepository;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
@@ -38,22 +37,6 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MailHandlerTest {
-
-
-    @Autowired private CertificatRepository cr;
-    @Autowired private JavaMailSender mailSender;
-
-
-    @Before
-    public void before() {
-        System.out.println("New Test :---------->");
-    }
-
-    @After
-    public void after() {
-        System.out.println("OK");
-        System.out.println("End of test <---:");
-    }
 
     @Test
     public void testGetRemValidY() {

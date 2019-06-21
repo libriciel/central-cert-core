@@ -159,13 +159,14 @@ public class NotificationTest {
 
     @Test
     public void testSetter() {
+
         Notification n = new Notification(null, "EXPIRED");
         Assert.assertEquals("null", n.getObjet());
         Assert.assertEquals("null", n.getMessage());
 
         n.setObjet("TEST");
         n.setMessage("TEST");
-        
+
         Assert.assertEquals("TEST", n.getObjet());
         Assert.assertEquals("TEST", n.getMessage());
     }
