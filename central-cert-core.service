@@ -1,0 +1,13 @@
+[Unit]
+Description=Central-Cert-core
+After=syslog.target
+
+[Service]
+User=central-cert-core
+ExecStart=/opt/central-cert/central-cert-core.jar
+SuccessExitStatus=143
+#StandardOutput=file:/var/log/central-cert-core.out
+#StandardError=file:/var/log/central-cert-core.out
+
+[Install]
+WantedBy=multi-user.target

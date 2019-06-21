@@ -1,12 +1,20 @@
 image: gradle
 
 stages:
-    - test
-    - package
+  - test
+  - package
 
 variables:
   GRADLE_USER_HOME: $CI_PROJECT_DIR/.gradle
-  PROJECT_NAME: "centralcert"
+  PROJECT_NAME: "central-cert-core"
+
+cache:
+  key: "$CI_COMMIT_REF_NAME"
+  paths:
+    - .gradle/caches
+
+
+# <editor-fold desc="Test">
 
 
 junit:
@@ -15,6 +23,7 @@ junit:
   script:
     - gradle test
 
+
 sonarqube:
   stage: test
   only:
@@ -22,12 +31,31 @@ sonarqube:
   script:
     - gradle sonar -Dsonar.host.url=https://sonarqube.libriciel.fr "-Dsonar.login=$SONAR_TOKEN"
 
+
+# </editor-fold desc="Test">
+
+
+# <editor-fold desc="Package">
+
+
 jar:
   stage: package
   script:
-    - sed -i "s/{VERSION}/$CI_COMMIT_REF_NAME/g" build.gradle
+    - sed -i "s/{'develop'}/$CI_COMMIT_REF_NAME/g" build.gradle
     - gradle bootJar
+  after_script:
+    - mkdir $PROJECT_NAME
+    - mv $PROJECT_NAME.service $PROJECT_NAME/
+    - mv $PROJECT_NAME.conf $PROJECT_NAME/
+    - mv build/libs/$PROJECT_NAME-*.jar $PROJECT_NAME/
+    - cd $PROJECT_NAME
+    - ln -s $PROJECT_NAME-*.jar $PROJECT_NAME.jar
+    - cd ..
   artifacts:
     name: "$PROJECT_NAME-$CI_COMMIT_REF_NAME"
     paths:
       - $PROJECT_NAME/*
+
+
+# </editor-fold desc="Package">
+
