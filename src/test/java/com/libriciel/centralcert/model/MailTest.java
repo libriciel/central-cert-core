@@ -18,67 +18,37 @@
 
 package com.libriciel.centralcert.model;
 
-import static org.junit.Assert.*;
-
+import org.junit.Assert;
 import org.junit.Test;
-
-import com.libriciel.centralcert.model.Mail;
 
 public class MailTest {
 
-	@Test
-	public void testConstructeurVide() {
-		Mail m = new Mail();
-		assertTrue(m.isNotifiable());
-		assertEquals("", m.getAdresse());
-	}
 
-	public void testConstructeurAdresse() {
-		Mail m = new Mail("test@test.test");
-		assertEquals("test@test.test", m.getAdresse());
-		assertTrue(m.isNotifiable());
+    @Test public void testNoArgsContructor() {
+        Mail mail = new Mail();
 
-	}
-	
-	public void testConstructeurAdresseNotifiable() {
-		Mail m = new Mail("test@test.test", false);
-		assertEquals("test@test.test", m.getAdresse());
-		assertFalse(m.isNotifiable());
-	}
-	
-	@Test
-	public void testGettersNot() {
-		Mail m = new Mail("test@test.test", false);
-		assertEquals("test@test.test", m.getAdresse());
-		assertFalse(m.isNotifiable());
-	}
-	
-	@Test
-	public void testSettersNot() {
-		Mail m = new Mail("test@test.test", false);
-		assertEquals("test@test.test", m.getAdresse());
-		assertFalse(m.isNotifiable());
-		m.setAdresse("test2@test.test");
-		m.setNotifiable(true);
-		assertEquals("test2@test.test", m.getAdresse());
-		assertTrue(m.isNotifiable());
-	}
+        Assert.assertEquals("", mail.getAdresse());
+        Assert.assertFalse(mail.isNotifiable());
+    }
 
-	@Test
-	public void testGetters() {
-		Mail m = new Mail("test@test.test");
-		assertEquals("test@test.test", m.getAdresse());
-		assertTrue(m.isNotifiable());
-	}
-	
-	@Test
-	public void testSetters() {
-		Mail m = new Mail("test@test.test");
-		assertEquals("test@test.test", m.getAdresse());
-		assertTrue(m.isNotifiable());
-		m.setAdresse("test2@test.test");
-		m.setNotifiable(false);
-		assertEquals("test2@test.test", m.getAdresse());
-		assertFalse(m.isNotifiable());
-	}
+
+    @Test public void testAllArgsConstructor() {
+        Mail mail = new Mail("test@test.test", true);
+
+        Assert.assertEquals("test@test.test", mail.getAdresse());
+        Assert.assertTrue(mail.isNotifiable());
+    }
+
+
+    @Test public void testAccessors() {
+        Mail mail = new Mail();
+
+        mail.setAdresse("test@test.test");
+        mail.setNotifiable(true);
+
+        Assert.assertEquals("test@test.test", mail.getAdresse());
+        Assert.assertTrue(mail.isNotifiable());
+    }
+
+
 }

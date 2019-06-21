@@ -2,8 +2,21 @@
 
 ## Importing project
 
-##### Setup in Eclipse :
+##### Setup in IntelliJ
+- File → Open...
+- Open the `build.gradle` file
+- Enable Auto-import
+- Go to Preferences → Build, Execution, Deployment → Compiler → Annotation Processors
+- Enable annotation processing : `✓`
+- Preferences → Plugins : Download and install the Lombok plugin
+
+
+##### Setup in Eclipse
 - File → import → Existing Gradle Project
+
+##### Build the Project
+- Go to the root of the Project
+- Execute "gradle bootJar"
 
 ## Code style and project structure
 TODO
@@ -14,4 +27,4 @@ TODO
 
 
 ## Integration tests & performance test
- TODO
+TODO

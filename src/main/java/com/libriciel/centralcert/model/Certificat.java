@@ -18,6 +18,9 @@
 
 package com.libriciel.centralcert.model;
 
+import lombok.Data;
+
+import javax.persistence.*;
 import java.security.cert.X509Certificate;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -25,145 +28,65 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 @Entity
 @Table(name = "certificats")
+@Data
 public class Certificat {
-	
-	private static final String GREEN = "GREEN";
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int certificatId;
+    private static final String GREEN = "GREEN";
 
-	@Column(name = "notBefore")
-	private Date notBefore;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int certificatId;
 
-	@Column(name = "notAfter")
-	private Date notAfter;
+    @Column(name = "notBefore")
+    private Date notBefore;
 
-	@Column(name = "favoris")
-	private boolean favoris;
+    @Column(name = "notAfter")
+    private Date notAfter;
 
-	@Column(name = "notifyAll")
-	private boolean notifyAll;
+    @Column(name = "favoris")
+    private boolean favoris;
 
-	@Column(name = "dn")
-	private String dn;
+    @Column(name = "notifyAll")
+    private boolean notifyAll;
 
-	@Column(name = "notified")
-	private String notified;
+    @Column(name = "dn")
+    private String dn;
 
-	@Embedded
-	@ElementCollection(fetch = FetchType.EAGER)
-	@Column(name = "additionnalMails")
-	private List<Mail> additionnalMails;
+    @Column(name = "notified")
+    private String notified;
 
-	public Certificat() {
-		this.notBefore = null;
-		this.notAfter = null;
-		this.notified = GREEN;
-		this.additionnalMails = new ArrayList<>();
-	}
+    @Embedded
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Column(name = "additionnalMails")
+    private List<Mail> additionnalMails;
 
-	public Certificat(X509Certificate cert) {
-		this.notBefore = cert.getNotBefore();
-		this.notAfter = cert.getNotAfter();
-		this.favoris = false;
-		this.dn = cert.getSubjectX500Principal().getName();
-		this.notifyAll = false;
-		this.notified = GREEN;
-		this.additionnalMails = new ArrayList<>();
-	}
+    public Certificat() {
+        this.notBefore = null;
+        this.notAfter = null;
+        this.notified = GREEN;
+        this.additionnalMails = new ArrayList<>();
+    }
 
-	public Certificat (LocalDate nb, LocalDate na) {
-		this.notBefore = Date.from(nb.atStartOfDay(ZoneId.systemDefault()).toInstant());
-		this.notAfter = Date.from(na.atStartOfDay(ZoneId.systemDefault()).toInstant());
-		this.favoris = false;
-		this.dn = null;
-		this.notifyAll = false;
-		this.notified = GREEN;
-		this.additionnalMails = new ArrayList<>();
-	}
-	
-	public void setId(int certificatId) {
-		this.certificatId = certificatId;
-	}
-	
-	public void setNotbefore(Date notbefore) {
-		this.notBefore = notbefore;
-	}
-	
-	public void setNotAfter(Date notAfter) {
-		this.notAfter = notAfter;
-	}
-	
-	public void setFavoris(boolean favoris) {
-		this.favoris = favoris;
-	}
-	
-	public void setNotifyAll(boolean notifyAll) {
-		this.notifyAll = notifyAll;
-	}
-	
-	public void setDn(String dn) {
-		this.dn = dn;
-	}
-	
-	public void setNotified(String notified) {
-		this.notified = notified;
-	}
-	
-	public void setAdditionnalMails(List<Mail> additionnalMails) {
-		this.additionnalMails = additionnalMails;
-	}
-	
-	public int getId() {
-		return this.certificatId;
-	}
-	
-	public Date getNotbefore() {
-		return this.notBefore;
-	}
-	
-	public Date getNotAfter() {
-		return this.notAfter;
-	}
-	
-	public boolean isFavoris() {
-		return this.favoris;
-	}
-	
-	public boolean isNotifyAll() {
-		return this.notifyAll;
-	}
-	
-	public String getDn() {
-		return this.dn;
-	}
-	
-	public String getNotified() {
-		return this.notified;
-	}
-	
-	public List<Mail> getAdditionnalMails(){
-		return this.additionnalMails;
-	}
-	
-	public void addMail(Mail m) {
-		this.additionnalMails.add(m);
-	}
-	
-	public void addMails(List<Mail> m) {
-		this.additionnalMails.addAll(m);
-	}
+    public Certificat(X509Certificate cert) {
+        this.notBefore = cert.getNotBefore();
+        this.notAfter = cert.getNotAfter();
+        this.favoris = false;
+        this.dn = cert.getSubjectX500Principal().getName();
+        this.notifyAll = false;
+        this.notified = GREEN;
+        this.additionnalMails = new ArrayList<>();
+    }
+
+    public Certificat(LocalDate nb, LocalDate na) {
+        this.notBefore = Date.from(nb.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        this.notAfter = Date.from(na.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        this.favoris = false;
+        this.dn = null;
+        this.notifyAll = false;
+        this.notified = GREEN;
+        this.additionnalMails = new ArrayList<>();
+    }
+
 }
