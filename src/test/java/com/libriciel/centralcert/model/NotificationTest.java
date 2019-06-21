@@ -39,7 +39,7 @@ public class NotificationTest {
     @Test
     public void testDNNullExpired() {
         Certificat c = new Certificat();
-        c.setNotbefore(new Date());
+        c.setNotBefore(new Date());
         c.setNotAfter(new Date());
         c.setDn("");
         LocalDate nb = c.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -54,7 +54,7 @@ public class NotificationTest {
     @Test
     public void testDNNotNullExpired() {
         Certificat c = new Certificat();
-        c.setNotbefore(new Date());
+        c.setNotBefore(new Date());
         c.setNotAfter(new Date());
         c.setDn("CN=TEST");
         LocalDate nb = c.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -69,7 +69,7 @@ public class NotificationTest {
     @Test
     public void testDNNullRED() {
         Certificat c = new Certificat();
-        c.setNotbefore(new Date());
+        c.setNotBefore(new Date());
         c.setNotAfter(new Date());
         c.setDn("");
         LocalDate nb = c.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -84,7 +84,7 @@ public class NotificationTest {
     @Test
     public void testDNNotNullRED() {
         Certificat c = new Certificat();
-        c.setNotbefore(new Date());
+        c.setNotBefore(new Date());
         c.setNotAfter(new Date());
         c.setDn("CN=TEST");
         LocalDate nb = c.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -99,7 +99,7 @@ public class NotificationTest {
     @Test
     public void testDNNullORANGE() {
         Certificat c = new Certificat();
-        c.setNotbefore(new Date());
+        c.setNotBefore(new Date());
         c.setNotAfter(new Date());
         c.setDn("");
         LocalDate nb = c.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -114,7 +114,7 @@ public class NotificationTest {
     @Test
     public void testDNNotNullORANGE() {
         Certificat c = new Certificat();
-        c.setNotbefore(new Date());
+        c.setNotBefore(new Date());
         c.setNotAfter(new Date());
         c.setDn("CN=TEST");
         LocalDate nb = c.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -129,7 +129,7 @@ public class NotificationTest {
     @Test
     public void testDNNullNULL() {
         Certificat c = new Certificat();
-        c.setNotbefore(new Date());
+        c.setNotBefore(new Date());
         c.setNotAfter(new Date());
         c.setDn("");
         Notification n = new Notification(c, "GREEN");
@@ -141,7 +141,7 @@ public class NotificationTest {
     @Test
     public void testDNNotNullONULL() {
         Certificat c = new Certificat();
-        c.setNotbefore(new Date());
+        c.setNotBefore(new Date());
         c.setNotAfter(new Date());
         c.setDn("CN=TEST");
         Notification n = new Notification(c, "GREEN");

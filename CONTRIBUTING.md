@@ -11,8 +11,6 @@
 - Preferences → Plugins : Download and install the Lombok plugin
 
 
-
-
 ##### Setup in Eclipse
 - File → import → Existing Gradle Project
 

@@ -183,11 +183,11 @@ public class CertificatController {
      */
     @PutMapping("/api/certificat/update")
     public void update(@RequestBody Certificat certificat) {
-        Optional<Certificat> cert = repository.findById(certificat.getId());
+        Optional<Certificat> cert = repository.findById(certificat.getCertificatId());
         Certificat c;
         if (cert.isPresent()) {
             c = cert.get();
-            c.setNotbefore(certificat.getNotBefore());
+            c.setNotBefore(certificat.getNotBefore());
             c.setNotAfter(certificat.getNotAfter());
             c.setDn(certificat.getDn());
             c.setNotifyAll(certificat.isNotifyAll());
@@ -205,11 +205,11 @@ public class CertificatController {
     @PutMapping("/api/certificat/updateAll")
     public void updateAll(@RequestBody List<Certificat> certificats) {
         for (int i = 0; i < certificats.size(); i++) {
-            Optional<Certificat> cert = repository.findById(certificats.get(i).getId());
+            Optional<Certificat> cert = repository.findById(certificats.get(i).getCertificatId());
             Certificat c;
             if (cert.isPresent()) {
                 c = cert.get();
-                c.setNotbefore(certificats.get(i).getNotBefore());
+                c.setNotBefore(certificats.get(i).getNotBefore());
                 c.setNotAfter(certificats.get(i).getNotAfter());
                 c.setDn(certificats.get(i).getDn());
                 c.setNotifyAll(certificats.get(i).isNotifyAll());

@@ -23,6 +23,7 @@ import com.libriciel.centralcert.model.Certificat;
 import com.libriciel.centralcert.model.Mail;
 import com.libriciel.centralcert.model.Notification;
 import com.libriciel.centralcert.repository.CertificatRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -37,19 +38,8 @@ import java.util.List;
 @Service
 public class MailHandler {
 
-
-    private final CertificatRepository cr;
-    private final JavaMailSender mailSender;
-
-
-    // <editor-fold desc="Beans">
-
-    public MailHandler(CertificatRepository cr, JavaMailSender mailSender) {
-        this.cr = cr;
-        this.mailSender = mailSender;
-    }
-
-    // </editor-fold desc="Beans">
+    @Autowired private CertificatRepository cr;
+    @Autowired private JavaMailSender mailSender;
 
 
     /**
@@ -201,7 +191,7 @@ public class MailHandler {
             if (certs.get(i).isNotifyAll()) {
                 for (int j = 0; j < certs.get(i).getAdditionnalMails().size(); j++) {
                     n = new Notification(certs.get(i), this.getCode(certs.get(i)));
-                    String url = n.getMessage() + "http://192.168.1.189/resetMail?id=" + certs.get(i).getId() + "&addMail=" + certs.get(i).getAdditionnalMails().get(j).getAdresse();
+                    String url = n.getMessage() + "http://192.168.1.189/resetMail?id=" + certs.get(i).getCertificatId() + "&addMail=" + certs.get(i).getAdditionnalMails().get(j).getAdresse();
                     n.setMessage(url);
                     this.sendMail(n, certs.get(i).getAdditionnalMails().get(j));
                 }
@@ -209,7 +199,7 @@ public class MailHandler {
                 for (int j = 0; j < certs.get(i).getAdditionnalMails().size(); j++) {
                     if (certs.get(i).getAdditionnalMails().get(j).isNotifiable()) {
                         n = new Notification(certs.get(i), this.getCode(certs.get(i)));
-                        String url = n.getMessage() + "http://192.168.1.189/resetMail?id=" + certs.get(i).getId() + "&addMail=" + certs.get(i).getAdditionnalMails().get(j).getAdresse();
+                        String url = n.getMessage() + "http://192.168.1.189/resetMail?id=" + certs.get(i).getCertificatId() + "&addMail=" + certs.get(i).getAdditionnalMails().get(j).getAdresse();
                         n.setMessage(url);
                         this.sendMail(n, certs.get(i).getAdditionnalMails().get(j));
                     }

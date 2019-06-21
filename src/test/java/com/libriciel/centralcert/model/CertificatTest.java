@@ -74,14 +74,14 @@ public class CertificatTest {
     @Test
     public void testId() {
         Certificat c = new Certificat();
-        c.setId(200);
-        assertEquals(200, c.getId());
+        c.setCertificatId(200);
+        assertEquals(200, c.getCertificatId());
     }
 
     @Test
     public void testNB() {
         Certificat c = new Certificat();
-        c.setNotbefore(new Date());
+        c.setNotBefore(new Date());
         assertEquals(new Date(), c.getNotBefore());
     }
 
