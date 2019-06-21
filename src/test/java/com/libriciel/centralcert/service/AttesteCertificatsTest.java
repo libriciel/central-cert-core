@@ -51,4 +51,5 @@ public class AttesteCertificatsTest {
     public void testInvalidUrl() {
         Assert.assertEquals(0, CertificatService.getCertificateFromURL("https/github.com/").length);
     }
+
 }

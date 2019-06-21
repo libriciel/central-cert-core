@@ -18,11 +18,18 @@
 
 package com.libriciel.centralcert.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Embeddable
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Mail {
 
     @NotNull
@@ -32,32 +39,4 @@ public class Mail {
     @NotNull
     private boolean notifiable = false;
 
-    public Mail() {
-
-    }
-
-    public Mail(String adresse) {
-        this.adresse = adresse;
-    }
-
-    public Mail(String adresse, boolean notifiable) {
-        this.adresse = adresse;
-        this.notifiable = notifiable;
-    }
-
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
-    }
-
-    public void setNotifiable(boolean notifiable) {
-        this.notifiable = notifiable;
-    }
-
-    public String getAdresse() {
-        return this.adresse;
-    }
-
-    public boolean isNotifiable() {
-        return this.notifiable;
-    }
 }

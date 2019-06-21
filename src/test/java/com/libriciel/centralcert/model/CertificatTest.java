@@ -125,7 +125,7 @@ public class CertificatTest {
         Certificat c = new Certificat();
         Mail m = new Mail();
         assertTrue(c.getAdditionnalMails().isEmpty());
-        c.addMail(m);
+        c.getAdditionnalMails().add(m);
         assertFalse(c.getAdditionnalMails().isEmpty());
     }
 
@@ -138,7 +138,7 @@ public class CertificatTest {
         lm.add(m1);
         lm.add(m2);
         assertTrue(c.getAdditionnalMails().isEmpty());
-        c.addMails(lm);
+        c.getAdditionnalMails().addAll(lm);
         assertEquals(2, c.getAdditionnalMails().size());
     }
 
@@ -149,4 +149,5 @@ public class CertificatTest {
         c.setNotifyAll(true);
         assertTrue(c.isNotifyAll());
     }
+
 }

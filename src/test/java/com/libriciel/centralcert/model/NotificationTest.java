@@ -165,6 +165,7 @@ public class NotificationTest {
 
         n.setObjet("TEST");
         n.setMessage("TEST");
+        
         Assert.assertEquals("TEST", n.getObjet());
         Assert.assertEquals("TEST", n.getMessage());
     }

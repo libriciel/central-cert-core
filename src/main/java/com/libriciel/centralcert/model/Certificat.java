@@ -89,11 +89,4 @@ public class Certificat {
         this.additionnalMails = new ArrayList<>();
     }
 
-    public void addMail(Mail m) {
-        this.additionnalMails.add(m);
-    }
-
-    public void addMails(List<Mail> m) {
-        this.additionnalMails.addAll(m);
-    }
 }

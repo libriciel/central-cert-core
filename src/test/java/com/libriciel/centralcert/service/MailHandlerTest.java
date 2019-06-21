@@ -206,4 +206,5 @@ public class MailHandlerTest {
         Certificat c1 = new Certificat(LocalDate.of(2019, 3, 9), LocalDate.now().plusMonths(10));
         Assert.assertEquals("GREEN", mh.getCode(c1));
     }
+
 }
