@@ -20,6 +20,7 @@ package com.libriciel.centralcert.service;
 
 import com.libriciel.centralcert.service.CertificatService;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -49,6 +50,6 @@ public class AttesteCertificatsTest {
 
     @Test
     public void testInvalidUrl() {
-        assertEquals(0, CertificatService.getCertificateFromURL("https/github.com/").length);
+        Assert.assertEquals(0, CertificatService.getCertificateFromURL("https/github.com/").length);
     }
 }

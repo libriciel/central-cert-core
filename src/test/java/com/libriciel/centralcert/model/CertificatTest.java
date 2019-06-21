@@ -18,8 +18,6 @@
 
 package com.libriciel.centralcert.model;
 
-import com.libriciel.centralcert.model.Certificat;
-import com.libriciel.centralcert.model.Mail;
 import com.libriciel.centralcert.service.CertificatService;
 import org.junit.After;
 import org.junit.Before;

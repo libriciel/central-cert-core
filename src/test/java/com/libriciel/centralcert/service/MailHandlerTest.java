@@ -19,8 +19,8 @@
 package com.libriciel.centralcert.service;
 
 import com.libriciel.centralcert.model.Certificat;
-import com.libriciel.centralcert.service.MailHandler;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -48,9 +48,9 @@ public class MailHandlerTest {
         System.out.println("Test 1 :");
         MailHandler mh = new MailHandler();
         Certificat c1 = new Certificat(LocalDate.of(2019, 4, 1), LocalDate.now().plusYears(3));
-        assertEquals(2, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[0]);
-        assertEquals(11, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[1]);
-        assertEquals(30, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[2]);
+        Assert.assertEquals(2, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[0]);
+        Assert.assertEquals(11, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[1]);
+        Assert.assertEquals(30, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[2]);
     }
 
     @Test
@@ -58,9 +58,9 @@ public class MailHandlerTest {
         System.out.println("Test 2 :");
         MailHandler mh = new MailHandler();
         Certificat c1 = new Certificat(LocalDate.of(2019, 4, 1), LocalDate.now().plusMonths(4));
-        assertEquals(0, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[0]);
-        assertEquals(3, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[1]);
-        assertEquals(31, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[2]);
+        Assert.assertEquals(0, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[0]);
+        Assert.assertEquals(3, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[1]);
+        Assert.assertEquals(31, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[2]);
     }
 
     @Test
@@ -68,9 +68,9 @@ public class MailHandlerTest {
         System.out.println("Test 3 :");
         MailHandler mh = new MailHandler();
         Certificat c1 = new Certificat(LocalDate.of(2019, 4, 1), LocalDate.now().plusDays(8));
-        assertEquals(0, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[0]);
-        assertEquals(0, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[1]);
-        assertEquals(8, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[2]);
+        Assert.assertEquals(0, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[0]);
+        Assert.assertEquals(0, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[1]);
+        Assert.assertEquals(8, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[2]);
     }
 
     @Test
@@ -78,9 +78,9 @@ public class MailHandlerTest {
         System.out.println("Test 4 :");
         MailHandler mh = new MailHandler();
         Certificat c1 = new Certificat(LocalDate.of(2019, 4, 1), LocalDate.now().plusYears(1).plusMonths(11).minusDays(1));
-        assertEquals(1, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[0]);
-        assertEquals(10, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[1]);
-        assertEquals(30, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[2]);
+        Assert.assertEquals(1, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[0]);
+        Assert.assertEquals(10, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[1]);
+        Assert.assertEquals(30, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())[2]);
     }
 
     @Test
@@ -88,7 +88,7 @@ public class MailHandlerTest {
         System.out.println("Test 5 :");
         MailHandler mh = new MailHandler();
         Certificat c1 = new Certificat(LocalDate.of(2019, 5, 9), LocalDate.now());
-        assertEquals(0, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()).length);
+        Assert.assertEquals(0, mh.getRem(c1.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()).length);
     }
 
     @Test
@@ -168,7 +168,7 @@ public class MailHandlerTest {
         System.out.println("Test 15 :");
         MailHandler mh = new MailHandler();
         Certificat c1 = new Certificat(LocalDate.of(2019, 3, 9), LocalDate.now().minusMonths(1));
-        assertEquals("EXPIRED", mh.getCode(c1));
+        Assert.assertEquals("EXPIRED", mh.getCode(c1));
     }
 
     @Test
@@ -176,7 +176,7 @@ public class MailHandlerTest {
         System.out.println("Test 16 :");
         MailHandler mh = new MailHandler();
         Certificat c1 = new Certificat(LocalDate.of(2019, 3, 9), LocalDate.now().plusDays(10));
-        assertEquals("RED", mh.getCode(c1));
+        Assert.assertEquals("RED", mh.getCode(c1));
     }
 
     @Test
@@ -184,7 +184,7 @@ public class MailHandlerTest {
         System.out.println("Test 17 :");
         MailHandler mh = new MailHandler();
         Certificat c1 = new Certificat(LocalDate.of(2019, 3, 9), LocalDate.now().plusMonths(2));
-        assertEquals("ORANGE", mh.getCode(c1));
+        Assert.assertEquals("ORANGE", mh.getCode(c1));
     }
 
     @Test
@@ -192,6 +192,6 @@ public class MailHandlerTest {
         System.out.println("Test 18 :");
         MailHandler mh = new MailHandler();
         Certificat c1 = new Certificat(LocalDate.of(2019, 3, 9), LocalDate.now().plusMonths(10));
-        assertEquals("GREEN", mh.getCode(c1));
+        Assert.assertEquals("GREEN", mh.getCode(c1));
     }
 }

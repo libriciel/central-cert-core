@@ -18,8 +18,7 @@
 
 package com.libriciel.centralcert.model;
 
-import com.libriciel.centralcert.model.Certificat;
-import com.libriciel.centralcert.model.Notification;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.time.LocalDate;
@@ -48,9 +47,9 @@ public class NotificationTest {
         LocalDate na = c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         Notification n = new Notification(c, "EXPIRED");
-        assertEquals("Un de vos certificats à expiré", n.getObjet());
+        Assert.assertEquals("Un de vos certificats à expiré", n.getObjet());
 
-        assertEquals("cn : \nNot before :" + nb.toString() + " \nNot after :" + na.toString() + " \n \n \nSi vous ne souhaitez pas recevoir de mails pour ce certificat, rendez-vous sur ce lien : \n", n.getMessage());
+        Assert.assertEquals("cn : \nNot before :" + nb.toString() + " \nNot after :" + na.toString() + " \n \n \nSi vous ne souhaitez pas recevoir de mails pour ce certificat, rendez-vous sur ce lien : \n", n.getMessage());
     }
 
     @Test
@@ -63,9 +62,9 @@ public class NotificationTest {
         LocalDate na = c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         Notification n = new Notification(c, "EXPIRED");
-        assertEquals("Votre certificat \"TEST\" a expiré", n.getObjet());
+        Assert.assertEquals("Votre certificat \"TEST\" a expiré", n.getObjet());
 
-        assertEquals("cn :TEST \nNot before :" + nb.toString() + " \nNot after :" + na.toString() + " \nCN=TEST \n \nSi vous ne souhaitez pas recevoir de mails pour ce certificat, rendez-vous sur ce lien : \n", n.getMessage());
+        Assert.assertEquals("cn :TEST \nNot before :" + nb.toString() + " \nNot after :" + na.toString() + " \nCN=TEST \n \nSi vous ne souhaitez pas recevoir de mails pour ce certificat, rendez-vous sur ce lien : \n", n.getMessage());
     }
 
     @Test
@@ -78,9 +77,9 @@ public class NotificationTest {
         LocalDate na = c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         Notification n = new Notification(c, "RED");
-        assertEquals("Un de vos certificats expire bientôt", n.getObjet());
+        Assert.assertEquals("Un de vos certificats expire bientôt", n.getObjet());
 
-        assertEquals("cn : \nNot before :" + nb.toString() + " \nNot after :" + na.toString() + " \n \n \nSi vous ne souhaitez pas recevoir de mails pour ce certificat, rendez-vous sur ce lien : \n", n.getMessage());
+        Assert.assertEquals("cn : \nNot before :" + nb.toString() + " \nNot after :" + na.toString() + " \n \n \nSi vous ne souhaitez pas recevoir de mails pour ce certificat, rendez-vous sur ce lien : \n", n.getMessage());
     }
 
     @Test
@@ -93,9 +92,9 @@ public class NotificationTest {
         LocalDate na = c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         Notification n = new Notification(c, "RED");
-        assertEquals("Votre certificat \"TEST\" expire bientôt", n.getObjet());
+        Assert.assertEquals("Votre certificat \"TEST\" expire bientôt", n.getObjet());
 
-        assertEquals("cn :TEST \nNot before :" + nb.toString() + " \nNot after :" + na.toString() + " \nCN=TEST \n \nSi vous ne souhaitez pas recevoir de mails pour ce certificat, rendez-vous sur ce lien : \n", n.getMessage());
+        Assert.assertEquals("cn :TEST \nNot before :" + nb.toString() + " \nNot after :" + na.toString() + " \nCN=TEST \n \nSi vous ne souhaitez pas recevoir de mails pour ce certificat, rendez-vous sur ce lien : \n", n.getMessage());
     }
 
     @Test
@@ -108,9 +107,9 @@ public class NotificationTest {
         LocalDate na = c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         Notification n = new Notification(c, "ORANGE");
-        assertEquals("Un de vos certificats arrive à expiration", n.getObjet());
+        Assert.assertEquals("Un de vos certificats arrive à expiration", n.getObjet());
 
-        assertEquals("cn : \nNot before :" + nb.toString() + " \nNot after :" + na.toString() + " \n \n \nSi vous ne souhaitez pas recevoir de mails pour ce certificat, rendez-vous sur ce lien : \n", n.getMessage());
+        Assert.assertEquals("cn : \nNot before :" + nb.toString() + " \nNot after :" + na.toString() + " \n \n \nSi vous ne souhaitez pas recevoir de mails pour ce certificat, rendez-vous sur ce lien : \n", n.getMessage());
     }
 
     @Test
@@ -123,9 +122,9 @@ public class NotificationTest {
         LocalDate na = c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         Notification n = new Notification(c, "ORANGE");
-        assertEquals("Votre certificat \"TEST\" arrive à expiration", n.getObjet());
+        Assert.assertEquals("Votre certificat \"TEST\" arrive à expiration", n.getObjet());
 
-        assertEquals("cn :TEST \nNot before :" + nb.toString() + " \nNot after :" + na.toString() + " \nCN=TEST \n \nSi vous ne souhaitez pas recevoir de mails pour ce certificat, rendez-vous sur ce lien : \n", n.getMessage());
+        Assert.assertEquals("cn :TEST \nNot before :" + nb.toString() + " \nNot after :" + na.toString() + " \nCN=TEST \n \nSi vous ne souhaitez pas recevoir de mails pour ce certificat, rendez-vous sur ce lien : \n", n.getMessage());
     }
 
     @Test
@@ -155,20 +154,20 @@ public class NotificationTest {
     @Test
     public void testGetter() {
         Notification n = new Notification(null, "EXPIRED");
-        assertEquals("null", n.getObjet());
-        assertEquals("null", n.getMessage());
+        Assert.assertEquals("null", n.getObjet());
+        Assert.assertEquals("null", n.getMessage());
     }
 
     @Test
     public void testSetter() {
         Notification n = new Notification(null, "EXPIRED");
-        assertEquals("null", n.getObjet());
-        assertEquals("null", n.getMessage());
+        Assert.assertEquals("null", n.getObjet());
+        Assert.assertEquals("null", n.getMessage());
 
         n.setObjet("TEST");
         n.setMessage("TEST");
-        assertEquals("TEST", n.getObjet());
-        assertEquals("TEST", n.getMessage());
+        Assert.assertEquals("TEST", n.getObjet());
+        Assert.assertEquals("TEST", n.getMessage());
     }
 
 }
