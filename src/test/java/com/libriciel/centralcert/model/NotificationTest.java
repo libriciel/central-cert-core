@@ -29,15 +29,27 @@ import static org.junit.Assert.assertNull;
 
 public class NotificationTest {
 
-    @Test
-    public void testVide() {
+
+    @Test public void testNoArgsConstructor() {
         Notification n = new Notification();
+
         assertNull(n.getObjet());
         assertNull(n.getMessage());
     }
 
-    @Test
-    public void testDNNullExpired() {
+
+    @Test public void testAccessors() {
+        Notification notif = new Notification();
+
+        notif.setObjet("Test object");
+        notif.setMessage("Test message");
+
+        Assert.assertEquals("Test object", notif.getObjet());
+        Assert.assertEquals("Test message", notif.getMessage());
+    }
+
+
+    @Test public void testDNNullExpired() {
         Certificat c = new Certificat();
         c.setNotBefore(new Date());
         c.setNotAfter(new Date());
@@ -51,8 +63,8 @@ public class NotificationTest {
         Assert.assertEquals("cn : \nNot before :" + nb.toString() + " \nNot after :" + na.toString() + " \n \n \nSi vous ne souhaitez pas recevoir de mails pour ce certificat, rendez-vous sur ce lien : \n", n.getMessage());
     }
 
-    @Test
-    public void testDNNotNullExpired() {
+
+    @Test public void testDNNotNullExpired() {
         Certificat c = new Certificat();
         c.setNotBefore(new Date());
         c.setNotAfter(new Date());
@@ -66,8 +78,8 @@ public class NotificationTest {
         Assert.assertEquals("cn :TEST \nNot before :" + nb.toString() + " \nNot after :" + na.toString() + " \nCN=TEST \n \nSi vous ne souhaitez pas recevoir de mails pour ce certificat, rendez-vous sur ce lien : \n", n.getMessage());
     }
 
-    @Test
-    public void testDNNullRED() {
+
+    @Test public void testDNNullRED() {
         Certificat c = new Certificat();
         c.setNotBefore(new Date());
         c.setNotAfter(new Date());
@@ -81,8 +93,8 @@ public class NotificationTest {
         Assert.assertEquals("cn : \nNot before :" + nb.toString() + " \nNot after :" + na.toString() + " \n \n \nSi vous ne souhaitez pas recevoir de mails pour ce certificat, rendez-vous sur ce lien : \n", n.getMessage());
     }
 
-    @Test
-    public void testDNNotNullRED() {
+
+    @Test public void testDNNotNullRED() {
         Certificat c = new Certificat();
         c.setNotBefore(new Date());
         c.setNotAfter(new Date());
@@ -96,8 +108,8 @@ public class NotificationTest {
         Assert.assertEquals("cn :TEST \nNot before :" + nb.toString() + " \nNot after :" + na.toString() + " \nCN=TEST \n \nSi vous ne souhaitez pas recevoir de mails pour ce certificat, rendez-vous sur ce lien : \n", n.getMessage());
     }
 
-    @Test
-    public void testDNNullORANGE() {
+
+    @Test public void testDNNullORANGE() {
         Certificat c = new Certificat();
         c.setNotBefore(new Date());
         c.setNotAfter(new Date());
@@ -111,8 +123,8 @@ public class NotificationTest {
         Assert.assertEquals("cn : \nNot before :" + nb.toString() + " \nNot after :" + na.toString() + " \n \n \nSi vous ne souhaitez pas recevoir de mails pour ce certificat, rendez-vous sur ce lien : \n", n.getMessage());
     }
 
-    @Test
-    public void testDNNotNullORANGE() {
+
+    @Test public void testDNNotNullORANGE() {
         Certificat c = new Certificat();
         c.setNotBefore(new Date());
         c.setNotAfter(new Date());
@@ -126,8 +138,8 @@ public class NotificationTest {
         Assert.assertEquals("cn :TEST \nNot before :" + nb.toString() + " \nNot after :" + na.toString() + " \nCN=TEST \n \nSi vous ne souhaitez pas recevoir de mails pour ce certificat, rendez-vous sur ce lien : \n", n.getMessage());
     }
 
-    @Test
-    public void testDNNullNULL() {
+
+    @Test public void testDNNullNULL() {
         Certificat c = new Certificat();
         c.setNotBefore(new Date());
         c.setNotAfter(new Date());
@@ -138,8 +150,8 @@ public class NotificationTest {
         assertNull(n.getMessage());
     }
 
-    @Test
-    public void testDNNotNullONULL() {
+
+    @Test public void testDNNotNullONULL() {
         Certificat c = new Certificat();
         c.setNotBefore(new Date());
         c.setNotAfter(new Date());
@@ -148,27 +160,6 @@ public class NotificationTest {
         assertNull(n.getObjet());
 
         assertNull(n.getMessage());
-    }
-
-    @Test
-    public void testGetter() {
-        Notification n = new Notification(null, "EXPIRED");
-        Assert.assertEquals("null", n.getObjet());
-        Assert.assertEquals("null", n.getMessage());
-    }
-
-    @Test
-    public void testSetter() {
-
-        Notification n = new Notification(null, "EXPIRED");
-        Assert.assertEquals("null", n.getObjet());
-        Assert.assertEquals("null", n.getMessage());
-
-        n.setObjet("TEST");
-        n.setMessage("TEST");
-
-        Assert.assertEquals("TEST", n.getObjet());
-        Assert.assertEquals("TEST", n.getMessage());
     }
 
 }

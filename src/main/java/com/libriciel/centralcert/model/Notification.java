@@ -18,31 +18,36 @@
 
 package com.libriciel.centralcert.model;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 import java.time.ZoneId;
 
+@Data
+@NoArgsConstructor
 public class Notification {
-    private static final String VOTRECERTIFICAT = "Votre certificat \"";
+
 
     private String objet;
 
     private String message;
 
-    public Notification() {
-        this.objet = null;
-        this.message = null;
-    }
 
     public Notification(Certificat c, String code) {
         if (c != null) {
-            //conversion date to localDate
+
+            // Conversion date to localDate
+
             LocalDate nb = c.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             LocalDate na = c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            //getting DN informations
+
+            // Getting DN informations
+            // TODO : Change this with a proper Bouncy parse
+
             String[] dn = c.getDn().split(",");
 
             String cn = "";
-
             for (int i = 0; i < dn.length; i++) {
                 if (dn[i].startsWith("CN=")) {
                     cn = dn[i].substring(3);
@@ -50,13 +55,14 @@ public class Notification {
             }
 
             StringBuilder sb = new StringBuilder();
-            sb.append("cn :" + cn + " \n");
-            sb.append("Not before :" + nb.toString() + " \n");
-            sb.append("Not after :" + na.toString() + " \n");
+            sb.append("cn :").append(cn).append(" \n");
+            sb.append("Not before :").append(nb.toString()).append(" \n");
+            sb.append("Not after :").append(na.toString()).append(" \n");
 
-            for (int i = 0; i < dn.length; i++) {
-                sb.append(dn[i] + " \n");
+            for (String s : dn) {
+                sb.append(s).append(" \n");
             }
+
             sb.append(" \n");
             sb.append("Si vous ne souhaitez pas recevoir de mails pour ce certificat, rendez-vous sur ce lien : \n");
 
@@ -69,43 +75,38 @@ public class Notification {
     }
 
     private void setObjAndMess(String code, String cn) {
-        if (code.equals("EXPIRED")) {
-            if (cn.equals("")) {
-                this.objet = "Un de vos certificats à expiré";
-            } else {
-                this.objet = VOTRECERTIFICAT + cn + "\" a expiré";
-            }
-        } else if (code.equals("RED")) {
-            if (cn.equals("")) {
-                this.objet = "Un de vos certificats expire bientôt";
-            } else {
-                this.objet = VOTRECERTIFICAT + cn + "\" expire bientôt";
-            }
-        } else if (code.equals("ORANGE")) {
-            if (cn.equals("")) {
-                this.objet = "Un de vos certificats arrive à expiration";
-            } else {
-                this.objet = VOTRECERTIFICAT + cn + "\" arrive à expiration";
-            }
-        } else {
-            this.objet = null;
-            this.message = null;
+
+        switch (code) {
+
+            case "EXPIRED":
+                if (cn.equals("")) {
+                    this.objet = "Un de vos certificats à expiré";
+                } else {
+                    this.objet = "Votre certificat \"" + cn + "\" a expiré";
+                }
+                break;
+
+            case "RED":
+                if (cn.equals("")) {
+                    this.objet = "Un de vos certificats expire bientôt";
+                } else {
+                    this.objet = "Votre certificat \"" + cn + "\" expire bientôt";
+                }
+                break;
+
+            case "ORANGE":
+                if (cn.equals("")) {
+                    this.objet = "Un de vos certificats arrive à expiration";
+                } else {
+                    this.objet = "Votre certificat \"" + cn + "\" arrive à expiration";
+                }
+                break;
+
+            default:
+                this.objet = null;
+                this.message = null;
+                break;
         }
     }
 
-    public void setObjet(String objet) {
-        this.objet = objet;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getObjet() {
-        return this.objet;
-    }
-
-    public String getMessage() {
-        return this.message;
-    }
 }

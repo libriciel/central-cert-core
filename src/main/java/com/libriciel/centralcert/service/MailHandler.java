@@ -53,6 +53,7 @@ public class MailHandler {
         mailSender.send(message);
     }
 
+
     /**
      * To know if we have to notify a certificate
      */
@@ -61,6 +62,7 @@ public class MailHandler {
         String code = this.getCode(c);
         return !code.equals(certCode);
     }
+
 
     /**
      * Get the list of certificates to notify
@@ -81,6 +83,7 @@ public class MailHandler {
 
         return res;
     }
+
 
     /**
      * Get the remaining time between a date and now
@@ -115,6 +118,7 @@ public class MailHandler {
         }
     }
 
+
     /**
      * Check if a certificate is expired
      */
@@ -123,6 +127,7 @@ public class MailHandler {
 
         return rem.length == 0;
     }
+
 
     /**
      * Check if the certificate is ORANGE
@@ -141,6 +146,7 @@ public class MailHandler {
         }
     }
 
+
     /**
      * check if the certificate is RED
      */
@@ -154,6 +160,7 @@ public class MailHandler {
         }
     }
 
+
     /**
      * Check if the certificate is GREEN
      */
@@ -161,6 +168,7 @@ public class MailHandler {
         return !isOrange(c) && !isRed(c);
     }
 
+    
     /**
      * Get the certificate code
      */
@@ -177,6 +185,7 @@ public class MailHandler {
             return "";
         }
     }
+
 
     /**
      * Every two hours

@@ -62,6 +62,7 @@ public class CertificatController {
         }
     }
 
+
     /**
      * Save a list of certificates
      */
@@ -77,6 +78,7 @@ public class CertificatController {
         }
     }
 
+
     /**
      * Get one certificate
      */
@@ -90,6 +92,7 @@ public class CertificatController {
         }
     }
 
+
     /**
      * Get all certificates
      */
@@ -99,6 +102,7 @@ public class CertificatController {
         repository.findAll().iterator().forEachRemaining(res::add);
         return res;
     }
+
 
     /**
      * Get certificates from an URL
@@ -119,6 +123,7 @@ public class CertificatController {
         }
         return res;
     }
+
 
     /**
      * Get a certificate from a file
@@ -152,6 +157,7 @@ public class CertificatController {
         return null;
     }
 
+
     /**
      * close a file
      */
@@ -163,6 +169,7 @@ public class CertificatController {
         }
     }
 
+
     /**
      * Delete a certificate
      */
@@ -170,6 +177,7 @@ public class CertificatController {
     public void delete(@RequestParam("id") int id) {
         repository.deleteById(id);
     }
+
 
     /**
      * Delete all certificates
@@ -201,6 +209,7 @@ public class CertificatController {
         }
     }
 
+
     /**
      * Update a list of certificates
      */
@@ -223,6 +232,7 @@ public class CertificatController {
             }
         }
     }
+
 
     /**
      * Block the mails for an adress

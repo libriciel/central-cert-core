@@ -43,6 +43,7 @@ import java.security.cert.X509Certificate;
 @RestController
 public class CertificatService {
 
+
     /**
      * Check the validity of an URL
      */
@@ -55,6 +56,7 @@ public class CertificatService {
             return false;
         }
     }
+
 
     /**
      * Create an URL from a String
@@ -71,6 +73,7 @@ public class CertificatService {
         return coUrl;
     }
 
+
     /**
      * Open an URLConnection from an URL
      */
@@ -86,6 +89,7 @@ public class CertificatService {
         return co;
     }
 
+
     /**
      * Open a connection from an HttpsURLConnection
      */
@@ -96,6 +100,7 @@ public class CertificatService {
             log.error(e.getLocalizedMessage());
         }
     }
+
 
     /**
      * Get a list of certificates from an HttpsURLConnection
@@ -141,6 +146,7 @@ public class CertificatService {
         return (X509Certificate[]) certs;
     }
 
+
     /**
      * Get a certificate from a File
      */
@@ -156,6 +162,7 @@ public class CertificatService {
 
         return (X509Certificate) cert;
     }
+
 
     /**
      * Get a certificate from a PKCS file
@@ -182,6 +189,7 @@ public class CertificatService {
         }
         return cert;
     }
+
 
     /**
      * Get a certificate from all Files types
