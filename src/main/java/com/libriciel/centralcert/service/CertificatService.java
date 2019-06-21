@@ -39,8 +39,6 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Slf4j
 @RestController
@@ -50,7 +48,6 @@ public class CertificatService {
 
 
     // <editor-fold desc="Beans">
-    private static Logger logger = Logger.getLogger("AttesteCertificats");
 
     public CertificatService(CertificatRepository cr) {this.cr = cr;}
 
@@ -79,7 +76,7 @@ public class CertificatService {
         try {
             coUrl = new URL(url);
         } catch (MalformedURLException e1) {
-			logger.log(Level.SEVERE, e1.getMessage());
+            log.error(e1.getLocalizedMessage());
         }
 
         return coUrl;
@@ -94,7 +91,7 @@ public class CertificatService {
         try {
             co = coUrl.openConnection();
         } catch (IOException e) {
-			logger.log(Level.SEVERE, e.getMessage());
+            log.error(e.getLocalizedMessage());
         }
 
         return co;
@@ -107,7 +104,7 @@ public class CertificatService {
         try {
             httpsCo.connect();
         } catch (Exception e) {
-			logger.log(Level.SEVERE, e.getMessage());
+            log.error(e.getLocalizedMessage());
         }
     }
 
@@ -119,7 +116,7 @@ public class CertificatService {
         try {
             certs = httpsCo.getServerCertificates();
         } catch (SSLPeerUnverifiedException e) {
-			logger.log(Level.SEVERE, e.getMessage());
+            log.error(e.getLocalizedMessage());
         }
         return certs;
     }
@@ -163,7 +160,7 @@ public class CertificatService {
             FileInputStream file = new FileInputStream(f);
             cert = getCertsFiles(f, file);
         } catch (FileNotFoundException e1) {
-			logger.log(Level.SEVERE, e1.getMessage());
+            log.error(e1.getLocalizedMessage());
         }
 
         return (X509Certificate) cert;
@@ -190,7 +187,7 @@ public class CertificatService {
                 }
             }
         } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException e) {
-			logger.log(Level.SEVERE, e.getMessage());
+            log.error(e.getLocalizedMessage());
         }
         return cert;
     }
@@ -216,12 +213,12 @@ public class CertificatService {
                     cert = cf.generateCertificate(file);
                 }
             } catch (Exception e) {
-				logger.log(Level.SEVERE, e.getMessage());
+                log.error(e.getLocalizedMessage());
             } finally {
                 try {
                     file.close();
                 } catch (IOException e) {
-					logger.log(Level.SEVERE, e.getMessage());
+                    log.error(e.getLocalizedMessage());
                 }
             }
         }

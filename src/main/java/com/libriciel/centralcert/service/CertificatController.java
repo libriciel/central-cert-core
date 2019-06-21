@@ -33,14 +33,11 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Slf4j
 @RestController
 @PreAuthorize("hasRole('user')")
 public class CertificatController {
-    private static Logger logger = Logger.getLogger("logg");
 
 
     private final CertificatRepository repository;
@@ -111,7 +108,7 @@ public class CertificatController {
         try {
             certs = CertificatService.getCertificateFromURL(url);
         } catch (Exception e) {
-			logger.log(Level.SEVERE, e.getMessage());
+            log.error(e.getLocalizedMessage());
         }
         if (certs.length != 0) {
             for (int i = 0; i < certs.length; i++) {
@@ -140,18 +137,16 @@ public class CertificatController {
                         return null;
                     }
                 } catch (IOException e) {
-					logger.log(Level.SEVERE, e1.getMessage());
+                    log.error(e.getLocalizedMessage());
                 } finally {
                     closeFile(fos);
                 }
             } else {
                 return null;
             }
-		} catch (FileNotFoundException e2) {
-			logger.log(Level.SEVERE, e2.getMessage());
+        } catch (IOException e) {
+            log.error(e.getLocalizedMessage());
         }
-			logger.log(Level.SEVERE, e3.getMessage());
-		}
         return null;
     }
 
@@ -162,7 +157,7 @@ public class CertificatController {
         try {
             fos.close();
         } catch (IOException e) {
-			logger.log(Level.SEVERE, e.getMessage());
+            log.error(e.getLocalizedMessage());
         }
     }
 
