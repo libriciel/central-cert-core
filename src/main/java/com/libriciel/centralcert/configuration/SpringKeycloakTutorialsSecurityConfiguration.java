@@ -76,32 +76,32 @@ public class SpringKeycloakTutorialsSecurityConfiguration extends KeycloakWebSec
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-    	
+
         http
-        	.sessionManagement()
-            // use previously declared bean
-            .sessionAuthenticationStrategy(sessionAuthenticationStrategy())
+                .sessionManagement()
+                // use previously declared bean
+                .sessionAuthenticationStrategy(sessionAuthenticationStrategy())
 
 
-            // keycloak filters for securisation
-            .and()
-            .addFilterBefore(keycloakPreAuthActionsFilter(), LogoutFilter.class)
-            .addFilterBefore(keycloakAuthenticationProcessingFilter(), X509AuthenticationFilter.class)
-            .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint())
+                // keycloak filters for securisation
+                .and()
+                .addFilterBefore(keycloakPreAuthActionsFilter(), LogoutFilter.class)
+                .addFilterBefore(keycloakAuthenticationProcessingFilter(), X509AuthenticationFilter.class)
+                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint())
 
-            // add cors options
-            .and().cors()
-            
-            // delegate logout endpoint to spring security
-            .and()
-            .logout()
-            .addLogoutHandler(keycloakLogoutHandler())
-            .logoutUrl("/logout").logoutSuccessHandler(
-            	// logout handler for API
+                // add cors options
+                .and().cors()
+
+                // delegate logout endpoint to spring security
+                .and()
+                .logout()
+                .addLogoutHandler(keycloakLogoutHandler())
+                .logoutUrl("/logout").logoutSuccessHandler(
+                // logout handler for API
                 (HttpServletRequest request, HttpServletResponse response,
-                Authentication authentication) ->
-                response.setStatus(HttpServletResponse.SC_OK))
-            .and().apply(new CommonSpringKeycloakTutorialsSecuritAdapter());
+                 Authentication authentication) ->
+                        response.setStatus(HttpServletResponse.SC_OK))
+                .and().apply(new CommonSpringKeycloakTutorialsSecuritAdapter());
     }
 
 
@@ -129,26 +129,26 @@ public class SpringKeycloakTutorialsSecurityConfiguration extends KeycloakWebSec
         public void init(HttpSecurity http) throws Exception {
             // any method that adds another configurer
             // must be done in the init method
-        	http
-            	// disable csrf because of API mode
-                .csrf().disable()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            http
+                    // disable csrf because of API mode
+                    .csrf().disable()
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-                .and()
-                // manage routes securisation here
-                .authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll()
+                    .and()
+                    // manage routes securisation here
+                    .authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll()
 
-                // manage routes securisation here
-                .and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS).permitAll()
+                    // manage routes securisation here
+                    .and()
+                    .authorizeRequests()
+                    .antMatchers(HttpMethod.OPTIONS).permitAll()
 
 
-                .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/**").permitAll()
+                    .antMatchers("/admin").hasRole("ADMIN")
+                    .antMatchers("/**").permitAll()
 
-                .anyRequest().denyAll();
+                    .anyRequest().denyAll();
         }
 
     }

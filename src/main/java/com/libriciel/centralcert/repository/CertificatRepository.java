@@ -19,14 +19,13 @@
 package com.libriciel.centralcert.repository;
 
 
+import com.libriciel.centralcert.model.Certificat;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import com.libriciel.centralcert.model.Certificat;
 
 @Repository
 public interface CertificatRepository extends JpaRepository<Certificat, Integer> {
 
-	// Auto-generated
-	
+    // Auto-generated
+
 }
