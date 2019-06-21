@@ -27,5 +27,5 @@ et ce projet adhère au [Semantic Versioning](http://semver.org/).
 - Ajout de la gestion des notifications
 
 
-[1.0.1]: https://gitlab.libriciel.fr/central-cert/central-cert-core/tags/1.0.1
-[1.0.0]: https://gitlab.libriciel.fr/central-cert/central-cert-core/tags/1.0.0
+[1.0.1]: https://gitlab.libriciel.fr/outils/central-cert/central-cert-core/tags/1.0.1
+[1.0.0]: https://gitlab.libriciel.fr/outils/central-cert/central-cert-core/tags/1.0.0
