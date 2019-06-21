@@ -14,6 +14,9 @@
 ##### Setup in Eclipse
 - File → import → Existing Gradle Project
 
+##### Build the Project
+- Go to the root of the Project
+- Execute "gradle bootJar"
 
 ## Code style and project structure
 TODO
@@ -24,4 +27,4 @@ TODO
 
 
 ## Integration tests & performance test
- TODO
+TODO
