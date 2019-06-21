@@ -44,7 +44,7 @@ sonarqube:
 jar:
   stage: package
   script:
-    - sed -i "s/{'develop'}/$CI_COMMIT_REF_NAME/g" build.gradle
+    - sed -i "s/{develop}/$CI_COMMIT_REF_NAME/g" build.gradle
     - gradle bootJar
   after_script:
     - mkdir $PROJECT_NAME
