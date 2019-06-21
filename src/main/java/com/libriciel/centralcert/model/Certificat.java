@@ -18,6 +18,8 @@
 
 package com.libriciel.centralcert.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.security.cert.X509Certificate;
 import java.time.LocalDate;
@@ -28,6 +30,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "certificats")
+@Data
 public class Certificat {
 
     private static final String GREEN = "GREEN";
@@ -122,7 +125,7 @@ public class Certificat {
         return this.certificatId;
     }
 
-    public Date getNotbefore() {
+    public Date getNotBefore() {
         return this.notBefore;
     }
 

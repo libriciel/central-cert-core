@@ -18,7 +18,6 @@
 
 package com.libriciel.centralcert.service;
 
-import com.libriciel.centralcert.service.CertificatService;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

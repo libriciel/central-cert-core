@@ -23,7 +23,6 @@ import com.libriciel.centralcert.model.Certificat;
 import com.libriciel.centralcert.model.Mail;
 import com.libriciel.centralcert.model.Notification;
 import com.libriciel.centralcert.repository.CertificatRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -37,11 +36,21 @@ import java.util.List;
 
 @Service
 public class MailHandler {
-    @Autowired
-    public CertificatRepository cr;
 
-    @Autowired
-    public JavaMailSender mailSender;
+
+    private final CertificatRepository cr;
+    private final JavaMailSender mailSender;
+
+
+    // <editor-fold desc="Beans">
+
+    public MailHandler(CertificatRepository cr, JavaMailSender mailSender) {
+        this.cr = cr;
+        this.mailSender = mailSender;
+    }
+
+    // </editor-fold desc="Beans">
+
 
     /**
      * Send a mail

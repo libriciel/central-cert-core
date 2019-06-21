@@ -18,7 +18,6 @@
 
 package com.libriciel.centralcert.model;
 
-import com.libriciel.centralcert.model.Mail;
 import org.junit.Assert;
 import org.junit.Test;
 

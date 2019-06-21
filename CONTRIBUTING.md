@@ -7,7 +7,10 @@
 - Open the `build.gradle` file
 - Enable Auto-import
 - Go to Preferences → Build, Execution, Deployment → Compiler → Annotation Processors
-- Check Enable annotation processing
+- Enable annotation processing : `✓`
+- Preferences → Plugins : Download and install the Lombok plugin
+
+
 
 
 ##### Setup in Eclipse

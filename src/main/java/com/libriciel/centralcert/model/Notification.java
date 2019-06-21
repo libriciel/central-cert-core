@@ -36,7 +36,7 @@ public class Notification {
     public Notification(Certificat c, String code) {
         if (c != null) {
             //conversion date to localDate
-            LocalDate nb = c.getNotbefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate nb = c.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             LocalDate na = c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             //getting DN informations
             String[] dn = c.getDn().split(",");

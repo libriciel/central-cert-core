@@ -18,7 +18,6 @@
 
 package com.libriciel.centralcert.service;
 
-import com.libriciel.centralcert.repository.CertificatRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,16 +42,6 @@ import java.security.cert.X509Certificate;
 @Slf4j
 @RestController
 public class CertificatService {
-
-    private final CertificatRepository cr;
-
-
-    // <editor-fold desc="Beans">
-
-    public CertificatService(CertificatRepository cr) {this.cr = cr;}
-
-    // </editor-fold desc="Beans">
-
 
     /**
      * Check the validity of an URL

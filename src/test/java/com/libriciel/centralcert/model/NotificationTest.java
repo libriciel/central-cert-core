@@ -36,14 +36,13 @@ public class NotificationTest {
         assertNull(n.getMessage());
     }
 
-
     @Test
     public void testDNNullExpired() {
         Certificat c = new Certificat();
         c.setNotbefore(new Date());
         c.setNotAfter(new Date());
         c.setDn("");
-        LocalDate nb = c.getNotbefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate nb = c.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate na = c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         Notification n = new Notification(c, "EXPIRED");
@@ -58,7 +57,7 @@ public class NotificationTest {
         c.setNotbefore(new Date());
         c.setNotAfter(new Date());
         c.setDn("CN=TEST");
-        LocalDate nb = c.getNotbefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate nb = c.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate na = c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         Notification n = new Notification(c, "EXPIRED");
@@ -73,7 +72,7 @@ public class NotificationTest {
         c.setNotbefore(new Date());
         c.setNotAfter(new Date());
         c.setDn("");
-        LocalDate nb = c.getNotbefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate nb = c.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate na = c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         Notification n = new Notification(c, "RED");
@@ -88,7 +87,7 @@ public class NotificationTest {
         c.setNotbefore(new Date());
         c.setNotAfter(new Date());
         c.setDn("CN=TEST");
-        LocalDate nb = c.getNotbefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate nb = c.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate na = c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         Notification n = new Notification(c, "RED");
@@ -103,7 +102,7 @@ public class NotificationTest {
         c.setNotbefore(new Date());
         c.setNotAfter(new Date());
         c.setDn("");
-        LocalDate nb = c.getNotbefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate nb = c.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate na = c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         Notification n = new Notification(c, "ORANGE");
@@ -118,7 +117,7 @@ public class NotificationTest {
         c.setNotbefore(new Date());
         c.setNotAfter(new Date());
         c.setDn("CN=TEST");
-        LocalDate nb = c.getNotbefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate nb = c.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate na = c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         Notification n = new Notification(c, "ORANGE");

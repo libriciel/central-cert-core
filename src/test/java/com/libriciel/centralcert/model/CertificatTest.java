@@ -49,7 +49,7 @@ public class CertificatTest {
 
         Certificat c = new Certificat();
         assertNull(c.getNotAfter());
-        assertNull(c.getNotbefore());
+        assertNull(c.getNotBefore());
         assertFalse(c.isFavoris());
         assertNull(c.getDn());
         assertFalse(c.isNotifyAll());
@@ -63,7 +63,7 @@ public class CertificatTest {
         X509Certificate c1 = CertificatService.getCertificateFromURL("https://www.libriciel.fr/")[0];
         Certificat c = new Certificat(c1);
         assertEquals(c1.getNotAfter(), c.getNotAfter());
-        assertEquals(c1.getNotBefore(), c.getNotbefore());
+        assertEquals(c1.getNotBefore(), c.getNotBefore());
         assertFalse(c.isFavoris());
         assertEquals(c1.getSubjectX500Principal().getName(), c.getDn());
         assertFalse(c.isNotifyAll());
@@ -82,7 +82,7 @@ public class CertificatTest {
     public void testNB() {
         Certificat c = new Certificat();
         c.setNotbefore(new Date());
-        assertEquals(new Date(), c.getNotbefore());
+        assertEquals(new Date(), c.getNotBefore());
     }
 
     @Test

@@ -187,7 +187,7 @@ public class CertificatController {
         Certificat c;
         if (cert.isPresent()) {
             c = cert.get();
-            c.setNotbefore(certificat.getNotbefore());
+            c.setNotbefore(certificat.getNotBefore());
             c.setNotAfter(certificat.getNotAfter());
             c.setDn(certificat.getDn());
             c.setNotifyAll(certificat.isNotifyAll());
@@ -209,7 +209,7 @@ public class CertificatController {
             Certificat c;
             if (cert.isPresent()) {
                 c = cert.get();
-                c.setNotbefore(certificats.get(i).getNotbefore());
+                c.setNotbefore(certificats.get(i).getNotBefore());
                 c.setNotAfter(certificats.get(i).getNotAfter());
                 c.setDn(certificats.get(i).getDn());
                 c.setNotifyAll(certificats.get(i).isNotifyAll());
