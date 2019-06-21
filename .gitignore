@@ -5,3 +5,7 @@ build/
 *.iml
 out/
 \.project
+
+\.classpath
+
+\.settings/
