@@ -23,29 +23,32 @@ import org.junit.Test;
 
 public class MailTest {
 
-    @Test public void testConstructorAndAccessors() {
 
-        // Empty constructor
+    @Test public void testNoArgsContructor() {
+        Mail mail = new Mail();
 
-        Mail m = new Mail();
-
-        Assert.assertEquals("", m.getAdresse());
-        Assert.assertFalse(m.isNotifiable());
-
-        // Accessors
-
-        m.setAdresse("test@test.test");
-        m.setNotifiable(true);
-
-        Assert.assertEquals("test@test.test", m.getAdresse());
-        Assert.assertTrue(m.isNotifiable());
-
-        // All args constructor
-
-        m = new Mail("test@test.test", true);
-
-        Assert.assertEquals("test@test.test", m.getAdresse());
-        Assert.assertTrue(m.isNotifiable());
+        Assert.assertEquals("", mail.getAdresse());
+        Assert.assertFalse(mail.isNotifiable());
     }
+
+
+    @Test public void testAllArgsConstructor() {
+        Mail mail = new Mail("test@test.test", true);
+
+        Assert.assertEquals("test@test.test", mail.getAdresse());
+        Assert.assertTrue(mail.isNotifiable());
+    }
+
+
+    @Test public void testAccessors() {
+        Mail mail = new Mail();
+
+        mail.setAdresse("test@test.test");
+        mail.setNotifiable(true);
+
+        Assert.assertEquals("test@test.test", mail.getAdresse());
+        Assert.assertTrue(mail.isNotifiable());
+    }
+
 
 }

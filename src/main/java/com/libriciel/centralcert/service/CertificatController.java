@@ -39,6 +39,8 @@ import java.util.Optional;
 @PreAuthorize("hasRole('user')")
 public class CertificatController {
 
+    public static final String CERTIFICATE_TYPE_X509 = "X.509";
+
 
     private final CertificatRepository repository;
 

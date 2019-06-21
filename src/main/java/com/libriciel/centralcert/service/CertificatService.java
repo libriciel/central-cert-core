@@ -110,32 +110,34 @@ public class CertificatService {
         return certs;
     }
 
+
     /**
      * Get a list of certificates from an URL String
      */
     public static X509Certificate[] getCertificateFromURL(String url) {
-        if (!isValidURL(url)) return new X509Certificate[0];
 
-        URLConnection co = null;
-        HttpsURLConnection httpsCo = null;
-        URL coUrl = null;
+        if (!isValidURL(url)) {
+            return new X509Certificate[0];
+        }
 
-        coUrl = createURL(url);
+        URLConnection co;
+        HttpsURLConnection httpsCo;
+        URL coUrl = createURL(url);
 
-        if (coUrl == null) return new X509Certificate[0];
+        if (coUrl == null) {
+            return new X509Certificate[0];
+        }
 
         co = openConnexion(coUrl);
 
-        if (co instanceof HttpsURLConnection == false) return new X509Certificate[0];
+        if (!(co instanceof HttpsURLConnection)) {
+            return new X509Certificate[0];
+        }
 
         httpsCo = (HttpsURLConnection) co;
-
         connectToURL(httpsCo);
 
-        Certificate[] certs = null;
-
-        certs = getCertsFromCo(httpsCo);
-
+        Certificate[] certs = getCertsFromCo(httpsCo);
         return (X509Certificate[]) certs;
     }
 

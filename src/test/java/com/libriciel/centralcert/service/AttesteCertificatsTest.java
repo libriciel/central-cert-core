@@ -26,16 +26,15 @@ import static org.junit.Assert.assertTrue;
 
 public class AttesteCertificatsTest {
 
-    @Test
-    public void testIsValidURL() {
-        System.out.println("Test de la méthode isValidURL()");
+
+    @Test public void testIsValidURL() {
         assertFalse(CertificatService.isValidURL(""));
         assertFalse(CertificatService.isValidURL("https/github.com/"));
         assertTrue(CertificatService.isValidURL("https://github.com/"));
     }
 
-    @Test
-    public void testInvalidUrl() {
+
+    @Test public void testInvalidUrl() {
         Assert.assertEquals(0, CertificatService.getCertificateFromURL("https/github.com/").length);
     }
 

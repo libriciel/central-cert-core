@@ -85,7 +85,7 @@ public class MailHandler {
     /**
      * Get the remaining time between a date and now
      */
-    public int[] getRem(LocalDate after) {
+    public static int[] getRem(LocalDate after) {
         //instantiation de la date actuelle
         LocalDate now = LocalDate.now();
 
@@ -118,8 +118,8 @@ public class MailHandler {
     /**
      * Check if a certificate is expired
      */
-    public boolean isExpired(Certificat c) {
-        int[] rem = this.getRem(c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+    public static boolean isExpired(Certificat c) {
+        int[] rem = getRem(c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 
         return rem.length == 0;
     }
@@ -127,8 +127,8 @@ public class MailHandler {
     /**
      * Check if the certificate is ORANGE
      */
-    public boolean isOrange(Certificat c) {
-        int[] rem = this.getRem(c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+    public static boolean isOrange(Certificat c) {
+        int[] rem = getRem(c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 
         if (rem.length != 0) {
             if (rem[0] == 0 && rem[1] <= 3) {
@@ -144,8 +144,8 @@ public class MailHandler {
     /**
      * check if the certificate is RED
      */
-    public boolean isRed(Certificat c) {
-        int[] rem = this.getRem(c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+    public static boolean isRed(Certificat c) {
+        int[] rem = getRem(c.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 
         if (rem.length != 0) {
             return rem[0] == 0 && rem[1] == 0;
@@ -157,21 +157,21 @@ public class MailHandler {
     /**
      * Check if the certificate is GREEN
      */
-    public boolean isGreen(Certificat c) {
-        return !this.isOrange(c) && !this.isRed(c);
+    public static boolean isGreen(Certificat c) {
+        return !isOrange(c) && !isRed(c);
     }
 
     /**
      * Get the certificate code
      */
-    public String getCode(Certificat c) {
-        if (this.isExpired(c)) {
+    public static String getCode(Certificat c) {
+        if (isExpired(c)) {
             return "EXPIRED";
-        } else if (this.isRed(c)) {
+        } else if (isRed(c)) {
             return "RED";
-        } else if (this.isOrange(c)) {
+        } else if (isOrange(c)) {
             return "ORANGE";
-        } else if (this.isGreen(c)) {
+        } else if (isGreen(c)) {
             return "GREEN";
         } else {
             return "";
@@ -190,7 +190,7 @@ public class MailHandler {
         for (int i = 0; i < certs.size(); i++) {
             if (certs.get(i).isNotifyAll()) {
                 for (int j = 0; j < certs.get(i).getAdditionnalMails().size(); j++) {
-                    n = new Notification(certs.get(i), this.getCode(certs.get(i)));
+                    n = new Notification(certs.get(i), getCode(certs.get(i)));
                     String url = n.getMessage() + "http://192.168.1.189/resetMail?id=" + certs.get(i).getCertificatId() + "&addMail=" + certs.get(i).getAdditionnalMails().get(j).getAdresse();
                     n.setMessage(url);
                     this.sendMail(n, certs.get(i).getAdditionnalMails().get(j));
@@ -198,7 +198,7 @@ public class MailHandler {
             } else {
                 for (int j = 0; j < certs.get(i).getAdditionnalMails().size(); j++) {
                     if (certs.get(i).getAdditionnalMails().get(j).isNotifiable()) {
-                        n = new Notification(certs.get(i), this.getCode(certs.get(i)));
+                        n = new Notification(certs.get(i), getCode(certs.get(i)));
                         String url = n.getMessage() + "http://192.168.1.189/resetMail?id=" + certs.get(i).getCertificatId() + "&addMail=" + certs.get(i).getAdditionnalMails().get(j).getAdresse();
                         n.setMessage(url);
                         this.sendMail(n, certs.get(i).getAdditionnalMails().get(j));
@@ -206,7 +206,7 @@ public class MailHandler {
                 }
             }
 
-            certs.get(i).setNotified(this.getCode(certs.get(i)));
+            certs.get(i).setNotified(getCode(certs.get(i)));
 
             this.cr.save(certs.get(i));
         }
