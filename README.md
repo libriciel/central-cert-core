@@ -36,7 +36,7 @@ ln -s /opt/jre/bin/java /usr/bin/java
 java -version
 ```
 
-#### Installing the Crypto service
+#### Installing the service
 
 ```bash
 unzip central-cert-core-*.zip -d /opt/
