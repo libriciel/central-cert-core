@@ -18,7 +18,9 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'jacoco'
 
 group = 'com.libriciel'
-version = 'develop'
+version = 'DEVELOP'
+description = """central-cert-core"""
+
 sourceCompatibility = 8
 targetCompatibility = 8
 

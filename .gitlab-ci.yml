@@ -14,6 +14,9 @@ cache:
   paths:
     - .gradle/caches
 
+before_script:
+  - sed -i "s/DEVELOP/$CI_COMMIT_REF_NAME/g" build.gradle
+
 
 # <editor-fold desc="Test">
 
@@ -30,7 +33,7 @@ junit:
 sonarqube:
   stage: test
   only:
-    - develop
+    - develop # SonarQube Community is limited to one branch. 'develop' is the most relevant.
   script:
     - gradle sonar -Dsonar.host.url=https://sonarqube.libriciel.fr "-Dsonar.login=$SONAR_TOKEN"
 
@@ -44,7 +47,6 @@ sonarqube:
 jar:
   stage: package
   script:
-    - sed -i "s/{develop}/$CI_COMMIT_REF_NAME/g" build.gradle
     - gradle bootJar
   after_script:
     - mkdir $PROJECT_NAME
@@ -66,14 +68,25 @@ jar:
 # <editor-fold desc="Deploy">
 
 
-#docker:
-#  tags:
-#    - docker-build
-#  stage: deploy
-#  script:
-#    - docker login -u "gitlab-ci-token" -p "$CI_BUILD_TOKEN" $CI_REGISTRY
-#    - docker build --pull -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME" .
-#    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME"
+docker:
+  tags:
+    - docker-build
+  stage: deploy
+  script:
+    - docker login -u "gitlab-ci-token" -p "$CI_BUILD_TOKEN" $CI_REGISTRY
+    - docker build --pull -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME" .
+    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME"
+
+docker_latest:
+  tags:
+    - docker-build
+  stage: deploy
+  only:
+    - tags
+  script:
+    - docker login -u "gitlab-ci-token" -p "$CI_BUILD_TOKEN" $CI_REGISTRY
+    - docker build --pull -t "$CI_REGISTRY_IMAGE:latest" .
+    - docker push "$CI_REGISTRY_IMAGE:latest"
 
 
 # </editor-fold desc="Deploy">
