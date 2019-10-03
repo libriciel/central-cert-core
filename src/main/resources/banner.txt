@@ -1,0 +1,12 @@
+
+${AnsiColor.BLUE}         ##   ##
+${AnsiColor.BLUE}        #########
+${AnsiColor.BLUE}     ###############   ${AnsiColor.DEFAULT}    &&&&&   &&&&&    &&&&  &&&&&
+${AnsiColor.BLUE}      #####   #####    ${AnsiColor.DEFAULT}   &&      &&   &&  &&    &&   &&
+${AnsiColor.BLUE}     #####     #####   ${AnsiColor.DEFAULT}   &       &     &  &&    &&&&&&&
+${AnsiColor.BLUE}    #######   #######  ${AnsiColor.DEFAULT}   &&      &&   &&  &&    &&
+${AnsiColor.BLUE}       ###########     ${AnsiColor.DEFAULT}    &&&&&   &&&&&   &&     &&&&&&
+${AnsiColor.BLUE}      #############
+${AnsiColor.DEFAULT}         ||${AnsiColor.BLUE}###${AnsiColor.DEFAULT}||${AnsiColor.YELLOW}   :: Central Cert Core :: (v${application.version}) :: Spring Boot ::${spring-boot.formatted-version}
+${AnsiColor.DEFAULT}         |||||||
+${AnsiColor.DEFAULT}         |/   \|
