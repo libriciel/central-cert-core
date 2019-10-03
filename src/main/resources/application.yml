@@ -1,0 +1,42 @@
+spring:
+  http.log-request-details: false
+  main.allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/centralcert
+    username: postgres
+    password: postgres
+    platform: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    generate-ddl: true
+    properties.hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      temp.use_jdbc_metadata_defaults: false
+    hibernate.ddl-auto: update
+  mail:
+    host: smtp.libriciel.fr
+    port: 25
+    username:
+    password:
+    properties.mail.smtp:
+      auth: true
+      starttls.enable: true
+      debug: true
+
+logging.level.org:
+  springframework.web: DEBUG
+  hibernate: ERROR
+
+keycloak:
+  enabled: true
+  realm: CentralCert
+  auth-server-url: http://localhost:9090/auth
+  resource: core
+  bearer-only: true
+
+sonar:
+  tests: src/test
+  jacoco.reportPath: target/jacoco.exec
+  java.coveragePlugin: jacoco
