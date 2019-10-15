@@ -55,7 +55,7 @@ public class CertificatController {
     /**
      * Save one certificate
      */
-    @PostMapping("/api/certificat/save")
+    @PostMapping("/certificat/save")
     public void save(@RequestBody Certificat certificat) {
         if (certificat != null) {
             repository.save(certificat);
@@ -66,7 +66,7 @@ public class CertificatController {
     /**
      * Save a list of certificates
      */
-    @PostMapping("/api/certificat/saveAll")
+    @PostMapping("/certificat/saveAll")
     public void saveAll(@RequestBody List<Certificat> certificat) {
         if (certificat != null) {
             for (int i = 0; i < certificat.size(); i++) {
@@ -82,7 +82,7 @@ public class CertificatController {
     /**
      * Get one certificate
      */
-    @GetMapping("/api/certificat/select")
+    @GetMapping("/certificat/select")
     public Certificat select(@RequestParam("id") int id) {
         Optional<Certificat> opt = repository.findById(id);
         if (opt.isPresent()) {
@@ -96,7 +96,7 @@ public class CertificatController {
     /**
      * Get all certificates
      */
-    @GetMapping("/api/certificat/selectAll")
+    @GetMapping("/certificat/selectAll")
     public List<Certificat> selectAll() {
         List<Certificat> res = new ArrayList<>();
         repository.findAll().iterator().forEachRemaining(res::add);
@@ -107,7 +107,7 @@ public class CertificatController {
     /**
      * Get certificates from an URL
      */
-    @GetMapping("/api/certificat/selectFromURL")
+    @GetMapping("/certificat/selectFromURL")
     public List<Certificat> selectFromUrl(@RequestParam("URL") String url) {
         List<Certificat> res = new ArrayList<>();
         X509Certificate[] certs = new X509Certificate[0];
@@ -128,7 +128,7 @@ public class CertificatController {
     /**
      * Get a certificate from a file
      */
-    @PostMapping(value = "/api/certificat/selectFromFile", consumes = MediaType.ALL_VALUE)
+    @PostMapping(value = "/certificat/selectFromFile", consumes = MediaType.ALL_VALUE)
     public Certificat selectFromFile(@RequestParam("file") MultipartFile file) {
         try {
             File convFile = new File(file.getOriginalFilename());
@@ -173,7 +173,7 @@ public class CertificatController {
     /**
      * Delete a certificate
      */
-    @DeleteMapping("/api/certificat/delete")
+    @DeleteMapping("/certificat/delete")
     public void delete(@RequestParam("id") int id) {
         repository.deleteById(id);
     }
@@ -182,7 +182,7 @@ public class CertificatController {
     /**
      * Delete all certificates
      */
-    @DeleteMapping("/api/certificat/deleteAll")
+    @DeleteMapping("/certificat/deleteAll")
     public void deleteAll() {
         repository.deleteAll();
     }
@@ -191,7 +191,7 @@ public class CertificatController {
     /**
      * Update one certificate
      */
-    @PutMapping("/api/certificat/update")
+    @PutMapping("/certificat/update")
     public void update(@RequestBody Certificat certificat) {
         Optional<Certificat> cert = repository.findById(certificat.getCertificatId());
         Certificat c;
@@ -213,7 +213,7 @@ public class CertificatController {
     /**
      * Update a list of certificates
      */
-    @PutMapping("/api/certificat/updateAll")
+    @PutMapping("/certificat/updateAll")
     public void updateAll(@RequestBody List<Certificat> certificats) {
         for (int i = 0; i < certificats.size(); i++) {
             Optional<Certificat> cert = repository.findById(certificats.get(i).getCertificatId());
@@ -237,7 +237,7 @@ public class CertificatController {
     /**
      * Block the mails for an adress
      */
-    @GetMapping("/api/certificat/resetMail")
+    @GetMapping("/certificat/resetMail")
     public void resetMail(@RequestParam("id") int id, @RequestParam("addMail") String addMail) {
         Optional<Certificat> optCert = repository.findById(id);
         if (optCert.isPresent()) {

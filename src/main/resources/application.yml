@@ -1,3 +1,4 @@
+server.servlet.context-path: /api
 
 spring:
   http.log-request-details: false
