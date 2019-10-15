@@ -32,7 +32,9 @@ import java.io.IOException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -47,35 +49,35 @@ public class CertificatController {
 
     // <editor-fold desc="Beans">
 
+
     public CertificatController(CertificatRepository repository) {this.repository = repository;}
+
 
     // </editor-fold desc="Beans">
 
 
-    /**
-     * Save one certificate
-     */
     @PostMapping("/certificat/save")
     public void save(@RequestBody Certificat certificat) {
-        if (certificat != null) {
-            repository.save(certificat);
+        if (certificat == null) {
+            return;
         }
+
+        repository.save(certificat);
     }
 
 
-    /**
-     * Save a list of certificates
-     */
     @PostMapping("/certificat/saveAll")
-    public void saveAll(@RequestBody List<Certificat> certificat) {
-        if (certificat != null) {
-            for (int i = 0; i < certificat.size(); i++) {
-                if (certificat.get(i) == null) {
-                    certificat.remove(i);
-                }
-            }
-            repository.saveAll(certificat);
+    public void saveAll(@RequestBody List<Certificat> certList) {
+
+        if (certList == null) {
+            return;
         }
+
+        List<Certificat> certificatesCleanedList = certList.stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+
+        repository.saveAll(certificatesCleanedList);
     }
 
 
@@ -84,12 +86,7 @@ public class CertificatController {
      */
     @GetMapping("/certificat/select")
     public Certificat select(@RequestParam("id") int id) {
-        Optional<Certificat> opt = repository.findById(id);
-        if (opt.isPresent()) {
-            return opt.get();
-        } else {
-            return null;
-        }
+        return repository.findById(id).orElse(null);
     }
 
 
@@ -98,9 +95,10 @@ public class CertificatController {
      */
     @GetMapping("/certificat/selectAll")
     public List<Certificat> selectAll() {
-        List<Certificat> res = new ArrayList<>();
-        repository.findAll().iterator().forEachRemaining(res::add);
-        return res;
+        List<Certificat> result = repository.findAll();
+        log.info("getAll : " + result);
+
+        return result;
     }
 
 
@@ -109,18 +107,20 @@ public class CertificatController {
      */
     @GetMapping("/certificat/selectFromURL")
     public List<Certificat> selectFromUrl(@RequestParam("URL") String url) {
+
         List<Certificat> res = new ArrayList<>();
         X509Certificate[] certs = new X509Certificate[0];
+
         try {
             certs = CertificatService.getCertificateFromURL(url);
         } catch (Exception e) {
             log.error(e.getLocalizedMessage());
         }
-        if (certs.length != 0) {
-            for (int i = 0; i < certs.length; i++) {
-                res.add(new Certificat(certs[i]));
-            }
+
+        for (X509Certificate cert : certs) {
+            res.add(new Certificat(cert));
         }
+
         return res;
     }
 
@@ -161,7 +161,7 @@ public class CertificatController {
     /**
      * close a file
      */
-    public void closeFile(FileOutputStream fos) {
+    private void closeFile(FileOutputStream fos) {
         try {
             fos.close();
         } catch (IOException e) {
@@ -170,18 +170,12 @@ public class CertificatController {
     }
 
 
-    /**
-     * Delete a certificate
-     */
     @DeleteMapping("/certificat/delete")
     public void delete(@RequestParam("id") int id) {
         repository.deleteById(id);
     }
 
 
-    /**
-     * Delete all certificates
-     */
     @DeleteMapping("/certificat/deleteAll")
     public void deleteAll() {
         repository.deleteAll();
@@ -215,20 +209,20 @@ public class CertificatController {
      */
     @PutMapping("/certificat/updateAll")
     public void updateAll(@RequestBody List<Certificat> certificats) {
-        for (int i = 0; i < certificats.size(); i++) {
-            Optional<Certificat> cert = repository.findById(certificats.get(i).getCertificatId());
+        for (Certificat certificat : certificats) {
+            Optional<Certificat> cert = repository.findById(certificat.getCertificatId());
             Certificat c;
             if (cert.isPresent()) {
                 c = cert.get();
-                c.setNotBefore(certificats.get(i).getNotBefore());
-                c.setNotAfter(certificats.get(i).getNotAfter());
-                c.setDn(certificats.get(i).getDn());
-                c.setNotifyAll(certificats.get(i).isNotifyAll());
-                c.setNotified(certificats.get(i).getNotified());
-                c.setAdditionnalMails(certificats.get(i).getAdditionnalMails());
+                c.setNotBefore(certificat.getNotBefore());
+                c.setNotAfter(certificat.getNotAfter());
+                c.setDn(certificat.getDn());
+                c.setNotifyAll(certificat.isNotifyAll());
+                c.setNotified(certificat.getNotified());
+                c.setAdditionnalMails(certificat.getAdditionnalMails());
                 repository.save(c);
             } else {
-                repository.save(certificats.get(i));
+                repository.save(certificat);
             }
         }
     }
