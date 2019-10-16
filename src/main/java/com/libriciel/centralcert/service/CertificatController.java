@@ -62,13 +62,14 @@ public class CertificatController {
             return;
         }
 
+        log.info("save : " + certificat);
         repository.save(certificat);
     }
 
 
     @PostMapping("/certificat/saveAll")
     public void saveAll(@RequestBody List<Certificat> certList) {
-
+        log.info("saveAll ? " + certList);
         if (certList == null) {
             return;
         }
@@ -77,6 +78,7 @@ public class CertificatController {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
+        log.info("saveAll : " + certificatesCleanedList);
         repository.saveAll(certificatesCleanedList);
     }
 
@@ -86,7 +88,9 @@ public class CertificatController {
      */
     @GetMapping("/certificat/select")
     public Certificat select(@RequestParam("id") int id) {
-        return repository.findById(id).orElse(null);
+        Certificat result = repository.findById(id).orElse(null);
+        log.info("get " + id + ":" + result);
+        return result;
     }
 
 
@@ -97,7 +101,6 @@ public class CertificatController {
     public List<Certificat> selectAll() {
         List<Certificat> result = repository.findAll();
         log.info("getAll : " + result);
-
         return result;
     }
 

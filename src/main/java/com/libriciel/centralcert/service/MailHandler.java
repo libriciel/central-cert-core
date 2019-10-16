@@ -168,7 +168,7 @@ public class MailHandler {
         return !isOrange(c) && !isRed(c);
     }
 
-    
+
     /**
      * Get the certificate code
      */
