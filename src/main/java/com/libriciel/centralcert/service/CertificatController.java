@@ -1,6 +1,6 @@
 /*
- * central cert core
- * Copyright (C) 2018-2019 Libriciel-SCOP
+ * Central-Cert Core
+ * Copyright (C) 2019 Libriciel-SCOP
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -32,7 +32,9 @@ import java.io.IOException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -47,80 +49,81 @@ public class CertificatController {
 
     // <editor-fold desc="Beans">
 
+
     public CertificatController(CertificatRepository repository) {this.repository = repository;}
+
 
     // </editor-fold desc="Beans">
 
 
-    /**
-     * Save one certificate
-     */
-    @PostMapping("/api/certificat/save")
+    @PostMapping("/certificat/save")
     public void save(@RequestBody Certificat certificat) {
-        if (certificat != null) {
-            repository.save(certificat);
+        if (certificat == null) {
+            return;
         }
+
+        log.info("save : " + certificat);
+        repository.save(certificat);
     }
 
 
-    /**
-     * Save a list of certificates
-     */
-    @PostMapping("/api/certificat/saveAll")
-    public void saveAll(@RequestBody List<Certificat> certificat) {
-        if (certificat != null) {
-            for (int i = 0; i < certificat.size(); i++) {
-                if (certificat.get(i) == null) {
-                    certificat.remove(i);
-                }
-            }
-            repository.saveAll(certificat);
+    @PostMapping("/certificat/saveAll")
+    public void saveAll(@RequestBody List<Certificat> certList) {
+        log.info("saveAll ? " + certList);
+        if (certList == null) {
+            return;
         }
+
+        List<Certificat> certificatesCleanedList = certList.stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+
+        log.info("saveAll : " + certificatesCleanedList);
+        repository.saveAll(certificatesCleanedList);
     }
 
 
     /**
      * Get one certificate
      */
-    @GetMapping("/api/certificat/select")
+    @GetMapping("/certificat/select")
     public Certificat select(@RequestParam("id") int id) {
-        Optional<Certificat> opt = repository.findById(id);
-        if (opt.isPresent()) {
-            return opt.get();
-        } else {
-            return null;
-        }
+        Certificat result = repository.findById(id).orElse(null);
+        log.info("get " + id + ":" + result);
+        return result;
     }
 
 
     /**
      * Get all certificates
      */
-    @GetMapping("/api/certificat/selectAll")
+    @GetMapping("/certificat/selectAll")
     public List<Certificat> selectAll() {
-        List<Certificat> res = new ArrayList<>();
-        repository.findAll().iterator().forEachRemaining(res::add);
-        return res;
+        List<Certificat> result = repository.findAll();
+        log.info("getAll : " + result);
+        return result;
     }
 
 
     /**
      * Get certificates from an URL
      */
-    @GetMapping("/api/certificat/selectFromURL")
+    @GetMapping("/certificat/selectFromURL")
     public List<Certificat> selectFromUrl(@RequestParam("URL") String url) {
+
         List<Certificat> res = new ArrayList<>();
         X509Certificate[] certs = new X509Certificate[0];
+
         try {
             certs = CertificatService.getCertificateFromURL(url);
         } catch (Exception e) {
             log.error(e.getLocalizedMessage());
         }
-        if (certs.length != 0) {
-            for (int i = 0; i < certs.length; i++) {
-                res.add(new Certificat(certs[i]));
-            }
+
+        for (X509Certificate cert : certs) {
+            res.add(new Certificat(cert));
         }
+
         return res;
     }
 
@@ -128,7 +131,7 @@ public class CertificatController {
     /**
      * Get a certificate from a file
      */
-    @PostMapping(value = "/api/certificat/selectFromFile", consumes = MediaType.ALL_VALUE)
+    @PostMapping(value = "/certificat/selectFromFile", consumes = MediaType.ALL_VALUE)
     public Certificat selectFromFile(@RequestParam("file") MultipartFile file) {
         try {
             File convFile = new File(file.getOriginalFilename());
@@ -161,7 +164,7 @@ public class CertificatController {
     /**
      * close a file
      */
-    public void closeFile(FileOutputStream fos) {
+    private void closeFile(FileOutputStream fos) {
         try {
             fos.close();
         } catch (IOException e) {
@@ -170,19 +173,13 @@ public class CertificatController {
     }
 
 
-    /**
-     * Delete a certificate
-     */
-    @DeleteMapping("/api/certificat/delete")
+    @DeleteMapping("/certificat/delete")
     public void delete(@RequestParam("id") int id) {
         repository.deleteById(id);
     }
 
 
-    /**
-     * Delete all certificates
-     */
-    @DeleteMapping("/api/certificat/deleteAll")
+    @DeleteMapping("/certificat/deleteAll")
     public void deleteAll() {
         repository.deleteAll();
     }
@@ -191,7 +188,7 @@ public class CertificatController {
     /**
      * Update one certificate
      */
-    @PutMapping("/api/certificat/update")
+    @PutMapping("/certificat/update")
     public void update(@RequestBody Certificat certificat) {
         Optional<Certificat> cert = repository.findById(certificat.getCertificatId());
         Certificat c;
@@ -213,22 +210,22 @@ public class CertificatController {
     /**
      * Update a list of certificates
      */
-    @PutMapping("/api/certificat/updateAll")
+    @PutMapping("/certificat/updateAll")
     public void updateAll(@RequestBody List<Certificat> certificats) {
-        for (int i = 0; i < certificats.size(); i++) {
-            Optional<Certificat> cert = repository.findById(certificats.get(i).getCertificatId());
+        for (Certificat certificat : certificats) {
+            Optional<Certificat> cert = repository.findById(certificat.getCertificatId());
             Certificat c;
             if (cert.isPresent()) {
                 c = cert.get();
-                c.setNotBefore(certificats.get(i).getNotBefore());
-                c.setNotAfter(certificats.get(i).getNotAfter());
-                c.setDn(certificats.get(i).getDn());
-                c.setNotifyAll(certificats.get(i).isNotifyAll());
-                c.setNotified(certificats.get(i).getNotified());
-                c.setAdditionnalMails(certificats.get(i).getAdditionnalMails());
+                c.setNotBefore(certificat.getNotBefore());
+                c.setNotAfter(certificat.getNotAfter());
+                c.setDn(certificat.getDn());
+                c.setNotifyAll(certificat.isNotifyAll());
+                c.setNotified(certificat.getNotified());
+                c.setAdditionnalMails(certificat.getAdditionnalMails());
                 repository.save(c);
             } else {
-                repository.save(certificats.get(i));
+                repository.save(certificat);
             }
         }
     }
@@ -237,7 +234,7 @@ public class CertificatController {
     /**
      * Block the mails for an adress
      */
-    @GetMapping("/api/certificat/resetMail")
+    @GetMapping("/certificat/resetMail")
     public void resetMail(@RequestParam("id") int id, @RequestParam("addMail") String addMail) {
         Optional<Certificat> optCert = repository.findById(id);
         if (optCert.isPresent()) {

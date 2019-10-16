@@ -1,3 +1,5 @@
+server.servlet.context-path: /api
+
 spring:
   http.log-request-details: false
   main.allow-bean-definition-overriding: true
@@ -16,6 +18,7 @@ spring:
       temp.use_jdbc_metadata_defaults: false
     hibernate.ddl-auto: update
   mail:
+    test-connection: false
     host: smtp.libriciel.fr
     port: 25
     username:
@@ -35,6 +38,9 @@ keycloak:
   auth-server-url: http://localhost:9090/auth
   resource: core
   bearer-only: true
+
+# Pour l'authentification keycloak via swagger
+swagger.oauth2.client-id: frontend
 
 sonar:
   tests: src/test
